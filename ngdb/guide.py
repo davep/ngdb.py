@@ -8,7 +8,10 @@ from typing  import Union
 ##############################################################################
 # Main Norton Guide class.
 class NortonGuide:
-    """Norton Guide database wrapper class."""
+    """Norton Guide database wrapper class.
+
+    :ivar ~pathlib.Path path: The path of the database.
+    """
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
@@ -16,13 +19,13 @@ class NortonGuide:
         :param Union[str,~pathlib.Path] guide: The guide to open.
         """
 
-        # Ensure the guide is a Path object.
-        guide = Path( guide )
+        # Remember the guide path.
+        self.path = Path( guide )
 
         # Attempt to open the guide. Note that we're going to hold it open
         # until we're asked to close it in the close method, so we also
         # nicely ask pylint to hush.
-        self._guide = guide.open( "rb" )
+        self._guide = self.path.open( "rb" )
 
     @property
     def is_open( self ) -> bool:
