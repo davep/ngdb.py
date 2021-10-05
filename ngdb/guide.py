@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Python imports.
+import io
 from pathlib import Path
 from typing  import Union
 
@@ -35,6 +36,46 @@ class NortonGuide:
 
         # Now, having opened it fine, read in the header.
         self._read_header()
+
+    def _skip( self, count: int ) -> None:
+        """Skip a number of bytes in the guide.
+
+        :param int count: The number of bytes to skip.
+        """
+        self._guide.seek( count, io.SEEK_CUR )
+
+    @staticmethod
+    def _decrypt( value: int ) -> int:
+        """Decrypt a given numeric value.
+
+        :param int value: The value to decrypt.
+        :returns: The decrypted value.
+        :rtype: int
+        """
+        return value ^ 0x1A
+
+    def _read_byte( self, decrypt: bool=True ) -> int:
+        """Read a byte from the guide.
+
+        :param bool decrypt: Should the value be decrypted?
+        :returns: The byte value read.
+        :rtype: int
+
+        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        """
+        buff = self._guide.read( 1 )[ 0 ]
+        return self._decrypt( buff ) if decrypt else buff
+
+    def _read_word( self, decrypt: bool=True ) -> int:
+        """Read a two-byte word from the guide.
+
+        :param bool decrypt: Should the value be decrypted?
+        :returns: The integer value read.
+        :rtype: int
+
+        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        """
+        return self._read_byte( decrypt ) + ( self._read_byte( decrypt ) << 8 )
 
     def _read_header( self ) -> None:
         """Read the header of the Norton Guide database."""
