@@ -29,4 +29,8 @@ class TestGoodHeader( TestCase ):
         """The menu count should read correctly."""
         self.assertEqual( self.guide.menu_count, 1 )
 
+    def test_title( self ) -> None:
+        """The title should read correctly."""
+        self.assertEqual( self.guide.title, "Expert Guide" )
+
 ### test_guide_header.py ends here
