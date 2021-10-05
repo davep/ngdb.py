@@ -60,6 +60,14 @@ class NortonGuide:
         # destructed.
         return hasattr( self, "_guide" ) and not self._guide.closed
 
+    @property
+    def is_a( self ) -> bool:
+        """Is the guide actually a Norton Guide database?
+
+        :type: bool
+        """
+        return self._magic.decode() in self.MAGIC
+
     def close( self ) -> None:
         """Close the guide, if it's open.
 
