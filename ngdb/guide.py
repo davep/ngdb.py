@@ -13,6 +13,12 @@ class NortonGuide:
     :ivar ~pathlib.Path path: The path of the database.
     """
 
+    #: Lookup for valid database magic markers.
+    MAGIC = {
+        "EH": "Expert Help",
+        "NG": "Norton Guide"
+    }
+
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
 
