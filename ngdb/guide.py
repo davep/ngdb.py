@@ -87,6 +87,12 @@ class NortonGuide:
         # First two bytes are the magic.
         self._magic = self._guide.read( 2 )
 
+        # Skip 4 bytes; to this day I'm not sure what they're for.
+        self._skip( 4 )
+
+        # Read the count of menu options.
+        self._menu_count = self._read_word( False )
+
     @property
     def is_open( self ) -> bool:
         """Is the guide open?
