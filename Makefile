@@ -9,6 +9,19 @@ mypy      := $(run) mypy
 coverage  := $(run) coverage
 test      := $(coverage) run -m unittest discover -v -t $(shell pwd)
 
+###############################################################################
+# Get the OS so we can make some decisions about other things.
+UNAME := $(shell uname)
+
+###############################################################################
+# Set up the command to open a file; normally for viewing.
+ifeq ($(UNAME),Darwin)
+open_file := open
+endif
+ifeq ($(UNAME),Linux)
+open_file := xdg-open
+endif
+
 ##############################################################################
 # Setup/update packages the system requires.
 .PHONY: setup
