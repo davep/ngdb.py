@@ -1,0 +1,18 @@
+# Coverage config file. -*- conf -*-
+
+[run]
+omit =
+     # Don't include anything inside the virtual environment.
+     */.venv/*
+     */virtualenvs/*
+     # Don't include tests.
+     */tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+[html]
+directory = .coverage_report
+
+### .coveragerc ends here
