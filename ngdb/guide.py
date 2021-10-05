@@ -24,6 +24,9 @@ class NortonGuide:
         "NG": "Norton Guide"
     }
 
+    #: The length of a title in the header.
+    TITLE_LENGTH = 40
+
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
 
@@ -121,6 +124,9 @@ class NortonGuide:
 
         # Read the count of menu options.
         self._menu_count = self._read_word( False )
+
+        # Read the title of the guide.
+        self._title = self._read_str( self.TITLE_LENGTH, False )
 
     @property
     def is_open( self ) -> bool:
