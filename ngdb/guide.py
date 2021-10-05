@@ -7,6 +7,10 @@ from pathlib import Path
 from typing  import Union
 
 ##############################################################################
+#: The encoding to use when loading up a string from the database.
+STRING_CODE = "utf-8"
+
+##############################################################################
 # Main Norton Guide class.
 class NortonGuide:
     """Norton Guide database wrapper class.
@@ -76,6 +80,31 @@ class NortonGuide:
         **NOTE:** ``decrypt`` is optional and defaults to ``True``.
         """
         return self._read_byte( decrypt ) + ( self._read_byte( decrypt ) << 8 )
+
+    @staticmethod
+    def _nul_trim( string: str ) -> str:
+        """Trim a string from the first nul.
+
+        :param str string: The string to trim.
+        :returns: Everything up to but not including the first nul.
+        :rtype: str
+        """
+        nul = string.find( "\000" )
+        return string[ 0:nul ] if nul != -1 else string
+
+    def _read_str( self, length: int, decrypt: bool=True ) -> str:
+        """Read a fixed-length string from the guide.
+
+        :param int length: The length of the string to read.
+        :param bool decrypt: Should the string be decrypted?
+        :returns: The string value read.
+        :rtype: str
+
+        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        """
+        return self._nul_trim( "".join(
+            chr( self._decrypt( n ) if decrypt else n ) for n in tuple( self._guide.read( length ) )
+        ) )
 
     def _read_header( self ) -> None:
         """Read the header of the Norton Guide database."""
