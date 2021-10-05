@@ -171,4 +171,12 @@ class NortonGuide:
         """
         return self._menu_count
 
+    @property
+    def title( self ) -> str:
+        """The title of the guide.
+
+        :type: str
+        """
+        return self._title
+
 ### guide.py ends here
