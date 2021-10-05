@@ -128,4 +128,12 @@ class NortonGuide:
         """Ensure we close the handle to the guide if we're deleted."""
         self.close()
 
+    @property
+    def menu_count( self ) -> int:
+        """The count of menu options in the guide.
+
+        :type: int
+        """
+        return self._menu_count
+
 ### guide.py ends here
