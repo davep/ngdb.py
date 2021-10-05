@@ -33,6 +33,19 @@ class NortonGuide:
         # nicely ask pylint to hush.
         self._guide = self.path.open( "rb" )
 
+        # Now, having opened it fine, read in the header.
+        self._read_header()
+
+    def _read_header( self ) -> None:
+        """Read the header of the Norton Guide database."""
+
+        # The reader is at the start of the file, so ensure that's where we
+        # are.
+        self._guide.seek( 0 )
+
+        # First two bytes are the magic.
+        self._magic = self._guide.read( 2 )
+
     @property
     def is_open( self ) -> bool:
         """Is the guide open?
