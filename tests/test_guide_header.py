@@ -33,4 +33,17 @@ class TestGoodHeader( TestCase ):
         """The title should read correctly."""
         self.assertEqual( self.guide.title, "Expert Guide" )
 
+    def test_credits( self ) -> None:
+        """The credits should read correctly."""
+        self.assertCountEqual(
+            self.guide.credits,
+            (
+                "Expert Guide",
+                "Copyright (c) 1997-2015 David A. Pearson",
+                "",
+                "email: davep@davep.org",
+                "  web: http://www.davep.org/"
+            )
+        )
+
 ### test_guide_header.py ends here

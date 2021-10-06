@@ -4,7 +4,7 @@
 # Python imports.
 import io
 from pathlib import Path
-from typing  import Union
+from typing  import Tuple, Union
 
 ##############################################################################
 #: The encoding to use when loading up a string from the database.
@@ -26,6 +26,9 @@ class NortonGuide:
 
     #: The length of a title in the header.
     TITLE_LENGTH = 40
+
+    #: The length of a line in the credits.
+    CREDIT_LENGTH = 66
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
@@ -128,6 +131,9 @@ class NortonGuide:
         # Read the title of the guide.
         self._title = self._read_str( self.TITLE_LENGTH, False )
 
+        # Read the credits for the guide.
+        self._credits = tuple( self._read_str( self.CREDIT_LENGTH, False ) for _ in range( 5 ) )
+
     @property
     def is_open( self ) -> bool:
         """Is the guide open?
@@ -178,5 +184,13 @@ class NortonGuide:
         :type: str
         """
         return self._title
+
+    @property
+    def credits( self ) -> Tuple[ str, ... ]:
+        """The credits for the guide.
+
+        :type: Tuple[str,...]
+        """
+        return self._credits
 
 ### guide.py ends here
