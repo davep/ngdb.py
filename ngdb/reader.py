@@ -21,6 +21,14 @@ class GuideReader:
         """Close the guide."""
         self._h.close()
 
+    @property
+    def pos( self ) -> int:
+        """The current position within the file.
+
+        :type: int
+        """
+        return self._h.tell()
+
     def goto( self, pos: int ) -> None:
         """Go to a specific byte position within the guide.
 
