@@ -17,6 +17,10 @@ class Menu:
     MAX_PROMPT_LENGTH = 128
 
     def __init__( self, guide: GuideReader ) -> None:
+        """Constructor.
+
+        :param GuideReader guide: The reader object for the guide.
+        """
 
         # Skip the byte size of the menu section.
         _ = guide.read_word( False )
