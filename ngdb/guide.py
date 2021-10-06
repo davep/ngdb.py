@@ -87,7 +87,6 @@ class NortonGuide:
 
         :yields: Menu
         """
-
         # Keep track of how many menus we've found.
         menus = 0
         while menus < self._menu_count:
