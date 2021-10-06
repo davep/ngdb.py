@@ -8,7 +8,18 @@ from pathlib import Path
 ##############################################################################
 # Low-level guide reader.
 class GuideReader:
-    """Low-level guide reading class."""
+    """Low-level guide reading class.
+
+    **NOTE:** For now, no optimisation has taken place, in many cases the
+    way this class reads data from a guide will be a method that's on the
+    slower side. This is on purpose; it's about readable code that
+    represents the underlying data structure rather than the fastest method
+    of getting data into memory.
+
+    Once the rest of the library is done and working well this extra bit if
+    docstring will likely be removed because work to improve the speed of
+    this class will finally take place.
+    """
 
     def __init__( self, guide: Path ):
         """Constructor.
