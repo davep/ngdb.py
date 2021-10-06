@@ -29,6 +29,15 @@ class NortonGuide:
     #: The length of a line in the credits.
     CREDIT_LENGTH = 66
 
+    #: Marker for a short entry.
+    ENTRY_SHORT = 0
+
+    #: Marker for a long entry.
+    ENTRY_LONG = 1
+
+    #: Marker for a menu entry.
+    ENTRY_MENU = 2
+
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
 
