@@ -3,11 +3,12 @@
 ##############################################################################
 # Python imports.
 from pathlib import Path
-from typing  import Tuple, Union
+from typing  import Tuple, Iterator, Union
 
 ##############################################################################
 # Local imports.
 from .reader import GuideReader
+from .menu   import Menu
 
 ##############################################################################
 # Main Norton Guide class.
@@ -59,7 +60,7 @@ class NortonGuide:
         # database we've been pointed at?
         if self.is_a:
             # Seems so. In that case sort the menus.
-            self._read_menus()
+            self._menus = tuple( menu for menu in self._read_menus() )
 
     def _read_header( self ) -> None:
         """Read the header of the Norton Guide database."""
@@ -81,8 +82,28 @@ class NortonGuide:
             self._guide.read_str( self.CREDIT_LENGTH, False ) for _ in range( 5 )
         )
 
-    def _read_menus( self ) -> None:
-        """Read the menus from the guide."""
+    def _read_menus( self ) -> Iterator[ Menu ]:
+        """Read the menus from the guide.
+
+        :yields: Menu
+        """
+
+        # Keep track of how many menus we've found.
+        menus = 0
+        while menus < self._menu_count:
+            # Read in the ID of the next entry.
+            marker = self._guide.read_word()
+            if marker in ( self.ENTRY_SHORT, self.ENTRY_LONG ):
+                # It's either a short or a long, and we're simply on a
+                # hunt for menus, so skip the whole entry.
+                self._guide.skip_entry()
+            elif marker == self.ENTRY_MENU:
+                # It's a menu, so load it and pass it up the chain.
+                yield Menu( self._guide )
+                menus += 1
+            else:
+                # It's something we don't understand. Give up.
+                break
 
     @property
     def is_open( self ) -> bool:
@@ -142,5 +163,13 @@ class NortonGuide:
         :type: Tuple[str,...]
         """
         return self._credits
+
+    @property
+    def menus( self ) -> Tuple[ Menu, ... ]:
+        """The menus for the guide.
+
+        :type: Tuple[Menu,...]
+        """
+        return self._menus
 
 ### guide.py ends here
