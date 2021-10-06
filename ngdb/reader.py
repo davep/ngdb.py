@@ -126,4 +126,23 @@ class GuideReader:
             chr( self._decrypt( n ) if decrypt else n ) for n in tuple( self._h.read( length ) )
         ) )
 
+    def read_strz( self, length: int, decrypt: bool=True ) -> str:
+        """Read a nul-terminated string from the guide.
+
+        :param int length: The maximum length of the string to read.
+        :param bool decrypt: Should the string be decrypted?
+        :returns: The string value read.
+        :rtype: str
+
+        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        """
+        # Remember where we are before we read in the string.
+        pos = self.pos
+        # Now read in the string.
+        buff = self.read_str( length, decrypt )
+        # Now skip to the location where the nul was found.
+        self.goto( pos + len( buff ) + 1 )
+        # Return the string.
+        return buff
+
 ### reader.py ends here
