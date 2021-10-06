@@ -53,6 +53,10 @@ class GuideReader:
         """
         self._h.seek( count, io.SEEK_CUR )
 
+    def skip_entry( self ) -> None:
+        """Skip a whole entry in the guide."""
+        self.skip( self.read_word() + 22 )
+
     @staticmethod
     def _decrypt( value: int ) -> int:
         """Decrypt a given numeric value.
