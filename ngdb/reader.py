@@ -36,10 +36,12 @@ class GuideReader:
         """
         return self._h.closed
 
-    def skip( self, count: int ) -> None:
+    def skip( self, count: int=1 ) -> None:
         """Skip a number of bytes in the guide.
 
-        :param int count: The number of bytes to skip.
+        :param int count: The optional number of bytes to skip.
+
+        **NOTE:** If ``count`` isn't supplied then 1 byte is skilled.
         """
         self._h.seek( count, io.SEEK_CUR )
 
