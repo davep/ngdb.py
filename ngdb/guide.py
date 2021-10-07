@@ -60,6 +60,10 @@ class NortonGuide:
             # Seems so. In that case sort the menus.
             self._menus = tuple( menu for menu in self._read_menus() )
 
+        # At this point we should be sat on top of the first entry, so let's
+        # remember where that is.
+        self._first_entry = self._guide.pos
+
     def _read_header( self ) -> None:
         """Read the header of the Norton Guide database."""
 
