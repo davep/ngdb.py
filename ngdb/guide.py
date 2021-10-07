@@ -60,6 +60,9 @@ class NortonGuide:
             # Seems so. In that case sort the menus.
             self._menus = tuple( menu for menu in self._read_menus() )
 
+            # The number of menus should be correct at this point.
+            assert len( self._menus ) == self._menu_count
+
             # At this point we should be sat on top of the first entry, so
             # let's remember where that is.
             self._first_entry = self._guide.pos
