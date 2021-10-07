@@ -171,4 +171,8 @@ class NortonGuide:
         """
         return self._menus
 
+    def __repr__( self ) -> str:
+        """The string representation of the guide."""
+        return f"<{self.__class__.__name__}: {self.path.resolve()}>"
+
 ### guide.py ends here
