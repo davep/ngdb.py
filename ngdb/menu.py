@@ -54,6 +54,10 @@ class Menu:
         """The count of prompts in the menu."""
         return self._prompt_count
 
+    def __getitem__( self, prompt: int ) -> Tuple[ str, int ]:
+        """Get a menu item's information."""
+        return self.prompts[ prompt ], self.offsets[ prompt ]
+
     @property
     def title( self ) -> str:
         """The title of the menu.
