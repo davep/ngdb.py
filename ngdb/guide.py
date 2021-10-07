@@ -4,6 +4,7 @@
 # Python imports.
 from pathlib import Path
 from typing  import Tuple, Iterator, Union
+from enum    import Enum
 
 ##############################################################################
 # Local imports.
@@ -30,14 +31,11 @@ class NortonGuide:
     #: The length of a line in the credits.
     CREDIT_LENGTH = 66
 
-    #: Marker for a short entry.
-    ENTRY_SHORT = 0
-
-    #: Marker for a long entry.
-    ENTRY_LONG = 1
-
-    #: Marker for a menu entry.
-    ENTRY_MENU = 2
+    class EntryType( Enum ):
+        """Types of entry in a guide."""
+        SHORT = 0
+        LONG  = 1
+        MENU  = 2
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
@@ -91,12 +89,12 @@ class NortonGuide:
         menus = 0
         while menus < self._menu_count:
             # Read in the ID of the next entry.
-            marker = self._guide.read_word()
-            if marker in ( self.ENTRY_SHORT, self.ENTRY_LONG ):
+            marker = self.EntryType( self._guide.read_word() )
+            if marker in ( self.EntryType.SHORT, self.EntryType.LONG ):
                 # It's either a short or a long, and we're simply on a
                 # hunt for menus, so skip the whole entry.
                 self._guide.skip_entry()
-            elif marker == self.ENTRY_MENU:
+            elif marker is self.EntryType.MENU:
                 # It's a menu, so load it and pass it up the chain.
                 yield Menu( self._guide )
                 menus += 1
