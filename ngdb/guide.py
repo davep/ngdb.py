@@ -85,22 +85,8 @@ class NortonGuide:
 
         :yields: Menu
         """
-        # Keep track of how many menus we've found.
-        menus = 0
-        while menus < self._menu_count:
-            # Read in the ID of the next entry.
-            marker = self.EntryType( self._guide.read_word() )
-            if marker in ( self.EntryType.SHORT, self.EntryType.LONG ):
-                # It's either a short or a long, and we're simply on a
-                # hunt for menus, so skip the whole entry.
-                self._guide.skip_entry()
-            elif marker is self.EntryType.MENU:
-                # It's a menu, so load it and pass it up the chain.
-                yield Menu( self._guide )
-                menus += 1
-            else:
-                # It's something we don't understand. Give up.
-                break
+        while self.EntryType( self._guide.read_word() ) is self.EntryType.MENU:
+            yield Menu( self._guide )
 
     @property
     def is_open( self ) -> bool:
