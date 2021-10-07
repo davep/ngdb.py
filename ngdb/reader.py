@@ -101,6 +101,20 @@ class GuideReader:
         """
         return self.read_byte( decrypt ) + ( self.read_byte( decrypt ) << 8 )
 
+    def peek_word( self, decrypt: bool=True ) -> int:
+        """Read a two-byte word but don't move the file location.
+
+        :param bool decrypt: Should the value be decrypted?
+        :returns: The integer value read.
+        :rtype: int
+
+        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        """
+        try:
+            return self.read_word( decrypt )
+        finally:
+            self.skip( -2 )
+
     def read_long( self, decrypt: bool=True ) -> int:
         """Read a four-byte long word from the guide.
 
