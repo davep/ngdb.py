@@ -82,4 +82,8 @@ class Menu:
         """Get an iterator of prompt and offset pairs."""
         return ( ( prompt, offset ) for prompt, offset in zip( self.prompts, self.offsets ) )
 
+    def __repr__( self ) -> str:
+        """The string representation of the menu."""
+        return f"<{self.__class__.__name__}: {self.title}>"
+
 ### menu.py ends here
