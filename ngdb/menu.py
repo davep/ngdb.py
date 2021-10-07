@@ -22,6 +22,10 @@ class Menu:
         :param GuideReader guide: The reader object for the guide.
         """
 
+        # Skip the type marker for the menu. Our caller should have tested
+        # that we're a menu.
+        _ = guide.read_word( False )
+
         # Skip the byte size of the menu section.
         _ = guide.read_word( False )
 

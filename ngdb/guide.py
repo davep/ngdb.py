@@ -92,7 +92,7 @@ class NortonGuide:
 
         :yields: Menu
         """
-        while self.EntryType( self._guide.read_word() ) is self.EntryType.MENU:
+        while self.EntryType( self._guide.peek_word() ) is self.EntryType.MENU:
             yield Menu( self._guide )
 
     @property
