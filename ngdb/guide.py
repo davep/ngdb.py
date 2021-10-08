@@ -169,6 +169,10 @@ class NortonGuide:
         """
         self._guide.goto( pos )
 
+    def goto_first( self ) -> None:
+        """Go to the first entry in the guide."""
+        self.goto( self._first_entry )
+
     def __repr__( self ) -> str:
         """The string representation of the guide."""
         return f"<{self.__class__.__name__}: {self.path.resolve()}>"
