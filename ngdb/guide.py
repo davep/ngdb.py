@@ -162,6 +162,13 @@ class NortonGuide:
         """
         return self._menus
 
+    def goto( self, pos: int ) -> None:
+        """Go to a specific location in the guide.
+
+        :param int pos: The position to go to.
+        """
+        self._guide.goto( pos )
+
     def __repr__( self ) -> str:
         """The string representation of the guide."""
         return f"<{self.__class__.__name__}: {self.path.resolve()}>"
