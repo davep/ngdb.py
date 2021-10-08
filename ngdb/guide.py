@@ -10,6 +10,7 @@ from enum    import Enum
 # Local imports.
 from .reader import GuideReader
 from .menu   import Menu
+from .entry  import Entry
 
 ##############################################################################
 # Main Norton Guide class.
@@ -172,6 +173,14 @@ class NortonGuide:
     def goto_first( self ) -> None:
         """Go to the first entry in the guide."""
         self.goto( self._first_entry )
+
+    def load( self ) -> Entry:
+        """Load the entry at the current position.
+
+        :returns: The entry found at the current position.
+        :rtype: Entry
+        """
+        return Entry( self._guide )
 
     def __repr__( self ) -> str:
         """The string representation of the guide."""
