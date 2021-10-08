@@ -114,7 +114,7 @@ class Entry:
         self._size          = guide.read_word()
         self._line_count    = guide.read_word()
         self._has_see_also  = guide.read_word()
-        self._parent        = EntryParent( guide)
+        self._parent        = EntryParent( guide )
         self._previous      = guide.read_long()
         self._next          = guide.read_long()
 
