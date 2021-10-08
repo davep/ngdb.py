@@ -28,6 +28,11 @@ class EntryParent:
         return self._offset
 
     def __bool__( self ) -> bool:
+        """Is there a parent entry?
+
+        :returns: ``True`` if there is, ``False` if not.
+        :rtype: bool
+        """
         return self.offset != -1
 
     @staticmethod
