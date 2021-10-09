@@ -140,7 +140,7 @@ class Entry:
         try:
             return cls._map[ EntryType( guide.peek_word() ) ]( guide )
         except ( ValueError, KeyError ) as error:
-            raise UnknownEntryType( f"Unknown guide type: {guide.peek_word()}" ) from error
+            raise UnknownEntryType( f"Unknown guide entry type: {guide.peek_word()}" ) from error
 
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
