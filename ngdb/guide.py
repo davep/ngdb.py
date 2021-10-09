@@ -174,7 +174,7 @@ class NortonGuide:
         :returns: The entry found at the current position.
         :rtype: Entry
         """
-        return Entry( self._guide )
+        return Entry.load( self._guide )
 
     def __repr__( self ) -> str:
         """The string representation of the guide."""
