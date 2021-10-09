@@ -4,10 +4,10 @@
 # Python imports.
 from pathlib import Path
 from typing  import Tuple, Iterator, Union
-from enum    import Enum
 
 ##############################################################################
 # Local imports.
+from .types  import EntryType
 from .reader import GuideReader
 from .menu   import Menu
 from .entry  import Entry
@@ -31,12 +31,6 @@ class NortonGuide:
 
     #: The length of a line in the credits.
     CREDIT_LENGTH = 66
-
-    class EntryType( Enum ):
-        """Types of entry in a guide."""
-        SHORT = 0
-        LONG  = 1
-        MENU  = 2
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
@@ -93,7 +87,7 @@ class NortonGuide:
 
         :yields: Menu
         """
-        while self.EntryType( self._guide.peek_word() ) is self.EntryType.MENU:
+        while EntryType.is_menu( self._guide.peek_word() ):
             yield Menu( self._guide )
 
     @property
