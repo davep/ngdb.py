@@ -1,8 +1,13 @@
 """Norton guide entry loading and holding code."""
 
 ##############################################################################
+# Python imports.
+from typing import Type, Dict, Callable
+
+##############################################################################
 # Local imports.
 from .reader import GuideReader
+from .types  import EntryType
 
 ##############################################################################
 # Loads and holds entry parent information.
@@ -98,9 +103,43 @@ class EntryParent:
         return self.has_menu and self.prompt != -1
 
 ##############################################################################
+#: Type of the type of an entry.
+TEntry = Type[ "Entry" ]
+
+##############################################################################
 # Guide entry class.
 class Entry:
     """Norton Guide database entry class."""
+
+    #: Holds the entry type mapper.
+    _map: Dict[ EntryType, TEntry ] = {}
+
+    @classmethod
+    def loads( cls, entry_type: EntryType ) -> Callable[ [ TEntry ], TEntry ]:
+        """Decorator for defining which class handles which entry type.
+
+        :param EntryType entry_type: The ID of the entry type being handled.
+        :returns: The decorator wrapper.
+        :rtype: Callable[[TEntry],TEntry]
+        """
+        def _register( handler: TEntry ) -> TEntry:
+            """Inner decorator function."""
+            cls._map[ entry_type ] = handler
+            return handler
+        return _register
+
+    @classmethod
+    def load( cls, guide: GuideReader ) -> "Entry":
+        """Load the entry at the current position in the guide.
+
+        :param GuideReader guide: The reader object for the guide.
+        :returns: The correct type of entry object.
+        :rtype: Entry
+        """
+        if ( entry_type := EntryType( guide.peek_word() ) ) in cls._map:
+            return cls._map[ entry_type ]( guide )
+        # TODO: Custom exception type.
+        raise Exception( "Unknown guide type" )
 
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
