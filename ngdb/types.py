@@ -1,8 +1,18 @@
-"""Defines the IDs of the entry types that appear in a guide."""
+"""Defines helpful types and values for th elibrary.."""
 
 ##############################################################################
 # Python imports.
 from enum import Enum
+
+##############################################################################
+# Base exception.
+class NGDBError( Exception ):
+    """Base exception of all exceptions in the library."""
+
+##############################################################################
+# Unknown entry type error.
+class UnknownEntryType( NGDBError ):
+    """Type of an exception when faced with an unknown entry type."""
 
 ##############################################################################
 # Enum of Norton Guide database entry type IDs.

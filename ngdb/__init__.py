@@ -11,11 +11,14 @@ __version__    = "0.0.1"
 
 ##############################################################################
 # Import things for easier access.
+from .types import NGDBError, UnknownEntryType
 from .guide import NortonGuide
 
 ##############################################################################
 # Define what importing * means.
 __all__ = (
+    "NGDBError",
+    "UnknownEntryType",
     "NortonGuide",
 )
 

@@ -7,7 +7,7 @@ from typing import Type, Dict, Callable
 ##############################################################################
 # Local imports.
 from .reader import GuideReader
-from .types  import EntryType
+from .types  import EntryType, UnknownEntryType
 
 ##############################################################################
 # Loads and holds entry parent information.
@@ -135,11 +135,12 @@ class Entry:
         :param GuideReader guide: The reader object for the guide.
         :returns: The correct type of entry object.
         :rtype: Entry
+        :raises: UnknownEntryType
         """
-        if ( entry_type := EntryType( guide.peek_word() ) ) in cls._map:
-            return cls._map[ entry_type ]( guide )
-        # TODO: Custom exception type.
-        raise Exception( "Unknown guide type" )
+        try:
+            return cls._map[ EntryType( guide.peek_word() ) ]( guide )
+        except ( ValueError, KeyError ) as error:
+            raise UnknownEntryType( f"Unknown guide type: {guide.peek_word()}" ) from error
 
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
