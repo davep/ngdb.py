@@ -271,6 +271,10 @@ class Short( Entry ):
         """
         return self._offsets
 
+    def __getitem__( self, line: int ) -> Tuple[ str, int ]:
+        """Get a line and its offset."""
+        return self.lines[ line ], self.offsets[ line ]
+
     def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
         """The lines in the entry along with the offsets into the guide."""
         return ( ( line, offset ) for line, offset in zip( self.lines, self.offsets ) )
