@@ -263,6 +263,14 @@ class Short( Entry ):
             # Read the offset of the line.
             yield guide.read_long()
 
+    @property
+    def offsets( self ) -> Tuple[ int, ... ]:
+        """The offsets for each of the lines in the entry.
+
+        :type: Tuple[int,...]
+        """
+        return self._offsets
+
 ##############################################################################
 # Long entry class.
 @Entry.loads( EntryType.LONG )
