@@ -271,6 +271,10 @@ class Short( Entry ):
         """
         return self._offsets
 
+    def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
+        """The lines in the entry along with the offsets into the guide."""
+        return ( ( line, offset ) for line, offset in zip( self.lines, self.offsets ) )
+
 ##############################################################################
 # Long entry class.
 @Entry.loads( EntryType.LONG )
