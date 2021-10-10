@@ -212,12 +212,12 @@ class Entry:
 # Short entry class.
 @Entry.loads( EntryType.SHORT )
 class Short( Entry ):
-    """Short Norton Guide databsae entry."""
+    """Short Norton Guide database entry."""
 
 ##############################################################################
 # Long entry class.
 @Entry.loads( EntryType.LONG )
 class Long( Entry ):
-    """Long Norton Guide databsae entry."""
+    """Long Norton Guide database entry."""
 
 ### entry.py ends here
