@@ -171,7 +171,7 @@ class Entry:
         :param GuideReader guide: The reader object for the guide.
         """
         # TODO: Un-RLE the text.
-        self._lines = tuple( guide.read_strz( MAX_LINE_LENGTH ) for _ in range( self._line_count ) )
+        self._lines = tuple( guide.read_strz( MAX_LINE_LENGTH ) for _ in range( len( self ) ) )
 
     @property
     def offset( self ) -> int:
@@ -257,7 +257,7 @@ class Short( Entry ):
         :param GuideReader guide: The reader object for the guide.
         :yields: int
         """
-        for _ in range( self._line_count ):
+        for _ in range( len( self ) ):
             # Skip a word -- I don't know what this is.
             guide.skip( 2 )
             # Read the offset of the line.
