@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Type, Dict, Callable
+from typing import Type, Dict, Callable, Tuple, Iterator
 
 ##############################################################################
 # Local imports.
@@ -107,6 +107,10 @@ class EntryParent:
 TEntry = Type[ "Entry" ]
 
 ##############################################################################
+#: Maximum size of a line we'll look for in a guide.
+MAX_LINE_LENGTH = 1024
+
+##############################################################################
 # Guide entry class.
 class Entry:
     """Norton Guide database entry class."""
@@ -158,7 +162,16 @@ class Entry:
         self._previous      = guide.read_long()
         self._next          = guide.read_long()
 
-        # TODO: Read actual text.
+        # Set up for loading in the lines.
+        self._lines = ()
+
+    def _load_lines( self, guide: GuideReader ) -> None:
+        """Load in all of the lines of text, from this point.
+
+        :param GuideReader guide: The reader object for the guide.
+        """
+        # TODO: Un-RLE the text.
+        self._lines = tuple( guide.read_strz( MAX_LINE_LENGTH ) for _ in range( self._line_count ) )
 
     @property
     def offset( self ) -> int:
@@ -208,11 +221,47 @@ class Entry:
         """
         return self._parent
 
+    @property
+    def lines( self ) -> Tuple[ str, ... ]:
+        """The lines of text in the entry.
+
+        :type: Tuple[str,...]
+        """
+        return self._lines
+
 ##############################################################################
 # Short entry class.
 @Entry.loads( EntryType.SHORT )
 class Short( Entry ):
     """Short Norton Guide database entry."""
+
+    def __init__( self, guide: GuideReader ) -> None:
+        """Constructor.
+
+        :param GuideReader guide: The reader object for the guide.
+        """
+
+        # Call the super class.
+        super().__init__( guide )
+
+        # Next up, load up all of the offsets associated with each of the
+        # lines in the entry.
+        self._offsets = tuple( self._load_offsets( guide ) )
+
+        # Finally, load in the actual text.
+        self._load_lines( guide )
+
+    def _load_offsets( self, guide: GuideReader ) -> Iterator[ int ]:
+        """Load up the offsets for each of the lines in the entry.
+
+        :param GuideReader guide: The reader object for the guide.
+        :yields: int
+        """
+        for _ in range( self._line_count ):
+            # Skip a word -- I don't know what this is.
+            guide.skip( 2 )
+            # Read the offset of the line.
+            yield guide.read_long()
 
 ##############################################################################
 # Long entry class.
