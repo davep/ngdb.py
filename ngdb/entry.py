@@ -139,7 +139,7 @@ class Entry:
         :param GuideReader guide: The reader object for the guide.
         :returns: The correct type of entry object.
         :rtype: Entry
-        :raises: UnknownEntryType
+        :raises UnknownEntryType: Indicates that the entry type is unknown.
         """
         try:
             return cls._map[ EntryType( guide.peek_word() ) ]( guide )
