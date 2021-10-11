@@ -19,8 +19,8 @@ class EntryParent:
 
         :param GuideReader guide: The reader object for the guide.
         """
-        self._offset = guide.read_long()
         self._line   = guide.read_word()
+        self._offset = guide.read_long()
         self._menu   = guide.read_word()
         self._prompt = guide.read_word()
 
