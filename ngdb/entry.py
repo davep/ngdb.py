@@ -6,8 +6,9 @@ from typing import Type, Dict, Callable, Tuple, Iterator
 
 ##############################################################################
 # Local imports.
-from .reader import GuideReader
-from .types  import EntryType, UnknownEntryType
+from .reader  import GuideReader
+from .types   import EntryType, UnknownEntryType
+from .seealso import SeeAlso
 
 ##############################################################################
 # Loads and holds entry parent information.
@@ -297,7 +298,16 @@ class Long( Entry ):
         # Load in the actual text.
         self._load_lines( guide )
 
-        # TODO: Load the see-also information.
+        # Load up the see-also information.
+        self._see_also = SeeAlso( guide, self.has_see_also )
+
+    @property
+    def see_also( self ) -> SeeAlso:
+        """The see-also information for this entry.
+
+        :type: SeeAlso
+        """
+        return self._see_also
 
     def __getitem__( self, line: int ) -> str:
         """Get a line from the entry."""
