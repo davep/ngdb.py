@@ -163,7 +163,7 @@ class Entry:
         self._next          = guide.read_long()
 
         # Set up for loading in the lines.
-        self._lines = ()
+        self._lines: Tuple[ str, ... ] = ()
 
     def _load_lines( self, guide: GuideReader ) -> None:
         """Load in all of the lines of text, from this point.
