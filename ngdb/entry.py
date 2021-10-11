@@ -285,4 +285,26 @@ class Short( Entry ):
 class Long( Entry ):
     """Long Norton Guide database entry."""
 
+    def __init__( self, guide: GuideReader ) -> None:
+        """Constructor.
+
+        :param GuideReader guide: The reader object for the guide.
+        """
+
+        # Call the super class.
+        super().__init__( guide )
+
+        # Load in the actual text.
+        self._load_lines( guide )
+
+        # TODO: Load the see-also information.
+
+    def __getitem__( self, line: int ) -> str:
+        """Get a line from the entry."""
+        return self.lines[ line ]
+
+    def __iter__( self ) -> Iterator[ str ]:
+        """The lines in the entry."""
+        return iter( self.lines )
+
 ### entry.py ends here
