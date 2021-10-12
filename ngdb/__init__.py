@@ -13,6 +13,7 @@ __version__    = "0.0.1"
 # Import things for easier access.
 from .types import NGDBError, UnknownEntryType
 from .guide import NortonGuide
+from .entry import Short, Long
 
 ##############################################################################
 # Define what importing * means.
@@ -20,6 +21,8 @@ __all__ = (
     "NGDBError",
     "UnknownEntryType",
     "NortonGuide",
+    "Short",
+    "Long"
 )
 
 ### __init__.py ends here
