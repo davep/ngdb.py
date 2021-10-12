@@ -66,6 +66,7 @@ class GuideReader:
 
     def skip_entry( self ) -> None:
         """Skip a whole entry in the guide."""
+        self.skip( 2 )
         self.skip( self.read_word() + 22 )
 
     @staticmethod
