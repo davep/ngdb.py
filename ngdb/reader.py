@@ -40,12 +40,15 @@ class GuideReader:
         """
         return self._h.tell()
 
-    def goto( self, pos: int ) -> None:
+    def goto( self, pos: int ) -> "GuideReader":
         """Go to a specific byte position within the guide.
 
         :param int pos: The position to go to.
+        :returns: self
+        :rtype: GuideReader
         """
         self._h.seek( pos )
+        return self
 
     @property
     def closed( self ) -> bool:
@@ -55,19 +58,25 @@ class GuideReader:
         """
         return self._h.closed
 
-    def skip( self, count: int=1 ) -> None:
+    def skip( self, count: int=1 ) -> "GuideReader":
         """Skip a number of bytes in the guide.
 
         :param int count: The optional number of bytes to skip.
+        :returns: self
+        :rtype: GuideReader
 
         **NOTE:** If ``count`` isn't supplied then 1 byte is skilled.
         """
         self._h.seek( count, io.SEEK_CUR )
+        return self
 
-    def skip_entry( self ) -> None:
-        """Skip a whole entry in the guide."""
-        self.skip( 2 )
-        self.skip( self.read_word() + 22 )
+    def skip_entry( self ) -> "GuideReader":
+        """Skip a whole entry in the guide.
+
+        :returns: self
+        :rtype: GuideReader
+        """
+        return self.skip( 2 ).skip( self.read_word() + 22 )
 
     @staticmethod
     def _decrypt( value: int ) -> int:
