@@ -168,6 +168,10 @@ class NortonGuide:
         """Go to the first entry in the guide."""
         self.goto( self._first_entry )
 
+    def skip( self ) -> None:
+        """Skip the current entry."""
+        self._guide.skip_entry()
+
     def load( self ) -> Entry:
         """Load the entry at the current position.
 
