@@ -157,20 +157,32 @@ class NortonGuide:
         """
         return self._menus
 
-    def goto( self, pos: int ) -> None:
+    def goto( self, pos: int ) -> "NortonGuide":
         """Go to a specific location in the guide.
 
         :param int pos: The position to go to.
+        :returns: self
+        :rtype: NortonGuide
         """
         self._guide.goto( pos )
+        return self
 
-    def goto_first( self ) -> None:
-        """Go to the first entry in the guide."""
-        self.goto( self._first_entry )
+    def goto_first( self ) -> "NortonGuide":
+        """Go to the first entry in the guide.
 
-    def skip( self ) -> None:
-        """Skip the current entry."""
+        :returns: self
+        :rtype: NortonGuide
+        """
+        return self.goto( self._first_entry )
+
+    def skip( self ) -> "NortonGuide":
+        """Skip the current entry.
+
+        :returns: self
+        :rtype: NortonGuide
+        """
         self._guide.skip_entry()
+        return self
 
     def load( self ) -> Entry:
         """Load the entry at the current position.
