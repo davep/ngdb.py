@@ -220,6 +220,14 @@ class NortonGuide:
 
     def __repr__( self ) -> str:
         """The string representation of the guide."""
-        return f"<{self.__class__.__name__}: {self.path.resolve()}>"
+        return f"<{self.__class__.__name__}: {self}>"
+
+    def __str__( self ) -> str:
+        """The string representation of the guide.
+
+        :returns: The guide's full path/file name.
+        :rtype: str
+        """
+        return str( self.path.resolve() )
 
 ### guide.py ends here
