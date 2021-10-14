@@ -184,6 +184,14 @@ class NortonGuide:
         self._guide.skip_entry()
         return self
 
+    @property
+    def eof( self ) -> bool:
+        """Are we at the end of the guide?
+
+        :type: bool
+        """
+        return self._guide.pos >= self.path.stat().st_size
+
     def load( self ) -> Entry:
         """Load the entry at the current position.
 
