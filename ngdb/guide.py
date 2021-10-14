@@ -3,11 +3,11 @@
 ##############################################################################
 # Python imports.
 from pathlib import Path
-from typing  import Tuple, Iterator, Union
+from typing  import Tuple, Iterator, Union, Callable, Any
 
 ##############################################################################
 # Local imports.
-from .types  import EntryType
+from .types  import EntryType, NGEOF
 from .reader import GuideReader
 from .menu   import Menu
 from .entry  import Entry
@@ -31,6 +31,21 @@ class NortonGuide:
 
     #: The length of a line in the credits.
     CREDIT_LENGTH = 66
+
+    @staticmethod
+    def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
+        """Decorator to ensure a guide isn't at EOF before executing a method.
+
+        :param Callable[...,Any] meth: The method fo protect.
+        :returns: The guard.
+        :rtype: Callable[...,Any]
+        """
+        def _guard( self: "NortonGuide", *args: Any, **kwargs: Any ) -> Any:
+            """Guard the given method call."""
+            if self.eof:
+                raise NGEOF
+            return meth( self, *args, **kwargs )
+        return _guard
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
@@ -175,11 +190,13 @@ class NortonGuide:
         """
         return self.goto( self._first_entry )
 
+    @not_eof
     def skip( self ) -> "NortonGuide":
         """Skip the current entry.
 
         :returns: self
         :rtype: NortonGuide
+        :raises NGEOF: If we attempt to skip when at EOF.
         """
         self._guide.skip_entry()
         return self
@@ -192,6 +209,7 @@ class NortonGuide:
         """
         return self._guide.pos >= self.path.stat().st_size
 
+    @not_eof
     def load( self ) -> Entry:
         """Load the entry at the current position.
 

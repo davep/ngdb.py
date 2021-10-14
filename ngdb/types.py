@@ -15,6 +15,11 @@ class UnknownEntryType( NGDBError ):
     """Type of an exception when faced with an unknown entry type."""
 
 ##############################################################################
+# EOF error.
+class NGEOF( NGDBError ):
+    """Type of an exception thrown when doing things at or past EOF."""
+
+##############################################################################
 # Enum of Norton Guide database entry type IDs.
 class EntryType( Enum ):
     """Types of entry in a guide."""
