@@ -6,15 +6,15 @@ from unittest import TestCase
 
 ##############################################################################
 # Library imports.
-from ngdb import NortonGuide, Short, Long
+from ngdb import NortonGuide, Short, Long, NGEOF
 
 ##############################################################################
 # Local imports.
-from . import BIG_GUIDE
+from . import GOOD_GUIDE, BIG_GUIDE
 
 ##############################################################################
 # Guide navigation unit tests.
-class TestNavigation( TestCase ):
+class TestBasicNavigation( TestCase ):
     """Basic guide navigation unit tests."""
 
     def setUp( self ) -> None:
@@ -23,10 +23,55 @@ class TestNavigation( TestCase ):
 
     def test_go_first( self ) -> None:
         """It should be possible to go to the first entry."""
-        self.assertIsInstance( self.guide.goto_first().load(), Short )
+        self.assertIsInstance( NortonGuide( BIG_GUIDE ).goto_first().load(), Short )
 
     def test_skip( self ) -> None:
         """It should be possible to skip an entry without reading it."""
-        self.assertIsInstance( self.guide.goto_first().skip().load(), Long )
+        self.assertIsInstance( NortonGuide( BIG_GUIDE ).goto_first().skip().load(), Long )
+
+##############################################################################
+# EOF detection tests.
+class TestEOF( TestCase ):
+    """Unit tests relating to detecting EOF in a guide."""
+
+    def test_small_eof_skip( self ):
+        """A guide with one entry should EOF when skipping."""
+        guide = NortonGuide( GOOD_GUIDE )
+        guide.skip()
+        self.assertTrue( guide.eof )
+
+    def test_small_eof_load( self ):
+        """A guide with one entry should EOF when loading."""
+        guide = NortonGuide( GOOD_GUIDE )
+        guide.load()
+        self.assertTrue( guide.eof )
+
+    def test_big_eof_skip( self ):
+        """A guide with multiple entries should not be EOF early on during skips."""
+        guide = NortonGuide( BIG_GUIDE ).goto_first()
+        for _ in range( 5 ):
+            guide.skip()
+            self.assertFalse( guide.eof )
+
+    def test_big_eof_load( self ):
+        """A guide with multiple entries should not be EOF early on during loads."""
+        guide = NortonGuide( BIG_GUIDE ).goto_first()
+        for _ in range( 5 ):
+            guide.load()
+            self.assertFalse( guide.eof )
+
+    def test_small_eof_guard_skip( self ) -> None:
+        """Attempting to skip past the end of single-entry guide should throw an error."""
+        guide = NortonGuide( GOOD_GUIDE ).goto_first()
+        with self.assertRaises( NGEOF ):
+            for _ in range( 100 ):
+                guide.skip()
+
+    def test_big_eof_guard_skip( self ) -> None:
+        """Attempting to skip past the end of multiple-entry guide should throw an error."""
+        guide = NortonGuide( BIG_GUIDE ).goto_first()
+        with self.assertRaises( NGEOF ):
+            for _ in range( 100 ):
+                guide.skip()
 
 ### test_navigation.py ends here
