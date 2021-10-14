@@ -11,7 +11,7 @@ __version__    = "0.0.1"
 
 ##############################################################################
 # Import things for easier access.
-from .types import NGDBError, UnknownEntryType
+from .types import NGDBError, UnknownEntryType, NGEOF
 from .guide import NortonGuide
 from .entry import Short, Long
 
@@ -20,6 +20,7 @@ from .entry import Short, Long
 __all__ = (
     "NGDBError",
     "UnknownEntryType",
+    "NGEOF",
     "NortonGuide",
     "Short",
     "Long"
