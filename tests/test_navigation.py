@@ -34,26 +34,26 @@ class TestBasicNavigation( TestCase ):
 class TestEOF( TestCase ):
     """Unit tests relating to detecting EOF in a guide."""
 
-    def test_small_eof_skip( self ):
+    def test_small_eof_skip( self ) -> None:
         """A guide with one entry should EOF when skipping."""
         guide = NortonGuide( GOOD_GUIDE )
         guide.skip()
         self.assertTrue( guide.eof )
 
-    def test_small_eof_load( self ):
+    def test_small_eof_load( self ) -> None:
         """A guide with one entry should EOF when loading."""
         guide = NortonGuide( GOOD_GUIDE )
         guide.load()
         self.assertTrue( guide.eof )
 
-    def test_big_eof_skip( self ):
+    def test_big_eof_skip( self ) -> None:
         """A guide with multiple entries should not be EOF early on during skips."""
         guide = NortonGuide( BIG_GUIDE ).goto_first()
         for _ in range( 5 ):
             guide.skip()
             self.assertFalse( guide.eof )
 
-    def test_big_eof_load( self ):
+    def test_big_eof_load( self ) -> None:
         """A guide with multiple entries should not be EOF early on during loads."""
         guide = NortonGuide( BIG_GUIDE ).goto_first()
         for _ in range( 5 ):
