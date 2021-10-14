@@ -215,6 +215,7 @@ class NortonGuide:
 
         :returns: The entry found at the current position.
         :rtype: Entry
+        :raises NGEOF: If we attempt to load when at EOF.
         """
         return Entry.load( self._guide )
 
