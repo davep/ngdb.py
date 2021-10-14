@@ -230,6 +230,14 @@ class Entry:
         """
         return self._lines
 
+    def __str__( self ) -> str:
+        """Return the text of the entry as a single string.
+
+        :returns: The entry's text.
+        :rtype: str
+        """
+        return "\n".join( self.lines )
+
 ##############################################################################
 # Short entry class.
 @Entry.loads( EntryType.SHORT )
