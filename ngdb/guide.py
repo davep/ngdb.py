@@ -217,7 +217,11 @@ class NortonGuide:
         :rtype: Entry
         :raises NGEOF: If we attempt to load when at EOF.
         """
-        return Entry.load( self._guide )
+        pos = self._guide.pos
+        try:
+            return Entry.load( self._guide )
+        finally:
+            self.goto( pos )
 
     def __repr__( self ) -> str:
         """The string representation of the guide."""
