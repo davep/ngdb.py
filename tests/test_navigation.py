@@ -41,10 +41,10 @@ class TestEOF( TestCase ):
         self.assertTrue( guide.eof )
 
     def test_small_eof_load( self ) -> None:
-        """A guide with one entry should EOF when loading."""
+        """A guide with one entry should not EOF when loading."""
         guide = NortonGuide( GOOD_GUIDE )
         guide.load()
-        self.assertTrue( guide.eof )
+        self.assertFalse( guide.eof )
 
     def test_big_eof_skip( self ) -> None:
         """A guide with multiple entries should not be EOF early on during skips."""
@@ -58,6 +58,7 @@ class TestEOF( TestCase ):
         guide = NortonGuide( BIG_GUIDE ).goto_first()
         for _ in range( 5 ):
             guide.load()
+            guide.skip()
             self.assertFalse( guide.eof )
 
     def test_small_eof_guard_skip( self ) -> None:
