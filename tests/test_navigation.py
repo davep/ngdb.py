@@ -75,4 +75,17 @@ class TestEOF( TestCase ):
             for _ in range( 100 ):
                 guide.skip()
 
+##############################################################################
+# Guide iteration tests.
+class TestIter( TestCase ):
+    """Unit tests relating to iterating through a guide."""
+
+    def test_iter_small( self ) -> None:
+        """It should be possible to iterate through a guide with one entry."""
+        self.assertEqual( len( list( NortonGuide( GOOD_GUIDE ) ) ), 1 )
+
+    def test_iter_big( self ) -> None:
+        """It should be possible to iterate through a guide with one entry."""
+        self.assertEqual( len( list( NortonGuide( BIG_GUIDE) ) ), 28 )
+
 ### test_navigation.py ends here
