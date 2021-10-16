@@ -238,6 +238,14 @@ class Entry:
         """
         return "\n".join( self.lines )
 
+    def __repr__( self ) -> str:
+        """Simply say the type of entry as the representation of the object.
+
+        :returns: The name of the type of entry.
+        :rtype: str
+        """
+        return f"<{self.__class__.__name__}>"
+
 ##############################################################################
 # Short entry class.
 @Entry.loads( EntryType.SHORT )
