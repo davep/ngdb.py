@@ -229,15 +229,17 @@ class NortonGuide:
         :yields: Entry
         """
         # Here I try my best to do this in a way that no other operations
-        # that consume this iterator will affect it. So, starting at the
-        # position of the first entry...
-        pos = self._first_entry
+        # that consume this iterator will affect it. So, starting with the
+        # first entry...
+        entry = self.goto_first().load()
         while True:
             try:
-                # ...go to the entry of interest, load and yield it...
-                yield self.goto( pos ).load()
-                # ...then skip to the next entry and record the position.
-                pos = self.skip()._guide.pos
+                # ...pass up the current entry...
+                yield entry
+                # ...and then, assuming the worst (that our caller may have
+                # moved around the guide while consuming that entry), we
+                # pointedly go back to it, skip it and load whatever's next.
+                entry = self.goto( entry.offset ).skip().load()
             except NGEOF:
                 # EOF was thrown so lets finish the iterator.
                 break
