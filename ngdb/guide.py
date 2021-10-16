@@ -223,6 +223,25 @@ class NortonGuide:
         finally:
             self.goto( pos )
 
+    def __iter__( self ) -> Iterator[ Entry ]:
+        """Allow iterating through every entry in the guide.
+
+        :yields: Entry
+        """
+        # Here I try my best to do this in a way that no other operations
+        # that consume this iterator will affect it. So, starting at the
+        # position of the first entry...
+        pos = self._first_entry
+        while True:
+            try:
+                # ...go to the entry of interest, load and yield it...
+                yield self.goto( pos ).load()
+                # ...then skip to the next entry and record the position.
+                pos = self.skip()._guide.pos
+            except NGEOF:
+                # EOF was thrown so lets finish the iterator.
+                break
+
     def __repr__( self ) -> str:
         """The string representation of the guide."""
         return f"<{self.__class__.__name__}: {self}>"
