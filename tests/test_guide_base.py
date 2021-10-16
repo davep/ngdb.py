@@ -28,4 +28,13 @@ class TestOpen( TestCase ):
         with self.assertRaises( FileNotFoundError ):
             _ = NortonGuide( MISSING_GUIDE )
 
+##############################################################################
+# Test str()ing the guide object.
+class TestStr( TestCase ):
+    """Test applying str() to a guide object."""
+
+    def test_str( self ) -> None:
+        """The str() of the object should be the path to the file."""
+        self.assertEqual( str( NortonGuide( GOOD_GUIDE ) ), str( GOOD_GUIDE ) )
+
 ### test_guide_base.py ends here
