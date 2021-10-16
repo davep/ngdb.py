@@ -241,7 +241,7 @@ class NortonGuide:
                 # pointedly go back to it, skip it and load whatever's next.
                 entry = self.goto( entry.offset ).skip().load()
             except NGEOF:
-                # EOF was thrown so lets finish the iterator.
+                # EOF was thrown so let's finish the iterator.
                 break
 
     def __repr__( self ) -> str:
