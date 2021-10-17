@@ -46,11 +46,12 @@ class SeeAlso:
             # Get the offsets for each of the see-also entries.
             self._offsets = tuple( guide.read_long() for _ in range( len( self ) ) )
 
-            # TODO: Un-RLE the text.
             # Get the prompts for each of the see-also items.
             self._prompts = tuple(
-                guide.read_strz( Menu.MAX_PROMPT_LENGTH ) for _ in range( len( self ) )
+                guide.unrle( guide.read_strz( Menu.MAX_PROMPT_LENGTH ) )
+                for _ in range( len( self ) )
             )
+
         else:
             # Nope, don't load, just zero everything out.
             self._count   = 0

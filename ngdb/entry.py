@@ -171,8 +171,9 @@ class Entry:
 
         :param GuideReader guide: The reader object for the guide.
         """
-        # TODO: Un-RLE the text.
-        self._lines = tuple( guide.read_strz( MAX_LINE_LENGTH ) for _ in range( len( self ) ) )
+        self._lines = tuple(
+            guide.unrle( guide.read_strz( MAX_LINE_LENGTH ) ) for _ in range( len( self ) )
+        )
 
     @property
     def offset( self ) -> int:
