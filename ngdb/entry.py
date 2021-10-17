@@ -31,7 +31,7 @@ class EntryParent:
 
         :type: int
         """
-        return self._offset
+        return -1 if self._offset == 0xFFFFFFFF else self._offset
 
     def __bool__( self ) -> bool:
         """Is there a parent entry?
