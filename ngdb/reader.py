@@ -21,6 +21,38 @@ class GuideReader:
     this class will finally take place.
     """
 
+    #: The value that marks run-length-encoded spaces.
+    RLE_MARKER = "\xFF"
+
+    @classmethod
+    def unrle( cls, rle_text: str ) -> str:
+        """Un-run-length-encode the given string.
+
+        :param str rle_text: The text that needs expanding.
+        :returns: The given text with all RLE components expanded.
+        :rtype: str
+
+        Norton Guide database files use a very simple form of
+        run-length-encoding for spaces. Simply put, if you find a byte in a
+        string that is 0xFF, then the next byte is the number of spaces to
+        insert into the string at this point. I've also found that 0xFF
+        followed by 0xFF seems to mean you should insert a literal 0xFF.
+        """
+
+        expanded = ""
+        start    = 0
+        split    = rle_text.find( cls.RLE_MARKER )
+
+        while split > -1:
+            expanded += rle_text[ start:split ] + (
+                cls.RLE_MARKER if rle_text[ split + 1 ] == cls.RLE_MARKER
+                else " " * ord( rle_text[ split + 1 ] )
+            )
+            start = split + 2
+            split = rle_text.find( cls.RLE_MARKER, start )
+
+        return expanded + rle_text[ start: ]
+
     def __init__( self, guide: Path ):
         """Constructor.
 
