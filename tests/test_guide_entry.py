@@ -18,7 +18,7 @@ from . import BIG_GUIDE
 class TestUnknown( TestCase ):
     """Test picking up on an unknown entry type."""
 
-    def test_unknown( self ):
+    def test_unknown( self ) -> None:
         """Attempting to load an unknown entry type should result in an exception."""
         with self.assertRaises( UnknownEntryType ):
             NortonGuide( BIG_GUIDE ).goto( 0 ).load()
