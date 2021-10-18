@@ -44,6 +44,11 @@ class TestShort( TestCase ):
         """It should not have a parent line."""
         self.assertFalse( self.entry.parent.has_line )
 
+    def test_str_entry( self ) -> None:
+        """The str() of the entry should be the main text."""
+        str_entry = str( self.entry )
+        self.assertEqual( len( str_entry.split( "\n" ) ), len( self.entry ) )
+
 ##############################################################################
 # Test loading up a long entry.
 class TestLong( TestCase ):
@@ -75,5 +80,10 @@ class TestLong( TestCase ):
         """It should have a parent line."""
         self.assertTrue( self.entry.parent.has_line )
         self.assertEqual( self.entry.parent.line, 0 )
+
+    def test_str_entry( self ) -> None:
+        """The str() of the entry should be the main text."""
+        str_entry = str( self.entry )
+        self.assertEqual( len( str_entry.split( "\n" ) ), len( self.entry ) )
 
 ### test_guide_entry.py ends here
