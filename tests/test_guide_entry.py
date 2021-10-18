@@ -6,12 +6,22 @@ from unittest import TestCase
 
 ##############################################################################
 # Library imports.
-from ngdb       import NortonGuide, Short, Long
+from ngdb       import NortonGuide, Short, Long, UnknownEntryType
 from ngdb.types import EntryType
 
 ##############################################################################
 # Local imports.
 from . import BIG_GUIDE
+
+##############################################################################
+# Unknown entry type tests.
+class TestUnknown( TestCase ):
+    """Test picking up on an unknown entry type."""
+
+    def test_unknown( self ):
+        """Attempting to load an unknown entry type should result in an exception."""
+        with self.assertRaises( UnknownEntryType ):
+            NortonGuide( BIG_GUIDE ).goto( 0 ).load()
 
 ##############################################################################
 # Test loading up a short entry.
