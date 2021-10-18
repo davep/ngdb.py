@@ -49,6 +49,10 @@ class TestShort( TestCase ):
         str_entry = str( self.entry )
         self.assertEqual( len( str_entry.split( "\n" ) ), len( self.entry ) )
 
+    def test_lines_and_offsets( self ) -> None:
+        """There should be equal numbers of lines and offsets."""
+        self.assertEqual( len( self.entry.lines ), len( self.entry.offsets ) )
+
 ##############################################################################
 # Test loading up a long entry.
 class TestLong( TestCase ):
