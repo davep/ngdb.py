@@ -122,4 +122,8 @@ class TestLong( TestCase ):
         """It should be possible to treat a long entry like an iterator."""
         self.assertEqual( next( iter( self.entry ) ), " ^bOL_95AppTitle()" )
 
+    def test_see_also( self ) -> None:
+        """The test long entry should have a see-also menu."""
+        self.assertTrue( bool( self.entry.see_also ) )
+
 ### test_guide_entry.py ends here
