@@ -84,6 +84,6 @@ class SeeAlso:
 
     def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
         """Get an iterator of see-also prompt and offset pairs."""
-        return ( ( prompt, offset ) for prompt, offset in zip( self.prompts, self.offsets ) )
+        return zip( self.prompts, self.offsets )
 
 ### seealso.py ends here
