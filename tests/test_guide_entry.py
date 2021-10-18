@@ -70,6 +70,13 @@ class TestShort( TestCase ):
             ( " OL_95AppTitle()          Set/get the Windows 95 application title.", 1389 )
         )
 
+    def test_iter_iter( self ) -> None:
+        """It should be possible to treat a short entry like an iterator."""
+        self.assertEqual(
+            next( iter( self.entry ) ),
+            ( " OL_95AppTitle()          Set/get the Windows 95 application title.", 1389 )
+        )
+
 ##############################################################################
 # Test loading up a long entry.
 class TestLong( TestCase ):
@@ -110,5 +117,9 @@ class TestLong( TestCase ):
     def test_list_like( self ) -> None:
         """It should be possible to treat a long entry like a list."""
         self.assertEqual( self.entry[ 0 ], " ^bOL_95AppTitle()" )
+
+    def test_iter_like( self ) -> None:
+        """It should be possible to treat a long entry like an iterator."""
+        self.assertEqual( next( iter( self.entry ) ), " ^bOL_95AppTitle()" )
 
 ### test_guide_entry.py ends here
