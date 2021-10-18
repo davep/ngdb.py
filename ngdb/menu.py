@@ -88,7 +88,7 @@ class Menu:
 
     def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
         """Get an iterator of prompt and offset pairs."""
-        return ( ( prompt, offset ) for prompt, offset in zip( self.prompts, self.offsets ) )
+        return zip( self.prompts, self.offsets )
 
     def __str__( self ) -> str:
         """Get the string representation of the menu.
