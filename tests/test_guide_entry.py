@@ -142,4 +142,24 @@ class TestLong( TestCase ):
         """The test long entry should have a see-also menu."""
         self.assertTrue( bool( self.entry.see_also ) )
 
+    def test_see_also_count( self ) -> None:
+        """The test long entry should have the correct number of see-also items."""
+        self.assertEqual( len( self.entry.see_also ), 1 )
+
+    def test_see_also_text( self ) -> None:
+        """The test long entry should have the correct see-also prompt."""
+        self.assertEqual( self.entry.see_also.prompts[ 0 ], "OL_95VMTitle()" )
+
+    def test_see_also_offset( self ) -> None:
+        """The test long entry should have the correct see-also offset."""
+        self.assertEqual( self.entry.see_also.offsets[ 0 ], 2355 )
+
+    def test_see_also_list_like( self ) -> None:
+        """It should be possible to treat the see-also object like a list."""
+        self.assertEqual( self.entry.see_also[ 0 ], ( "OL_95VMTitle()", 2355 ) )
+
+    def test_see_also_iter_like( self ) -> None:
+        """It should be possible to treat the see-also object like an iterator."""
+        self.assertEqual( next( iter( self.entry.see_also ) ), ( "OL_95VMTitle()", 2355 ) )
+
 ### test_guide_entry.py ends here
