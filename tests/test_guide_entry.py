@@ -6,7 +6,8 @@ from unittest import TestCase
 
 ##############################################################################
 # Library imports.
-from ngdb import NortonGuide, Short, Long
+from ngdb       import NortonGuide, Short, Long
+from ngdb.types import EntryType
 
 ##############################################################################
 # Local imports.
@@ -28,6 +29,8 @@ class TestShort( TestCase ):
     def test_correct_id( self ) -> None:
         """It should have a short entry ID."""
         self.assertEqual( self.entry.type_id, 0 )
+        self.assertTrue( EntryType.is_short( self.entry.type_id ) )
+        self.assertFalse( EntryType.is_long( self.entry.type_id ) )
 
     def test_entry_size( self ) -> None:
         """It should have the correct size."""
@@ -57,6 +60,8 @@ class TestLong( TestCase ):
     def test_correct_id( self ) -> None:
         """It should have a long entry ID."""
         self.assertEqual( self.entry.type_id, 1 )
+        self.assertFalse( EntryType.is_short( self.entry.type_id ) )
+        self.assertTrue( EntryType.is_long( self.entry.type_id ) )
 
     def test_entry_size( self ) -> None:
         """It should have the correct size."""
