@@ -63,6 +63,13 @@ class TestShort( TestCase ):
         """There should be equal numbers of lines and offsets."""
         self.assertEqual( len( self.entry.lines ), len( self.entry.offsets ) )
 
+    def test_list_like( self ) -> None:
+        """It should be possible to treat a short entry like a list."""
+        self.assertEqual(
+            self.entry[ 0 ],
+            ( " OL_95AppTitle()          Set/get the Windows 95 application title.", 1389 )
+        )
+
 ##############################################################################
 # Test loading up a long entry.
 class TestLong( TestCase ):
@@ -99,5 +106,9 @@ class TestLong( TestCase ):
         """The str() of the entry should be the main text."""
         str_entry = str( self.entry )
         self.assertEqual( len( str_entry.split( "\n" ) ), len( self.entry ) )
+
+    def test_list_like( self ) -> None:
+        """It should be possible to treat a long entry like a list."""
+        self.assertEqual( self.entry[ 0 ], " ^bOL_95AppTitle()" )
 
 ### test_guide_entry.py ends here
