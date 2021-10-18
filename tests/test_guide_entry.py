@@ -54,6 +54,10 @@ class TestShort( TestCase ):
         """It should not have a parent line."""
         self.assertFalse( self.entry.parent.has_line )
 
+    def test_parent_menu( self ) -> None:
+        """The test short entry should have a parent menu."""
+        self.assertTrue( self.entry.parent.has_menu )
+
     def test_str_entry( self ) -> None:
         """The str() of the entry should be the main text."""
         str_entry = str( self.entry )
@@ -108,6 +112,10 @@ class TestLong( TestCase ):
         """It should have a parent line."""
         self.assertTrue( self.entry.parent.has_line )
         self.assertEqual( self.entry.parent.line, 0 )
+
+    def test_parent_menu( self ) -> None:
+        """The test long entry should have a parent menu."""
+        self.assertTrue( self.entry.parent.has_menu )
 
     def test_str_entry( self ) -> None:
         """The str() of the entry should be the main text."""
