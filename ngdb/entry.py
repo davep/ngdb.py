@@ -295,7 +295,7 @@ class Short( Entry ):
 
     def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
         """The lines in the entry along with the offsets into the guide."""
-        return ( ( line, offset ) for line, offset in zip( self.lines, self.offsets ) )
+        return zip( self.lines, self.offsets )
 
 ##############################################################################
 # Long entry class.
