@@ -86,4 +86,8 @@ class SeeAlso:
         """Get an iterator of see-also prompt and offset pairs."""
         return zip( self.prompts, self.offsets )
 
+    def __bool__( self ) -> bool:
+        """Test if there are any see-alsos."""
+        return bool( len( self ) )
+
 ### seealso.py ends here
