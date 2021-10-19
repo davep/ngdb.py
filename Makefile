@@ -87,6 +87,19 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 checkall: dscheck lint stricttypecheck test coverage # Check all the things
 
 ##############################################################################
+# Documentation.
+.PHONY: docs
+docs:				# Generate the system documentation
+	cd docs; rm -rf source; rm -rf build; mkdir source build
+	cd docs/source; $(run) sphinx-apidoc -F -f -e -M -H $(library) -o . ../../$(library) ../../setup.py
+	cp docs/template/* docs/source
+	cd docs; $(run) make html
+
+.PHONY: rtfm
+rtfm: docs			# Locally read the library documentation
+	$(open_file) docs/build/html/index.html
+
+##############################################################################
 # Utility.
 .PHONY: repl
 repl:				# Start a Python REPL
