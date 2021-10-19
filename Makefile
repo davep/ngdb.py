@@ -7,6 +7,7 @@ lint      := $(run) pylint
 pyreverse := $(run) pyreverse
 mypy      := $(run) mypy
 coverage  := $(run) coverage
+vermin    := $(run) vermin -v --backport enum --backport typing --no-parse-comments
 test      := $(coverage) run -m unittest discover -v -t $(shell pwd)
 
 ###############################################################################
@@ -70,6 +71,10 @@ coveragerep: coveragehtml       # Create and view a report of the current code c
 .PHONY: coveragetxt
 coveragetxt:			# Show a test-based code coverage report
 	$(coverage) report
+
+.PHONY: minpy
+minpy:				# Check the minimum supported Python version
+	$(vermin) $(library)
 
 .PHONY: dscheck
 dscheck:			# Perform a doc-string check
