@@ -11,20 +11,33 @@ from ngdb.menu import Menu
 
 ##############################################################################
 # Local imports.
-from . import GOOD_GUIDE
+from . import BIG_GUIDE
 
 ##############################################################################
 # Test the loading of a guide's menu.
-class TestMenu( TestCase ):
+class TestMenuViaShort( TestCase ):
     """Norton Guide menu unit tests."""
 
     def setUp( self ) -> None:
         """Set up for the tests."""
-        self.guide = NortonGuide( GOOD_GUIDE )
+        self.guide = NortonGuide( BIG_GUIDE )
 
-    def test_has_menu_object( self ) -> None:
-        """The test guide should have a menu object."""
-        self.assertGreater( len( self.guide.menus ), 0 )
-        self.assertTrue( all( isinstance( value, Menu ) for value in self.guide.menus ) )
+    def test_has_menus( self ) -> None:
+        """The test guide has the correct number of menus."""
+        self.assertEqual( self.guide.menu_count, 1 )
+        self.assertEqual( self.guide.menu_count, len( self.guide.menus ) )
+        self.assertTrue( all( isinstance( menu, Menu ) for menu in self.guide.menus ) )
+
+    def test_menu_title( self ) -> None:
+        """The menu title should load correctly."""
+        self.assertEqual( self.guide.menus[ 0 ].title, "OSLIB" )
+        self.assertEqual( self.guide.menus[ 0 ].title, str( self.guide.menus[ 0 ] ) )
+
+    def test_menu_options( self ) -> None:
+        """The menu options should load correctly."""
+        self.assertCountEqual(
+            self.guide.menus[ 0 ].prompts,
+            [ "Functions", "FAQs", "Revision History", "Credits", "About" ]
+        )
 
 ### test_guide_menu.py ends here
