@@ -36,7 +36,6 @@ jobs:
         rm Pipfile.lock
         pipenv lock
         pipenv --python ${{ matrix.python-version }}
-        make setup
 
     - name: Install dependencies
       run: make setup
