@@ -13,6 +13,7 @@ python-language-server = "*"
 typing-extensions = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
+vermin = "*"
 
 [requires]
 python_version = "3.10"
