@@ -28,7 +28,7 @@ jobs:
     - name: Patch Pipfile for Python ${{ matrix.python-version }}
       run: |
         head Pipfile -n -1 > Pipfile.tmp
-        echo "python_version=\"${{matrix.python-version }}\"") >> Pipfile.tmp
+        echo "python_version=\"${{matrix.python-version }}\"" >> Pipfile.tmp
         mv Pipfile.tmp Pipfile
 
     - name: Install pipenv
