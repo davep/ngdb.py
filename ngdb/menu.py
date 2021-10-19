@@ -1,16 +1,13 @@
 """Code for loading and holding guide menus."""
 
 ##############################################################################
-# Python imports.
-from typing import Tuple, Iterator
-
-##############################################################################
 # Local imports.
-from .reader import GuideReader
+from .reader  import GuideReader
+from .prompts import PromptCollection
 
 ##############################################################################
 # Menu class.
-class Menu:
+class Menu( PromptCollection ):
     """Class that loads and holds the details of a menu in the guide."""
 
     #: The maximum length of a prompt in a guide.
@@ -22,6 +19,9 @@ class Menu:
         :param GuideReader guide: The reader object for the guide.
         """
 
+        # Call the parent first.
+        super().__init__()
+
         # Skip the type marker for the menu. Our caller should have tested
         # that we're a menu.
         _ = guide.read_word( False )
@@ -30,7 +30,7 @@ class Menu:
         _ = guide.read_word( False )
 
         # Next up, read the prompt count.
-        self._prompt_count = guide.read_word() - 1
+        self._count = guide.read_word() - 1
 
         # Now skip 20 bytes. I'm not sure what they are.
         guide.skip( 20 )
@@ -54,14 +54,6 @@ class Menu:
         # next "record" in the database.
         guide.skip()
 
-    def __len__( self ) -> int:
-        """The count of prompts in the menu."""
-        return self._prompt_count
-
-    def __getitem__( self, prompt: int ) -> Tuple[ str, int ]:
-        """Get a menu item's information."""
-        return self.prompts[ prompt ], self.offsets[ prompt ]
-
     @property
     def title( self ) -> str:
         """The title of the menu.
@@ -69,26 +61,6 @@ class Menu:
         :type: str
         """
         return self._title
-
-    @property
-    def prompts( self ) -> Tuple[ str, ... ]:
-        """The prompts in the menu.
-
-        :type: Tuple[str,...]
-        """
-        return self._prompts
-
-    @property
-    def offsets( self ) -> Tuple[ int, ... ]:
-        """The offsets into the guide for each prompt.
-
-        :type: Tuple[int,...]
-        """
-        return self._offsets
-
-    def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
-        """Get an iterator of prompt and offset pairs."""
-        return zip( self.prompts, self.offsets )
 
     def __str__( self ) -> str:
         """Get the string representation of the menu.

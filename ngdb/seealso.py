@@ -1,17 +1,13 @@
 """See-also loading/holding code."""
 
 ##############################################################################
-# Python imports.
-from typing import Tuple, Iterator
-
-##############################################################################
 # Local imports.
-from .reader import GuideReader
-from .menu   import Menu
+from .reader  import GuideReader
+from .prompts import PromptCollection
 
 ##############################################################################
 # Class that loads and holds a see-also collection.
-class SeeAlso:
+class SeeAlso( PromptCollection ):
     """Class to load and hold all the see alsos for a long entry."""
 
     #: Max number of see also items we'll handle.
@@ -37,6 +33,9 @@ class SeeAlso:
         feels icky.
         """
 
+        # Call the parent first.
+        super().__init__()
+
         # Should we actually bother trying to load anything?
         if load:
 
@@ -48,46 +47,8 @@ class SeeAlso:
 
             # Get the prompts for each of the see-also items.
             self._prompts = tuple(
-                guide.unrle( guide.read_strz( Menu.MAX_PROMPT_LENGTH ) )
+                guide.unrle( guide.read_strz( self.MAX_PROMPT_LENGTH ) )
                 for _ in range( len( self ) )
             )
-
-        else:
-            # Nope, don't load, just zero everything out.
-            self._count   = 0
-            self._offsets = ()
-            self._prompts = ()
-
-    def __len__( self ) -> int:
-        """Get the count of see-also entries."""
-        return self._count
-
-    @property
-    def offsets( self ) -> Tuple[ int, ... ]:
-        """The file offset that each see-also points to.
-
-        :type: Tuple[int,...]
-        """
-        return self._offsets
-
-    @property
-    def prompts( self ) -> Tuple[ str, ... ]:
-        """The prompt for each see-also.
-
-        :type: Tuple[str,...]
-        """
-        return self._prompts
-
-    def __getitem__( self, see_also: int ) -> Tuple[ str, int ]:
-        """Get a see-also's information."""
-        return self.prompts[ see_also ], self.offsets[ see_also ]
-
-    def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
-        """Get an iterator of see-also prompt and offset pairs."""
-        return zip( self.prompts, self.offsets )
-
-    def __bool__( self ) -> bool:
-        """Test if there are any see-alsos."""
-        return bool( len( self ) )
 
 ### seealso.py ends here
