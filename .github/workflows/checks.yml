@@ -25,6 +25,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Install pipenv
+      run: python -m pip install --upgrade pipenv wheel
+
     - name: Patch Pipfile for Python ${{ matrix.python-version }}
       run: |
         head -n -1 Pipfile > Pipfile.tmp
@@ -34,9 +37,6 @@ jobs:
         pipenv lock
         pipenv --python ${{ matrix.python-version }}
         make setup
-
-    - name: Install pipenv
-      run: python -m pip install --upgrade pipenv wheel
 
     - name: Install dependencies
       run: make setup
