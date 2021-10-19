@@ -13,6 +13,22 @@ from .menu   import Menu
 from .entry  import Entry
 
 ##############################################################################
+# EOF-protection method decorator.
+def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
+    """Decorator to ensure a guide isn't at EOF before executing a method.
+
+    :param Callable[...,Any] meth: The method fo protect.
+    :returns: The guard.
+    :rtype: Callable[...,Any]
+    """
+    def _guard( self: "NortonGuide", *args: Any, **kwargs: Any ) -> Any:
+        """Guard the given method call."""
+        if self.eof:
+            raise NGEOF
+        return meth( self, *args, **kwargs )
+    return _guard
+
+##############################################################################
 # Main Norton Guide class.
 class NortonGuide:
     """Norton Guide database wrapper class.
@@ -31,21 +47,6 @@ class NortonGuide:
 
     #: The length of a line in the credits.
     CREDIT_LENGTH = 66
-
-    @staticmethod
-    def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
-        """Decorator to ensure a guide isn't at EOF before executing a method.
-
-        :param Callable[...,Any] meth: The method fo protect.
-        :returns: The guard.
-        :rtype: Callable[...,Any]
-        """
-        def _guard( self: "NortonGuide", *args: Any, **kwargs: Any ) -> Any:
-            """Guard the given method call."""
-            if self.eof:
-                raise NGEOF
-            return meth( self, *args, **kwargs )
-        return _guard
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
