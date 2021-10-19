@@ -1,0 +1,33 @@
+name: Check NGDB
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ 3.7, 3.7, 3.8, 3.9, 3.10 ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: make setup
+    - name: Lint
+      run: make lint
+    - name: Type check
+      run: make stricttypecheck
+    - name: Test
+      run: make test
+
+### check-library.yml ends here
