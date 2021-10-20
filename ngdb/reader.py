@@ -36,7 +36,9 @@ class GuideReader:
         run-length-encoding for spaces. Simply put, if you find a byte in a
         string that is 0xFF, then the next byte is the number of spaces to
         insert into the string at this point. I've also found that 0xFF
-        followed by 0xFF seems to mean you should insert a literal 0xFF.
+        followed by 0xFF seems to mean you should insert a literal 0xFF (I
+        think), although I've found that using a literal space makes more
+        sense.
         """
 
         expanded = ""
@@ -44,9 +46,8 @@ class GuideReader:
         split    = rle_text.find( cls.RLE_MARKER )
 
         while split > -1:
-            expanded += rle_text[ start:split ] + (
-                cls.RLE_MARKER if rle_text[ split + 1 ] == cls.RLE_MARKER
-                else " " * ord( rle_text[ split + 1 ] )
+            expanded += rle_text[ start:split ] + " " * (
+                1 if rle_text[ split + 1 ] == cls.RLE_MARKER else ord( rle_text[ split + 1 ] )
             )
             start = split + 2
             split = rle_text.find( cls.RLE_MARKER, start )
