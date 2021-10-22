@@ -11,9 +11,10 @@ __version__    = "0.0.1"
 
 ##############################################################################
 # Import things for easier access.
-from .types import NGDBError, UnknownEntryType, NGEOF
-from .guide import NortonGuide
-from .entry import Short, Long
+from .types  import NGDBError, UnknownEntryType, NGEOF
+from .guide  import NortonGuide
+from .entry  import Short, Long
+from .parser import BaseParser
 
 ##############################################################################
 # Define what importing * means.
@@ -23,7 +24,8 @@ __all__ = (
     "NGEOF",
     "NortonGuide",
     "Short",
-    "Long"
+    "Long",
+    "BaseParser"
 )
 
 ### __init__.py ends here
