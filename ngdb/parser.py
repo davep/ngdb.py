@@ -232,7 +232,10 @@ class BaseParser:
         """Handle being asked to go out of underline mode."""
 
     def char( self, char_val: int ) -> None:
-        """Handle an individual character value."""
+        """Handle an individual character value.
+
+        :param int char_val: The character value to handle.
+        """
 
 ##############################################################################
 # Plain text Norton Guide line parser.
