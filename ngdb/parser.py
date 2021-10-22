@@ -2,8 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from enum        import Enum, auto
-from dataclasses import dataclass
+from enum import Enum, auto
 
 ##############################################################################
 # Enumerated text modes for line parsing.
@@ -16,30 +15,50 @@ class TextMode( Enum ):
     ATTR      = auto()
 
 ##############################################################################
+#: The control character that marks an upcoming attribute.
+CTRL_CHAR = "^"
+
+##############################################################################
 # Class to help track the state of raw parsing.
-@dataclass
-class ParseTracker:
-    """Raw text parsing state tracking class."""
+class ParseState:
+    """Raw text parsing state tracking class.
 
-    #: The location of the next control character.
-    ctrl: int
+    :ivar int ctrl: The location of the next control marker.
+    :ivar str raw: The current raw text that's left to handle.
+    :ivar TextMode mode: The current mode.
+    :ivar int last_attr: The last attribute encountered.
+    """
 
-    #: The raw string we're working with.
-    raw: str
+    def __init__( self, line: str ) -> None:
+        """Constructor.
 
-    #: The current text mode.
-    mode: TextMode = TextMode.NORMAL
+        :param str line: The line to work on.
+        """
+        self.raw       = line
+        self.ctrl      = line.index( CTRL_CHAR )
+        self.mode      = TextMode.NORMAL
+        self.last_attr = -1
 
-    #: The last encountered attribute.
-    last_attr: int = -1
+    @property
+    def work_left( self ) -> bool:
+        """Is there any work left to do?
+
+        :type: bool
+        """
+        return self.ctrl != -1 and self.ctrl < len( self.raw )
+
+    @property
+    def ctrl_id( self ) -> str:
+        """The current control ID.
+
+        :type: str
+        """
+        return self.raw[ self.ctrl + 1 ].lower()
 
 ##############################################################################
 # Base parser class.
 class BaseParser:
     """The base text parsing class."""
-
-    #: The control character that marks an upcoming attribute.
-    CTRL_CHAR = "^"
 
     def __init__( self, line: str ) -> None:
         """Constructor.
@@ -47,149 +66,137 @@ class BaseParser:
         :param str line: The raw string to parse.
         """
 
-        track = ParseTracker( line.index( self.CTRL_CHAR ), line )
+        # State tracker.
+        state = ParseState( line )
 
         # While we've not run out of text to process...
-        while track.ctrl != -1 and track.ctrl < len( track.raw ):
+        while state.work_left:
 
             # Handle the text we have.
-            self.text( track.raw[ :track.ctrl ] )
+            self.text( state.raw[ :state.ctrl ] )
 
-            # Pull out the character following the control character.
-            this = track.raw[ track.ctrl + 1 ].upper
-
-            # Colour attribute?
-            if this == "A":
-                self._ctrl_a( track )
-
-            elif this == "B":
-                self._ctrl_b( track )
-
-            elif this == "C":
-                self._ctrl_c( track )
-
-            elif this == "N":
-                self._ctrl_n( track )
-
-            elif this == "R":
-                self._ctrl_r( track )
-
-            elif this == "U":
-                self._ctrl_u( track )
-
-            elif this == self.CTRL_CHAR:
-                self.text( self.CTRL_CHAR )
-                track.ctrl += 2
-
+            # Pull out the character following the control character and
+            # handle it.
+            if ( ctrl := state.ctrl_id ) == CTRL_CHAR:
+                # We're looking at ^^, which is a ^.
+                self.text( CTRL_CHAR )
+                state.ctrl += 2
+            elif hasattr( self, f"_ctrl_{ctrl}" ):
+                # Looks like we can handle whatever's there, so dispatch
+                # it...
+                getattr( self, f"_ctrl_{ctrl}" )( state )
             else:
-                track.ctrl += 1
+                # No idea what the next character is. We could either raise
+                # an exception, eat the next character, or simply skip along
+                # one. For now, let's just skip along one.
+                state.ctrl += 1
 
             # Chop the bits we've done off the raw string.
-            track.raw = track.raw[ track.ctrl: ]
+            state.raw = state.raw[ state.ctrl: ]
 
             # Find the next control character.
-            track.ctrl = track.raw.index( self.CTRL_CHAR )
+            state.ctrl = state.raw.index( CTRL_CHAR )
 
         # Handle any remaining text.
-        self.text( track.raw )
+        self.text( state.raw )
 
-    def _ctrl_a( self, track: ParseTracker ) -> None:
+    def _ctrl_a( self, state: ParseState ) -> None:
         """Handle ^A markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
 
         # Get the actual attribute.
-        attr = int( track.raw[ track.ctrl+2:track.ctrl+4 ], 16 )
+        attr = int( state.raw[ state.ctrl+2:state.ctrl+4 ], 16 )
 
         # If there's already a colour attribute in effect and the
         # new colour is the same as the previous colour...
-        if track.mode is TextMode.ATTR and track.attr == track.last_attr:
+        if state.mode is TextMode.ATTR and attr == state.last_attr:
             # ...that means it's a return to "normal".
             self.normal()
-            track.mode = TextMode.NORMAL
+            state.mode = TextMode.NORMAL
         else:
             # ...otherwise we start a colour attribute.
             self.colour( attr )
-            track.last_attr = attr
-            track.mode      = TextMode.ATTR
+            state.last_attr = attr
+            state.mode      = TextMode.ATTR
 
         # Skip.
-        track.ctrl += 4
+        state.ctrl += 4
 
-    def _ctrl_b( self, track: ParseTracker ) -> None:
+    def _ctrl_b( self, state: ParseState ) -> None:
         """Handle ^B markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
 
         # If we're in bold mode...
-        if track.mode is TextMode.BOLD:
+        if state.mode is TextMode.BOLD:
             # ...go back to normal.
             self.unbold()
-            track.mode = TextMode.NORMAL
+            state.mode = TextMode.NORMAL
         else:
             # ...otherwise go bold!
             self.bold()
-            track.mode = TextMode.BOLD
+            state.mode = TextMode.BOLD
 
         # Skip!
-        track.ctrl += 2
+        state.ctrl += 2
 
-    def _ctrl_c( self, track: ParseTracker ) -> None:
+    def _ctrl_c( self, state: ParseState ) -> None:
         """Handle ^C markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
-        self.char( int( track.raw[ track.ctrl+2:track.ctrl+4 ], 16 ) )
-        track.ctrl += 4
+        self.char( int( state.raw[ state.ctrl+2:state.ctrl+4 ], 16 ) )
+        state.ctrl += 4
 
-    def _ctrl_n( self, track: ParseTracker ) -> None:
+    def _ctrl_n( self, state: ParseState ) -> None:
         """Handle ^N markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
         self.normal()
-        track.mode = TextMode.NORMAL
-        track.ctrl += 2
+        state.mode = TextMode.NORMAL
+        state.ctrl += 2
 
-    def _ctrl_r( self, track: ParseTracker ) -> None:
+    def _ctrl_r( self, state: ParseState ) -> None:
         """Handle ^R markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
 
         # If we're in reverse mode...
-        if track.mode is TextMode.REVERSE:
+        if state.mode is TextMode.REVERSE:
             # ...go back to normal.
             self.unreverse()
-            track.mode = TextMode.NORMAL
+            state.mode = TextMode.NORMAL
         else:
             # ...otherwise go reverse.
             self.reverse()
-            track.mode = TextMode.REVERSE
+            state.mode = TextMode.REVERSE
 
         # Skip!
-        track.ctrl += 2
+        state.ctrl += 2
 
-    def _ctrl_u( self, track: ParseTracker ) -> None:
+    def _ctrl_u( self, state: ParseState ) -> None:
         """Handle ^U markup.
 
-        :param ParseTracker track: The data that tracks parse state.
+        :param ParseState state: The data that tracks parse state.
         """
 
         # If we're in underline mode...
-        if track.mode is TextMode.UNDERLINE:
+        if state.mode is TextMode.UNDERLINE:
             # ...go back to normal.
             self.ununderline()
-            track.mode = TextMode.NORMAL
+            state.mode = TextMode.NORMAL
         else:
             # ...otherwise go underline.
             self.underline()
-            track.mode = TextMode.UNDERLINE
+            state.mode = TextMode.UNDERLINE
 
         # Skip!
-        track.ctrl += 2
+        state.ctrl += 2
 
     def text( self, text: str ) -> None:
         """Handle the given text.
