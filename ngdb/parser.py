@@ -35,7 +35,7 @@ class ParseState:
         :param str line: The line to work on.
         """
         self.raw       = line
-        self.ctrl      = line.index( CTRL_CHAR )
+        self.ctrl      = line.find( CTRL_CHAR )
         self.mode      = TextMode.NORMAL
         self.last_attr = -1
 
@@ -95,7 +95,7 @@ class BaseParser:
             state.raw = state.raw[ state.ctrl: ]
 
             # Find the next control character.
-            state.ctrl = state.raw.index( CTRL_CHAR )
+            state.ctrl = state.raw.find( CTRL_CHAR )
 
         # Handle any remaining text.
         self.text( state.raw )
