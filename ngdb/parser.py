@@ -81,8 +81,10 @@ class BaseParser:
         # While we've not run out of text to process...
         while state.work_left:
 
-            # Handle the text we have.
-            self.text( state.raw[ :state.ctrl ] )
+            # If there was text between the last markup and the next...
+            if len( state.raw[ :state.ctrl ] ) > 0:
+                # ...handle it.
+                self.text( state.raw[ :state.ctrl ] )
 
             # Pull out the character following the control character and
             # handle it.
@@ -107,7 +109,8 @@ class BaseParser:
             state.ctrl = state.raw.find( CTRL_CHAR )
 
         # Handle any remaining text.
-        self.text( state.raw )
+        if len( state.raw ) > 0:
+            self.text( state.raw )
 
     def _ctrl_a( self, state: ParseState ) -> None:
         """Handle ^A markup.
