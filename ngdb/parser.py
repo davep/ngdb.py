@@ -53,7 +53,16 @@ class ParseState:
 
         :type: str
         """
-        return self.raw[ self.ctrl + 1 ].lower()
+        try:
+            return self.raw[ self.ctrl + 1 ].lower()
+        except IndexError:
+            # If we've fallen in here, it's mostly because we've run into
+            # some situation where there's a lone ^ at the end of the line.
+            # This feels like a detail that the user-level code should not
+            # be having to faff with. I feel that, as much as possible, the
+            # parsing code should do its absolute best to return something
+            # readable when faced with invalid markup.
+            return ""
 
 ##############################################################################
 # Base parser class.
