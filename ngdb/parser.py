@@ -234,4 +234,43 @@ class BaseParser:
     def char( self, char_val: int ) -> None:
         """Handle an individual character value."""
 
+##############################################################################
+# Plain text Norton Guide line parser.
+class PlainText( BaseParser ):
+    """Read a line of Norton Guide text as plain text."""
+
+    def __init__( self, line: str ) -> None:
+        """Constructor.
+
+        :param str line: The raw string to parse.
+        """
+
+        # We're going to accumulate the text into a hidden instance variable.
+        self._plain = ""
+
+        # Having set the above up, go parse.
+        super().__init__( line )
+
+    def text( self, text: str ) -> None:
+        """Handle the given text.
+
+        :param str text: The text to handle.
+        """
+        self._plain += text
+
+    def char( self, char_val: int ) -> None:
+        """Handle an individual character value.
+
+        :param int char_val: The character value to handle.
+        """
+        self._plain += chr( char_val )
+
+    def __str__( self ) -> str:
+        """Return the plain text of the line.
+
+        :returns: The parsed line, as plan text.
+        :rtype: str
+        """
+        return self._plain
+
 ### parser.py ends here

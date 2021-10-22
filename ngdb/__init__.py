@@ -14,7 +14,7 @@ __version__    = "0.0.1"
 from .types  import NGDBError, UnknownEntryType, NGEOF
 from .guide  import NortonGuide
 from .entry  import Short, Long
-from .parser import BaseParser
+from .parser import BaseParser, PlainText
 
 ##############################################################################
 # Define what importing * means.
@@ -25,7 +25,8 @@ __all__ = (
     "NortonGuide",
     "Short",
     "Long",
-    "BaseParser"
+    "BaseParser",
+    "PlainText"
 )
 
 ### __init__.py ends here
