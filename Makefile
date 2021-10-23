@@ -109,11 +109,11 @@ rtfm: docs			# Locally read the library documentation
 # Package/publish.
 .PHONY: package
 package:			# Package the library
-	$(run) python setup.py bdist_wheel
+	$(python) setup.py bdist_wheel
 
 .PHONY: spackage
 spackage:			# Create a source package for the library
-	$(run) python setup.py sdist
+	$(python) setup.py sdist
 
 .PHONY: packagecheck
 packagecheck: package		# Check the packaging.
