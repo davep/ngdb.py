@@ -123,6 +123,10 @@ packagecheck: package		# Check the packaging.
 testdist: packagecheck		# Perform a test distribution
 	$(twine) upload --repository testpypi dist/*
 
+.PHONY: dist
+dist: packagecheck		# Upload to pypi
+	$(twine) upload dist/*
+
 ##############################################################################
 # Utility.
 .PHONY: repl
