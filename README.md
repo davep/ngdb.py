@@ -1,5 +1,7 @@
 # ngdb - A Python library for reading Norton Guide database files
 
+[![PyPI version](https://badge.fury.io/py/ngdb.svg)](https://badge.fury.io/py/ngdb)
+
 ## Introduction
 
 Back in the mists of time, in the days of MS-DOS and Clipper programming,
