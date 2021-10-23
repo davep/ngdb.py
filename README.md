@@ -12,17 +12,22 @@ help keep that information available](http://www.davep.org/norton-guides/).
 
 ## TODO
 
-As you might be able to tell, this is just a work-in-progress project, it's
-far from finished. When it's finished, this text won't be here. Until then,
-expect utter chaos.
+The library is now at a point where the reading of guides works fine, and it
+has plenty of test coverage too (in fact it should be 100% if I've not
+messed up). What's lacking right now us user documentation and an example
+tool or two.
 
-Point being: I've written a log of NG-handling stuff over the years and I'm
-doing this one to have maximum fun and to explore some things in Python that
-I can't quite get away with in my day job, so this is designed to be one of
-those "an hour a day, more or less" type of projects, taking what I know
-well and experimenting with it until I'm happy.
+They are to come.
 
-So... yeah, if you can see this text, this isn't ready for use yet, because
-I'm still having fun. :-)
+My intention is to make a binary utility or two that go along with this
+library that will do things like turn a Norton Guide database into a series
+of HTML pages, or extract as a Markdown document, or something like that.
+
+Eventually I'll create another project or two off the back of this, which
+will be separate from this. For example, I'd like to create a CHUI reader
+all in Python, and also perhaps a guide server based on Flask.
+
+For now though... if you're happy diving through the library docs (`make
+rtfm` is your friend), there should be enough to get started.
 
 [//]: # (README.md ends here)
