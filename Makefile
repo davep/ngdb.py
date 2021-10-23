@@ -105,6 +105,16 @@ rtfm: docs			# Locally read the library documentation
 	$(open_file) docs/build/html/index.html
 
 ##############################################################################
+# Package/publish.
+.PHONY: package
+package:			# Package the library
+	$(run) python setup.py bdist_wheel
+
+.PHONY: spackage
+spackage:			# Create a source package for the library
+	$(run) python setup.py sdist
+
+##############################################################################
 # Utility.
 .PHONY: repl
 repl:				# Start a Python REPL
