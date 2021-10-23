@@ -46,7 +46,8 @@ setup(
     maintainer_email              = ngdb.__email__,
     packages                      = find_packages(),
     python_requires               = ">=3.8",
-    classifiers = (
+    keywords                      = "library dbase clipper norton guide reader",
+    classifiers                   = (
         "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
