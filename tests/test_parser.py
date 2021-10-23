@@ -110,12 +110,12 @@ class TestParser( BaseParser ):
         """Handle being asked to go out of underline mode."""
         self._events.append( "u" )
 
-    def char( self, char_val: int ) -> None:
+    def char( self, char: int ) -> None:
         """Handle an individual character value.
 
-        :param int char_val: The character value to handle.
+        :param int char: The character value to handle.
         """
-        self._events.append( ( "C", char_val ) )
+        self._events.append( ( "C", char ) )
 
     def __iter__( self ) -> Iterator[ TEvent ]:
         """The collection of events caught by the parser."""

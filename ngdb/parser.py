@@ -243,10 +243,10 @@ class BaseParser:
     def ununderline( self ) -> None:
         """Handle being asked to go out of underline mode."""
 
-    def char( self, char_val: int ) -> None:
+    def char( self, char: int ) -> None:
         """Handle an individual character value.
 
-        :param int char_val: The character value to handle.
+        :param int char: The character value to handle.
         """
 
 ##############################################################################
@@ -273,12 +273,12 @@ class PlainText( BaseParser ):
         """
         self._plain += text
 
-    def char( self, char_val: int ) -> None:
+    def char( self, char: int ) -> None:
         """Handle an individual character value.
 
-        :param int char_val: The character value to handle.
+        :param int char: The character value to handle.
         """
-        self._plain += chr( char_val )
+        self._plain += chr( char )
 
     def __str__( self ) -> str:
         """Return the plain text of the line.
