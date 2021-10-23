@@ -119,6 +119,10 @@ spackage:			# Create a source package for the library
 packagecheck: package		# Check the packaging.
 	$(twine) check dist/*
 
+.PHONY: testdist
+testdist: packagecheck		# Perform a test distribution
+	$(twine) upload --repository testpypi dist/*
+
 ##############################################################################
 # Utility.
 .PHONY: repl
