@@ -32,4 +32,13 @@ all in Python, and also perhaps a guide server based on Flask.
 For now though... if you're happy diving through the library docs (`make
 rtfm` is your friend), there should be enough to get started.
 
+## Installing
+
+`ngdb` is [available from pypi](https://pypi.org/project/ngdb/) and can be
+installed with `pip` or similar Python package tools:
+
+```shell
+$ pip3 install -U ngdb
+```
+
 [//]: # (README.md ends here)
