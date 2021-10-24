@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+"""Display information about Norton Guide files."""
+
+##############################################################################
+# Module information.
+__author__     = "Dave Pearson"
+__copyright__  = "Copyright 2021, Dave Pearson"
+__licence__    = "GPL"
+__credits__    = [ "Dave Pearson" ]
+__maintainer__ = "Dave Pearson"
+__email__      = "davep@davep.org"
+__version__    = "0.0.1"
+
+##############################################################################
+# Python imports.
+import argparse
+from pathlib import Path
+
+##############################################################################
+# Local imports.
+from ngdb import NortonGuide, __version__ as ngdb_ver
+
+##############################################################################
+# Get the command line arguments.
+def get_args() -> argparse.Namespace:
+    """Get the arguments passed by the user.
+
+    :returns: The parsed arguments.
+    :rtype: ~argparse.Namespace
+    """
+
+    # Version information, used in a couple of paces.
+    version = f"v{__version__} (ngdb v{ngdb_ver})"
+
+    # Create the argument parser object.
+    parser = argparse.ArgumentParser(
+        description = "Display information about a Norton Guide Database file",
+        epilog      = version
+    )
+
+    # Add --version
+    parser.add_argument(
+        "-v", "--version",
+        help    = "Show version information.",
+        action  = "version",
+        version = f"%(prog)s {version}"
+    )
+
+    # The remainder is the path to the guides to look at.
+    parser.add_argument( "guides", nargs="+" )
+
+    # Parse the command line.
+    return parser.parse_args()
+
+##############################################################################
+# Show information about a given Norton Guide.
+def info( guide: Path ) -> None:
+    """Dump Norton Guide information to stdout."""
+
+    ng = NortonGuide( guide )
+    try:
+        print( f"{guide.stem:20} {ng.title if ng.is_a else '- Not a Norton Guide Database -'}" )
+    finally:
+        ng.close()
+
+##############################################################################
+# Main function.
+def main() -> None:
+    """Main function."""
+
+    # Get the arguments.
+    args = get_args()
+
+    # For each guide we've been asked to look at...
+    for guide in args.guides:
+        # ...show some information about the guide.
+        info( Path( guide ) )
+
+##############################################################################
+# Main entry point.
+if __name__ == "__main__":
+    main()
+
+### nginfo ends here
