@@ -45,6 +45,8 @@ setup(
     maintainer                    = ngdb.__maintainer__,
     maintainer_email              = ngdb.__email__,
     packages                      = find_packages(),
+    package_data                  = { "ngdb": [ "py.typed" ] },
+    include_package_data          = True,
     python_requires               = ">=3.8",
     keywords                      = "library dbase clipper norton guide reader",
     classifiers                   = (
