@@ -83,11 +83,11 @@ dscheck:			# Perform a doc-string check
 
 .PHONY: typecheck
 typecheck:			# Perform static type checks with mypy
-	$(mypy) --scripts-are-modules $(library) tests $(wildcard examples/[a-z]*)
+	$(mypy) --scripts-are-modules $(library) tests $(wildcard bin/[a-z]*)
 
 .PHONY: stricttypecheck
 stricttypecheck:	        # Perform a strict static type checks with mypy
-	$(mypy) --scripts-are-modules --strict $(library) tests $(wildcard examples/[a-z]*)
+	$(mypy) --scripts-are-modules --strict $(library) tests $(wildcard bin/[a-z]*)
 
 .PHONY: checkall
 checkall: dscheck lint stricttypecheck test coverage # Check all the things
