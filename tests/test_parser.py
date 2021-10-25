@@ -216,7 +216,7 @@ class TestParseEvents( TestCase ):
         )
 
     def test_underline( self ) -> None:
-        """It should be possible to turn underline on and off with ^R."""
+        """It should be possible to turn underline on and off with ^U."""
         self.assertListEqual(
             list( TestParser( "Hello, ^UWorld^U!" ) ),
             [
