@@ -56,12 +56,8 @@ def get_args() -> argparse.Namespace:
 # Show information about a given Norton Guide.
 def info( guide: Path ) -> None:
     """Dump Norton Guide information to stdout."""
-
-    ng = NortonGuide( guide )
-    try:
+    with NortonGuide( guide ) as ng:
         print( f"{guide.stem:20} {ng.title if ng.is_a else '- Not a Norton Guide Database -'}" )
-    finally:
-        ng.close()
 
 ##############################################################################
 # Main function.
