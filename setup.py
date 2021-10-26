@@ -49,6 +49,7 @@ setup(
     include_package_data          = True,
     python_requires               = ">=3.8",
     keywords                      = "library dbase clipper norton guide reader",
+    scripts                       = [ "bin/nginfo" ],
     classifiers                   = (
         "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
         "Development Status :: 3 - Alpha",
