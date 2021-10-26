@@ -54,10 +54,16 @@ def get_args() -> argparse.Namespace:
 
 ##############################################################################
 # Show information about a given Norton Guide.
-def info( guide: Path ) -> None:
-    """Dump Norton Guide information to stdout."""
-    with NortonGuide( guide ) as ng:
-        print( f"{guide.stem:20} {ng.title if ng.is_a else '- Not a Norton Guide Database -'}" )
+def info( guide_path: Path ) -> None:
+    """Dump Norton Guide information to stdout.
+
+    :param ~pathlib.Path guide_path: The path to the guide to print info for.
+    """
+    with NortonGuide( guide_path ) as guide:
+        print(
+            f"{guide_path.stem:20} "
+            f"{guide.title if guide.is_a else '- Not a Norton Guide Database -'}"
+        )
 
 ##############################################################################
 # Main function.
