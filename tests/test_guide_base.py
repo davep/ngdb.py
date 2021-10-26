@@ -28,6 +28,12 @@ class TestOpen( TestCase ):
         with self.assertRaises( FileNotFoundError ):
             _ = NortonGuide( MISSING_GUIDE )
 
+    def test_with_guide( self ) -> None:
+        """It should be possible to open a guide using with."""
+        with NortonGuide( GOOD_GUIDE ) as guide:
+            self.assertTrue( guide.is_open )
+        self.assertFalse( guide.is_open )
+
 ##############################################################################
 # Test str()ing the guide object.
 class TestStr( TestCase ):
