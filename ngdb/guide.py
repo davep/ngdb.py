@@ -137,6 +137,14 @@ class NortonGuide:
         if self.is_open:
             self._guide.close()
 
+    def __enter__( self ) -> "NortonGuide":
+        """Handle entry to context."""
+        return self
+
+    def __exit__( self, *_: Any ) -> None:
+        """Handle exit from context."""
+        self.close()
+
     def __del__( self ) -> None:
         """Ensure we close the handle to the guide if we're deleted."""
         self.close()
