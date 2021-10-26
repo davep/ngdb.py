@@ -174,6 +174,14 @@ class NortonGuide:
         return self._credits
 
     @property
+    def made_with( self ) -> str:
+        """The name of the tool that was used to make the guide.
+
+        :type: str
+        """
+        return self.MAGIC.get( self._magic, "Unknown" )
+
+    @property
     def menus( self ) -> Tuple[ Menu, ... ]:
         """The menus for the guide.
 

@@ -46,4 +46,8 @@ class TestGoodHeader( TestCase ):
             )
         )
 
+    def test_made_with( self ) -> None:
+        """The test guide should be made with the Norton Guide compiler."""
+        self.assertEqual( self.guide.made_with, NortonGuide.MAGIC[ "NG" ] )
+
 ### test_guide_header.py ends here
