@@ -177,8 +177,7 @@ class GuideReader:
         :returns: Everything up to but not including the first nul.
         :rtype: str
         """
-        nul = string.find( "\000" )
-        return string[ 0:nul ] if nul != -1 else string
+        return string[ 0:nul ] if ( nul := string.find( "\000" ) ) != -1 else string
 
     def read_str( self, length: int, decrypt: bool=True ) -> str:
         """Read a fixed-length string from the guide.
