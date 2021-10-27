@@ -50,8 +50,11 @@ setup(
     python_requires               = ">=3.8",
     keywords                      = "library dbase clipper norton guide reader",
     scripts                       = [ "bin/nginfo" ],
+    license                       = (
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
+    ),
     classifiers                   = (
-        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.8",
