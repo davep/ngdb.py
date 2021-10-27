@@ -1,7 +1,7 @@
 """Setup file for the NGDB library."""
 
 ##############################################################################
-# Imports.
+# Python imports.
 from pathlib    import Path
 from setuptools import setup, find_packages
 
