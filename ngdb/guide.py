@@ -174,6 +174,18 @@ class NortonGuide:
         return self._credits
 
     @property
+    def magic( self ) -> str:
+        """The magic value for the guide.
+
+        :type: str
+
+        This tells us if the file is likely a Norton Guide database or not.
+        It's always a two-character string and, normally, is ''NG''.
+        However, if the guide was made for Expert Help, it could be ''EH''.
+        """
+        return self._magic
+
+    @property
     def made_with( self ) -> str:
         """The name of the tool that was used to make the guide.
 
