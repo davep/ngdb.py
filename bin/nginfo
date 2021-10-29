@@ -61,7 +61,7 @@ def info( guide_path: Path ) -> None:
     """
     with NortonGuide( guide_path ) as guide:
         print(
-            f"{guide_path.stem:20} "
+            f"{guide.magic:2} {guide_path.stem:20} "
             f"{guide.title if guide.is_a else '- Not a Norton Guide Database -'}"
         )
 
