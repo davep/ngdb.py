@@ -47,7 +47,10 @@ def get_args() -> argparse.Namespace:
     )
 
     # The remainder is the path to the guides to look at.
-    parser.add_argument( "guides", nargs="+" )
+    parser.add_argument(
+        "guides", nargs="+",
+        help = "The guides to get information for"
+    )
 
     # Parse the command line.
     return parser.parse_args()
