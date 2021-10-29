@@ -126,7 +126,7 @@ class NortonGuide:
 
         :type: bool
         """
-        return self._magic in self.MAGIC
+        return self.magic in self.MAGIC
 
     def close( self ) -> None:
         """Close the guide, if it's open.
@@ -191,7 +191,7 @@ class NortonGuide:
 
         :type: str
         """
-        return self.MAGIC.get( self._magic, "Unknown" )
+        return self.MAGIC.get( self.magic, "Unknown" )
 
     @property
     def menus( self ) -> Tuple[ Menu, ... ]:
