@@ -41,4 +41,14 @@ installed with `pip` or similar Python package tools:
 $ pip3 install -U ngdb
 ```
 
+## Tools
+
+`ngdb` also installs the following tools:
+
+- `nginfo`  
+Simple tool that serves as an example of using the library: given a series
+of files on the command line, it prints a simple list of the files showing
+what type of NG file it is (Norton Guide or Expert Help), as well as its
+title.
+
 [//]: # (README.md ends here)
