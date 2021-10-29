@@ -57,16 +57,20 @@ def get_args() -> argparse.Namespace:
 
 ##############################################################################
 # Show information about a given Norton Guide.
-def info( guide_path: Path ) -> None:
+def info( guide_path: Path, verbose: bool=False ) -> None:
     """Dump Norton Guide information to stdout.
 
     :param ~pathlib.Path guide_path: The path to the guide to print info for.
+    :param bool verbose: Flag to say if verbose information should be printed.
     """
     with NortonGuide( guide_path ) as guide:
         print(
             f"{guide.magic:2} {guide_path.stem:20} "
             f"{guide.title if guide.is_a else '- Not a Norton Guide Database -'}"
         )
+        if verbose:
+            print( "\n" )
+            print( "\n".join( guide.credits ) )
 
 ##############################################################################
 # Main function.
@@ -76,10 +80,15 @@ def main() -> None:
     # Get the arguments.
     args = get_args()
 
-    # For each guide we've been asked to look at...
-    for guide in args.guides:
-        # ...show some information about the guide.
-        info( Path( guide ) )
+    # If we've been asked about just one guide...
+    if len( args.guides ) == 1:
+        # ...print some verbose information about that guide.
+        info( Path( args.guides[ 0 ] ), verbose=True )
+    else:
+        # For each guide we've been asked to look at...
+        for guide in args.guides:
+            # ...show some information about the guide.
+            info( Path( guide ) )
 
 ##############################################################################
 # Main entry point.
