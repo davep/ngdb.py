@@ -86,6 +86,6 @@ class TestIter( TestCase ):
 
     def test_iter_big( self ) -> None:
         """It should be possible to iterate through a guide with one entry."""
-        self.assertEqual( len( list( NortonGuide( BIG_GUIDE) ) ), 28 )
+        self.assertEqual( len( list( NortonGuide( BIG_GUIDE ) ) ), 28 )
 
 ### test_navigation.py ends here
