@@ -14,7 +14,7 @@ __licence__    = "GPLv3+"
 # Import things for easier access.
 from .types  import NGDBError, UnknownEntryType, NGEOF
 from .guide  import NortonGuide
-from .entry  import Short, Long
+from .entry  import Entry, Short, Long
 from .parser import BaseParser, PlainText
 
 ##############################################################################
@@ -24,6 +24,7 @@ __all__ = (
     "UnknownEntryType",
     "NGEOF",
     "NortonGuide",
+    "Entry",
     "Short",
     "Long",
     "BaseParser",
