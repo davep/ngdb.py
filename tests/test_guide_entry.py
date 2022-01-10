@@ -62,6 +62,14 @@ class TestShort( TestCase ):
         """The test short entry should have a parent menu prompt."""
         self.assertTrue( self.entry.parent.has_prompt )
 
+    def test_previous( self ) -> None:
+        """It should not have a previous entry."""
+        self.assertFalse( self.entry.has_previous )
+
+    def test_next( self ) -> None:
+        """It should not have a next entry."""
+        self.assertFalse( self.entry.has_next )
+
     def test_str_entry( self ) -> None:
         """The str() of the entry should be the main text."""
         str_entry = str( self.entry )
@@ -124,6 +132,14 @@ class TestLong( TestCase ):
     def test_parent_prompt( self ) -> None:
         """The test long entry should have a parent menu prompt."""
         self.assertTrue( self.entry.parent.has_prompt )
+
+    def test_previous( self ) -> None:
+        """It should not have a previous entry."""
+        self.assertFalse( self.entry.has_previous )
+
+    def test_next( self ) -> None:
+        """It should have a next entry."""
+        self.assertTrue( self.entry.has_next )
 
     def test_str_entry( self ) -> None:
         """The str() of the entry should be the main text."""

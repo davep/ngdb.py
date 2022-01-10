@@ -11,6 +11,17 @@ from .types   import EntryType, UnknownEntryType
 from .seealso import SeeAlso
 
 ##############################################################################
+# Tidy up any loaded offset value.
+def _safe_offset( offset: int ) -> int:
+    """Tidy offsets so they're -1 when they should be.
+
+    :param int offset: The offset to tidy.
+    :returns: A tidy version of the offset.
+    :rtype: int
+    """
+    return -1 if offset == 0xFFFFFFFF else offset
+
+##############################################################################
 # Loads and holds entry parent information.
 class EntryParent:
     """Class to load and hold the parent information for an entry."""
@@ -31,7 +42,7 @@ class EntryParent:
 
         :type: int
         """
-        return -1 if self._offset == 0xFFFFFFFF else self._offset
+        return _safe_offset( self._offset )
 
     def __bool__( self ) -> bool:
         """Is there a parent entry?
@@ -222,6 +233,38 @@ class Entry:
         :type: EntryParent
         """
         return self._parent
+
+    @property
+    def previous( self ) -> int:
+        """The location of the previous entry.
+
+        :type: int
+        """
+        return _safe_offset( self._previous )
+
+    @property
+    def has_previous( self ) -> bool:
+        """Is there a previous entry?
+
+        :type: bool
+        """
+        return self.previous > 0
+
+    @property
+    def next( self ) -> int:
+        """The location of the next entry.
+
+        :type: int
+        """
+        return _safe_offset( self._next )
+
+    @property
+    def has_next( self ) -> bool:
+        """Is there a previous entry?
+
+        :type: bool
+        """
+        return self.next > 0
 
     @property
     def lines( self ) -> Tuple[ str, ... ]:
