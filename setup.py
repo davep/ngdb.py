@@ -36,7 +36,7 @@ setup(
 
     name                          = "ngdb",
     version                       = ngdb.__version__,
-    description                   = ngdb.__doc__,
+    description                   = str( ngdb.__doc__ ),
     long_description              = long_desc(),
     long_description_content_type = "text/markdown",
     url                           = "https://github.com/davep/ngdb.py",
