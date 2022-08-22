@@ -23,6 +23,7 @@ class NGEOF( NGDBError ):
 # Enum of Norton Guide database entry type IDs.
 class EntryType( Enum ):
     """Types of entry in a guide."""
+
     SHORT = 0
     LONG  = 1
     MENU  = 2
