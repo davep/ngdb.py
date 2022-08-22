@@ -31,4 +31,15 @@ of files on the command line, it prints a simple list of the files showing
 what type of NG file it is (Norton Guide or Expert Help), as well as its
 title.
 
+## Hacking
+
+If you want to hack on the code yourself you'll find most of the routine
+stuff you'd do when testing and the like in the `Makefile`. Type:
+
+```sh
+$ make help
+```
+
+to get a list of available targets.
+
 [//]: # (README.md ends here)
