@@ -53,7 +53,7 @@ setup(
     license                       = (
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
     ),
-    classifiers                   = (
+    classifiers                   = [
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
@@ -64,7 +64,7 @@ setup(
         "Topic :: Software Development :: Documentation",
         "Topic :: Software Development :: Libraries",
         "Typing :: Typed"
-    )
+    ]
 
 )
 
