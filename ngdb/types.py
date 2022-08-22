@@ -1,4 +1,4 @@
-"""Defines helpful types and values for th elibrary.."""
+"""Defines helpful types and values for the library.."""
 
 ##############################################################################
 # Python imports.
