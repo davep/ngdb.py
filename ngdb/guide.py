@@ -2,8 +2,9 @@
 
 ##############################################################################
 # Python imports.
-from pathlib import Path
-from typing  import Tuple, Iterator, Union, Callable, Any
+from pathlib   import Path
+from typing    import Tuple, Iterator, Union, Callable, Any
+from functools import wraps
 
 ##############################################################################
 # Local imports.
@@ -21,6 +22,7 @@ def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
     :returns: The guard.
     :rtype: Callable[...,Any]
     """
+    @wraps( meth )
     def _guard( self: "NortonGuide", *args: Any, **kwargs: Any ) -> Any:
         """Guard the given method call."""
         if self.eof:
