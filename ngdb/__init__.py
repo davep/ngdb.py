@@ -16,7 +16,7 @@ from .types  import NGDBError, UnknownEntryType, NGEOF
 from .guide  import NortonGuide
 from .entry  import Entry, Short, Long
 from .parser import BaseParser, PlainText
-from .utils  import make_dos_like
+from .dosify import make_dos_like
 
 ##############################################################################
 # Define what importing * means.

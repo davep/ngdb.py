@@ -1,4 +1,4 @@
-"""Library utility code."""
+"""Code to support the DOS heritage of most Norton Guide databases."""
 
 ##############################################################################
 #: Map For translating into DOS-a-like characters.
@@ -175,4 +175,4 @@ def make_dos_like( text: str ) -> str:
     """
     return text.translate( DOS_MAP )
 
-### utils.py ends here
+### dosify.py ends here

@@ -1,4 +1,4 @@
-"""Library utility code unit tests."""
+"""Library DOS-a-like utility code unit tests."""
 
 ##############################################################################
 # Python imports.
@@ -25,4 +25,4 @@ class TestMakeDOSLike( TestCase ):
         """It can handle some \"graphical\" characters."""
         self.assertEqual( make_dos_like( "Ä" * 100 ), "─" * 100 )
 
-### test_utils.py ends here
+### test_dosify.py ends here
