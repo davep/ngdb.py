@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Tuple, Iterator
+from typing import Tuple, Iterator, Final
 
 ##############################################################################
 # Base class for classes that are collections of prompts and offsets.
@@ -10,7 +10,7 @@ class PromptCollection:
     """Base class for classes that contain prompt/offset collections."""
 
     #: The maximum length of a prompt in a guide.
-    MAX_PROMPT_LENGTH = 128
+    MAX_PROMPT_LENGTH: Final = 128
 
     def __init__( self ) -> None:
         """Constructor."""

@@ -1,8 +1,12 @@
 """Code to support the DOS heritage of most Norton Guide databases."""
 
 ##############################################################################
+# Python imports.
+from typing import Final
+
+##############################################################################
 #: Map For translating into DOS-a-like characters.
-DOS_MAP = str.maketrans( {
+DOS_MAP: Final = str.maketrans( {
         1:   "\u263A",
         2:   "\u263B",
         3:   "\u2665",

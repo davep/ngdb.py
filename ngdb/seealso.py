@@ -1,6 +1,10 @@
 """See-also loading/holding code."""
 
 ##############################################################################
+# Python imports.
+from typing import Final
+
+##############################################################################
 # Local imports.
 from .reader  import GuideReader
 from .prompts import PromptCollection
@@ -15,7 +19,7 @@ class SeeAlso( PromptCollection ):
     # This is the limit published in the Expert Help Compiler manual and,
     # while this limit isn't really needed in this code, it does help guard
     # against corrupt guides.
-    MAX_SEE_ALSO = 20
+    MAX_SEE_ALSO: Final = 20
 
     def __init__( self, guide: GuideReader, load: bool ) -> None:
         """Constructor.

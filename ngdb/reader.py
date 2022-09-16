@@ -4,6 +4,7 @@
 # Python imports.
 import io
 from pathlib import Path
+from typing  import Final
 
 ##############################################################################
 # Low-level guide reader.
@@ -22,7 +23,7 @@ class GuideReader:
     """
 
     #: The value that marks run-length-encoded spaces.
-    RLE_MARKER = "\xFF"
+    RLE_MARKER: Final = "\xFF"
 
     @classmethod
     def unrle( cls, rle_text: str ) -> str:

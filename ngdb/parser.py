@@ -2,7 +2,8 @@
 
 ##############################################################################
 # Python imports.
-from enum import Enum, auto
+from typing import Final
+from enum   import Enum, auto
 
 ##############################################################################
 # Enumerated text modes for line parsing.
@@ -16,7 +17,7 @@ class TextMode( Enum ):
 
 ##############################################################################
 #: The control character that marks an upcoming attribute.
-CTRL_CHAR = "^"
+CTRL_CHAR: Final = "^"
 
 ##############################################################################
 # Class to help track the state of raw parsing.

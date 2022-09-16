@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from pathlib   import Path
-from typing    import Tuple, Iterator, Union, Callable, Any
+from typing    import Tuple, Iterator, Union, Callable, Any, Final
 from functools import wraps
 
 ##############################################################################
@@ -39,16 +39,16 @@ class NortonGuide:
     """
 
     #: Lookup for valid database magic markers.
-    MAGIC = {
+    MAGIC: Final = {
         "EH": "Expert Help",
         "NG": "Norton Guide"
     }
 
     #: The length of a title in the header.
-    TITLE_LENGTH = 40
+    TITLE_LENGTH: Final = 40
 
     #: The length of a line in the credits.
-    CREDIT_LENGTH = 66
+    CREDIT_LENGTH: Final = 66
 
     def __init__( self, guide: Union[ str, Path ] ) -> None:
         """Constructor.
