@@ -10,9 +10,6 @@ from .prompts import PromptCollection
 class Menu( PromptCollection ):
     """Class that loads and holds the details of a menu in the guide."""
 
-    #: The maximum length of a prompt in a guide.
-    MAX_PROMPT_LENGTH = 128
-
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
