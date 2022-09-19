@@ -11,17 +11,6 @@ from .types   import EntryType, UnknownEntryType
 from .seealso import SeeAlso
 
 ##############################################################################
-# Tidy up any loaded offset value.
-def _safe_offset( offset: int ) -> int:
-    """Tidy offsets so they're -1 when they should be.
-
-    :param int offset: The offset to tidy.
-    :returns: A tidy version of the offset.
-    :rtype: int
-    """
-    return -1 if offset == 0xFFFFFFFF else offset
-
-##############################################################################
 # Loads and holds entry parent information.
 class EntryParent:
     """Class to load and hold the parent information for an entry."""
@@ -32,7 +21,7 @@ class EntryParent:
         :param GuideReader guide: The reader object for the guide.
         """
         self._line   = guide.read_word()
-        self._offset = guide.read_long()
+        self._offset = guide.read_offset()
         self._menu   = guide.read_word()
         self._prompt = guide.read_word()
 
@@ -42,7 +31,7 @@ class EntryParent:
 
         :type: int
         """
-        return _safe_offset( self._offset )
+        return self._offset
 
     def __bool__( self ) -> bool:
         """Is there a parent entry?
@@ -171,8 +160,8 @@ class Entry:
         self._line_count    = guide.read_word()
         self._has_see_also  = guide.read_word()
         self._parent        = EntryParent( guide )
-        self._previous      = guide.read_long()
-        self._next          = guide.read_long()
+        self._previous      = guide.read_offset()
+        self._next          = guide.read_offset()
 
         # Set up for loading in the lines.
         self._lines: Tuple[ str, ... ] = ()
@@ -240,7 +229,7 @@ class Entry:
 
         :type: int
         """
-        return _safe_offset( self._previous )
+        return self._previous
 
     @property
     def has_previous( self ) -> bool:
@@ -256,7 +245,7 @@ class Entry:
 
         :type: int
         """
-        return _safe_offset( self._next )
+        return self._next
 
     @property
     def has_next( self ) -> bool:
@@ -322,7 +311,7 @@ class Short( Entry ):
             # Skip a word -- I don't know what this is.
             guide.skip( 2 )
             # Read the offset of the line.
-            yield _safe_offset( guide.read_long() )
+            yield guide.read_offset()
 
     @property
     def offsets( self ) -> Tuple[ int, ... ]:

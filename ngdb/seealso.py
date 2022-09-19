@@ -47,7 +47,7 @@ class SeeAlso( PromptCollection ):
             self._count = min( guide.read_word(), self.MAX_SEE_ALSO )
 
             # Get the offsets for each of the see-also entries.
-            self._offsets = tuple( guide.read_long() for _ in range( len( self ) ) )
+            self._offsets = tuple( guide.read_offset() for _ in range( len( self ) ) )
 
             # Get the prompts for each of the see-also items.
             self._prompts = tuple(

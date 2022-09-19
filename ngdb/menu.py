@@ -33,7 +33,7 @@ class Menu( PromptCollection ):
         guide.skip( 20 )
 
         # Next up is the collection of offsets for each menu prompt.
-        self._offsets = tuple( guide.read_long() for _ in range( len( self ) ) )
+        self._offsets = tuple( guide.read_offset() for _ in range( len( self ) ) )
 
         # Skip a number of values I don't know the purpose of, but I've
         # never needed. It seems to be two sets of long integer arrays.

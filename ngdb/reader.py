@@ -170,6 +170,17 @@ class GuideReader:
         """
         return self.read_word( decrypt ) + ( self.read_word( decrypt ) << 16 )
 
+    def read_offset( self ) -> int:
+        """Read an offset value from the guide.
+
+        :returns: The offset value read.
+        :rtype: int
+
+        **NOTE:** This function ensures that an offset value that means
+        'there is no offset' returns as ``-1``.
+        """
+        return -1 if ( offset := self.read_long( True ) ) == 0xFFFFFFFF else offset
+
     @staticmethod
     def _nul_trim( string: str ) -> str:
         """Trim a string from the first nul.
