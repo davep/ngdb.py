@@ -7,7 +7,7 @@ lint      := $(run) pylint
 pyreverse := $(run) pyreverse
 mypy      := $(run) mypy
 coverage  := $(run) coverage
-vermin    := $(run) vermin -v --backport enum --backport typing --no-parse-comments
+vermin    := $(run) vermin -v --backport enum --backport typing --no-parse-comments --eval-annotations
 test      := $(coverage) run -m unittest discover -v -t $(shell pwd)
 twine     := $(run) twine
 
