@@ -39,7 +39,7 @@ class EntryParent:
         :returns: ``True`` if there is, ``False` if not.
         :rtype: bool
         """
-        return self.offset != -1
+        return self.offset > 0
 
     @staticmethod
     def _non_test( value: int ) -> int:
@@ -237,7 +237,7 @@ class Entry:
 
         :type: bool
         """
-        return self.previous > -1
+        return self.previous > 0
 
     @property
     def next( self ) -> int:
@@ -253,7 +253,7 @@ class Entry:
 
         :type: bool
         """
-        return self.next > -1
+        return self.next > 0
 
     @property
     def lines( self ) -> Tuple[ str, ... ]:
@@ -335,7 +335,7 @@ class Short( Entry ):
 
             :type: bool
             """
-            return self.offset > -1
+            return self.offset > 0
 
     def __getitem__( self, line: int ) -> Line:
         """Get a line and its offset."""
