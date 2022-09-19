@@ -7,6 +7,7 @@ from typing import Final
 ##############################################################################
 #: Map For translating into DOS-a-like characters.
 DOS_MAP: Final = str.maketrans( {
+        0:   " ",
         1:   "\u263A",
         2:   "\u263B",
         3:   "\u2665",
