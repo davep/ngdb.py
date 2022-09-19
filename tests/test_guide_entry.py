@@ -86,7 +86,8 @@ class TestShort( TestCase ):
             ( " OL_95AppTitle()          Set/get the Windows 95 application title.", 1389 )
         )
         self.assertEqual(
-            self.entry[ 0 ].text, " OL_95AppTitle()          Set/get the Windows 95 application title."
+            self.entry[ 0 ].text,
+            " OL_95AppTitle()          Set/get the Windows 95 application title."
         )
         self.assertEqual( self.entry[ 0 ].offset, 1389 )
 
