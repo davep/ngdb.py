@@ -2,7 +2,17 @@
 
 ##############################################################################
 # Python imports.
-from typing import Tuple, Iterator, Final
+from typing import Tuple, Iterator, Final, NamedTuple
+
+##############################################################################
+# Single prompt data.
+class Prompt( NamedTuple ):
+    """Named tuple that holds the data for a single prompt."""
+
+    #: The text of the prompt.
+    prompt: str
+    #: The offset of the prompt.
+    offset: int
 
 ##############################################################################
 # Base class for classes that are collections of prompts and offsets.
@@ -42,20 +52,20 @@ class PromptCollection:
         """
         return self._count
 
-    def __getitem__( self, prompt: int ) -> Tuple[ str, int ]:
+    def __getitem__( self, prompt: int ) -> Prompt:
         """Get a prompt/offset pair.
 
         :returns: The requested prompt and its offset.
-        :rtype: Tuple[str,int]
+        :rtype: Prompt
         """
-        return self.prompts[ prompt ], self.offsets[ prompt ]
+        return Prompt( self.prompts[ prompt ], self.offsets[ prompt ] )
 
-    def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
+    def __iter__( self ) -> Iterator[ Prompt ]:
         """Get an iterator of prompt and offset pairs.
 
-        :yields: Tuple[str,int]
+        :yields: Prompt
         """
-        return zip( self.prompts, self.offsets )
+        return ( Prompt( *prompt ) for prompt in zip( self.prompts, self.offsets ) )
 
     def __bool__( self ) -> bool:
         """Test if there are any prompts in the collection.
