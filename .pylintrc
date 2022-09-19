@@ -3,4 +3,4 @@
 max-attributes=20
 
 [MESSAGES CONTROL]
-disable=bad-whitespace,fixme
+disable=fixme
