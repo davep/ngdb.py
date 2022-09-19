@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Type, Dict, Callable, Tuple, Iterator
+from typing import Type, Dict, Callable, Tuple, Iterator, NamedTuple
 
 ##############################################################################
 # Local imports.
@@ -332,13 +332,21 @@ class Short( Entry ):
         """
         return self._offsets
 
+    class Line( NamedTuple ):
+        """Named tuple that holds details of a line in a short entry."""
+
+        #: The text of the line.
+        text: str
+        #: The offset that the line points to.
+        offset: int
+
     def __getitem__( self, line: int ) -> Tuple[ str, int ]:
         """Get a line and its offset."""
-        return self.lines[ line ], self.offsets[ line ]
+        return self.Line( self.lines[ line ], self.offsets[ line ] )
 
     def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
         """The lines in the entry along with the offsets into the guide."""
-        return zip( self.lines, self.offsets )
+        return ( self.Line( *line ) for line in zip( self.lines, self.offsets ) )
 
 ##############################################################################
 # Long entry class.

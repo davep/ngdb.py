@@ -85,6 +85,10 @@ class TestShort( TestCase ):
             self.entry[ 0 ],
             ( " OL_95AppTitle()          Set/get the Windows 95 application title.", 1389 )
         )
+        self.assertEqual(
+            self.entry[ 0 ].text, " OL_95AppTitle()          Set/get the Windows 95 application title."
+        )
+        self.assertEqual( self.entry[ 0 ].offset, 1389 )
 
     def test_iter_iter( self ) -> None:
         """It should be possible to treat a short entry like an iterator."""
