@@ -340,6 +340,14 @@ class Short( Entry ):
         #: The offset that the line points to.
         offset: int
 
+        @property
+        def has_offset( self ) -> bool:
+            """Does this line have an associated offset into the file?
+
+            :type: bool
+            """
+            return self.offset >= 0
+
     def __getitem__( self, line: int ) -> Line:
         """Get a line and its offset."""
         return self.Line( self.lines[ line ], self.offsets[ line ] )
