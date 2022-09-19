@@ -340,11 +340,11 @@ class Short( Entry ):
         #: The offset that the line points to.
         offset: int
 
-    def __getitem__( self, line: int ) -> Tuple[ str, int ]:
+    def __getitem__( self, line: int ) -> Line:
         """Get a line and its offset."""
         return self.Line( self.lines[ line ], self.offsets[ line ] )
 
-    def __iter__( self ) -> Iterator[ Tuple[ str, int ] ]:
+    def __iter__( self ) -> Iterator[ Line ]:
         """The lines in the entry along with the offsets into the guide."""
         return ( self.Line( *line ) for line in zip( self.lines, self.offsets ) )
 
