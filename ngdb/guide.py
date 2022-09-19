@@ -277,7 +277,7 @@ class NortonGuide:
 
     def __repr__( self ) -> str:
         """The string representation of the guide."""
-        return f"<{self.__class__.__name__}: {self}>"
+        return f"<{self.__class__.__name__}: \"{self}\">"
 
     def __str__( self ) -> str:
         """The string representation of the guide.
