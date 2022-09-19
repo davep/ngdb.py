@@ -322,7 +322,7 @@ class Short( Entry ):
             # Skip a word -- I don't know what this is.
             guide.skip( 2 )
             # Read the offset of the line.
-            yield guide.read_long()
+            yield _safe_offset( guide.read_long() )
 
     @property
     def offsets( self ) -> Tuple[ int, ... ]:
