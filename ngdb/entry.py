@@ -288,7 +288,7 @@ class Entry:
         :returns: The name of the type of entry.
         :rtype: str
         """
-        return f"<{self.__class__.__name__}>"
+        return f"<{self.__class__.__name__}: {self.offset}>"
 
 ##############################################################################
 # Short entry class.
