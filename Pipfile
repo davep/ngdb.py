@@ -12,6 +12,7 @@ coverage = "*"
 typing-extensions = "*"
 vermin = "*"
 twine = "*"
+mkdocs = "*"
 
 [requires]
 python_version = "3.10"
