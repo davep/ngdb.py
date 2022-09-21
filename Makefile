@@ -10,6 +10,7 @@ coverage  := $(run) coverage
 vermin    := $(run) vermin -v --backport enum --backport typing --no-parse-comments --eval-annotations
 test      := $(coverage) run -m unittest discover -v -t $(shell pwd)
 twine     := $(run) twine
+mkdocs    := $(run) mkdocs
 
 ###############################################################################
 # Get the OS so we can make some decisions about other things.
@@ -96,14 +97,11 @@ checkall: dscheck lint stricttypecheck test coverage # Check all the things
 # Documentation.
 .PHONY: docs
 docs:				# Generate the system documentation
-	cd docs; rm -rf source; rm -rf build; mkdir source build
-	cd docs/source; $(run) sphinx-apidoc -F -f -e -M -H $(library) -o . ../../$(library) ../../setup.py
-	cp docs/template/* docs/source
-	cd docs; $(run) make html
+	echo GNDN for now
 
 .PHONY: rtfm
-rtfm: docs			# Locally read the library documentation
-	$(open_file) docs/build/html/index.html
+rtfm:				# Locally read the library documentation
+	$(mkdocs) serve
 
 ##############################################################################
 # Package/publish.
