@@ -10,8 +10,6 @@ pylint = "*"
 mypy = "*"
 coverage = "*"
 typing-extensions = "*"
-sphinx = "*"
-sphinx-rtd-theme = "*"
 vermin = "*"
 twine = "*"
 
