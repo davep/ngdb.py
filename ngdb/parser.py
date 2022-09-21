@@ -279,7 +279,7 @@ class PlainText( BaseParser ):
 
         :param int char: The character value to handle.
         """
-        self._plain += chr( char )
+        self.text( chr( char ) )
 
     def __str__( self ) -> str:
         """Return the plain text of the line.
