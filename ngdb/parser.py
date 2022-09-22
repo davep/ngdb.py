@@ -265,7 +265,7 @@ class PlainText( BaseParser ):
         """
 
         # We're going to accumulate the text into a hidden instance variable.
-        self._plain = ""
+        self._text = ""
 
         # Having set the above up, go parse.
         super().__init__( line )
@@ -275,7 +275,7 @@ class PlainText( BaseParser ):
 
         :param str text: The text to handle.
         """
-        self._plain += text
+        self._text += text
 
     def char( self, char: int ) -> None:
         """Handle an individual character value.
@@ -290,6 +290,6 @@ class PlainText( BaseParser ):
         :returns: The parsed line, as plan text.
         :rtype: str
         """
-        return self._plain
+        return self._text
 
 ### parser.py ends here
