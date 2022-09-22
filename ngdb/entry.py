@@ -9,6 +9,7 @@ from typing import Type, Dict, Callable, Tuple, Iterator, NamedTuple
 from .reader  import GuideReader
 from .types   import EntryType, UnknownEntryType
 from .seealso import SeeAlso
+from .parser  import RichText
 
 ##############################################################################
 # Loads and holds entry parent information.
@@ -278,6 +279,13 @@ class Entry:
         :rtype: str
         """
         return f"<{self.__class__.__name__}: {self.offset}>"
+
+    def __rich__( self ) -> str:
+        """Support being printed in a Rich-enhanced REPL.
+
+        See https://rich.readthedocs.io/en/stable/protocol.html
+        """
+        return "\n".join( str( RichText( line ) ) for line in self.lines )
 
 ##############################################################################
 # Short entry class.
