@@ -15,7 +15,7 @@ __licence__    = "GPLv3+"
 from .types  import NGDBError, UnknownEntryType, NGEOF
 from .guide  import NortonGuide
 from .entry  import Entry, Short, Long
-from .parser import BaseParser, PlainText
+from .parser import BaseParser, PlainText, MarkupText
 from .dosify import make_dos_like
 
 ##############################################################################
@@ -30,6 +30,7 @@ __all__ = (
     "Long",
     "BaseParser",
     "PlainText",
+    "MarkupText",
     "make_dos_like"
 )
 

@@ -2,8 +2,13 @@
 
 ##############################################################################
 # Python imports.
-from typing import Final
+from typing import Final, List
 from enum   import Enum, auto
+from abc    import ABC, abstractmethod
+
+##############################################################################
+# Local imports.
+from .dosify import make_dos_like
 
 ##############################################################################
 # Enumerated text modes for line parsing.
@@ -291,5 +296,145 @@ class PlainText( BaseParser ):
         :rtype: str
         """
         return self._text
+
+##############################################################################
+# Marked-up text Norton Guide line parser.
+class MarkupText( PlainText, ABC ):
+    """Read a line of Norton Guide text and mark up with start/end tags.
+
+    This is an abstract base class for other parser classes that will
+    implement start and end tags where necessary.
+    """
+
+    def __init__( self, line: str ) -> None:
+        """Constructor.
+
+        :param str line: The raw string to parse.
+        """
+
+        # We're going to keep a stack of the markup.
+        self._stack: List[ str ] = []
+
+        # Having set the above up, go parse.
+        super().__init__( line )
+
+    @abstractmethod
+    def open_markup( self, cls: str ) -> str:
+        """Open markup for the given class.
+
+        :param str cls: The class of thing to open the markup for.
+        :returns: The opening markup text.
+        :rtype: str
+        """
+        return ""
+
+    @abstractmethod
+    def close_markup( self, cls: str ) -> str:
+        """Close markup for the given class.
+
+        :param str cls: The class of thing to close the markup for.
+        :returns: The closing markup text.
+        :rtype: str
+        """
+        return ""
+
+    def begin_markup( self, cls: str ) -> None:
+        """Start a section of markup.
+
+        :param str cls: The class for the markup.
+
+        As a side-effect a closing
+        """
+        self._text += self.open_markup( cls )
+        self._stack.append( self.close_markup( cls ) )
+
+    def end_markup( self ) -> None:
+        """End a section of markup."""
+        self._text += self._stack.pop()
+
+    def normal( self ) -> None:
+        """Handle being asked to go to normal mode."""
+        self._text += "".join( reversed( self._stack ) )
+        self._stack = []
+
+    def __str__( self ) -> str:
+        """Return the plain text of the line.
+
+        :returns: The parsed line, as plan text.
+        :rtype: str
+        """
+        self.normal()
+        return super().__str__()
+
+##############################################################################
+# Rich (the library) text Norton Guide parser.
+class RichText( MarkupText ):
+    """Read a line of Norton Guide text and mark up with Rich console markup.
+
+    **NOTE:** This is implemented in a way that doesn't quite that Rich is a
+    dependency of this library. This is provided here as a test and a handy
+    example, and one that uses Rich's plain text BBCode-a-like markup.
+
+    See https://rich.readthedocs.io/en/stable/protocol.html
+    """
+
+    def text( self, text: str ) -> None:
+        """Handle the given text.
+
+        :param str text: The text to handle.
+        """
+        super().text( make_dos_like( text ).replace( "[", r"\[" ) )
+
+    def open_markup( self, cls: str ) -> str:
+        """Open markup for the given class.
+
+        :param str cls: The class of thing to open the markup for.
+        :returns: The opening markup text.
+        :rtype: str
+        """
+        return f"[{cls}]"
+
+    def close_markup( self, cls: str ) -> str:
+        """Close markup for the given class.
+
+        :param str cls: The class of thing to close the markup for.
+        :returns: The closing markup text.
+        :rtype: str
+        """
+        del cls
+        return "[/]"
+
+    def colour( self, colour: int ) -> None:
+        """Handle the given colour value.
+
+        :param int colour: The colour value to handle.
+        """
+        # TODO: The colour numbers used in Rich don't match those used in
+        # DOS. I need to implement a mapping here.
+        self.begin_markup( f"color({colour & 0xF}) on color({colour >> 4 & 0xF})" )
+
+    def bold( self ) -> None:
+        """Handle being asked to go to bold mode."""
+        self.begin_markup( "bold" )
+
+    def unbold( self ) -> None:
+        """Handle being asked to go out of bold mode."""
+        self.end_markup()
+
+    def reverse( self ) -> None:
+        """Handle being asked to go to reverse mode."""
+        self.begin_markup( "reverse" )
+
+    def unreverse( self ) -> None:
+        """Handle being asked to go out of reverse mode."""
+        self.end_markup()
+
+    def underline( self ) -> None:
+        """Handle being asked to go in underline mode."""
+        self.begin_markup( "underline" )
+
+    def ununderline( self ) -> None:
+        """Handle being asked to go out of underline mode."""
+        self.end_markup()
 
 ### parser.py ends here
