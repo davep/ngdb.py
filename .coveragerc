@@ -5,8 +5,6 @@ omit =
      # Don't include anything inside the virtual environment.
      */.venv/*
      */virtualenvs/*
-     # Don't include tests.
-     */tests/*
 
 [report]
 exclude_lines =
