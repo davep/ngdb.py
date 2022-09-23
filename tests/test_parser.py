@@ -7,7 +7,8 @@ from unittest import TestCase
 
 ##############################################################################
 # Library imports.
-from ngdb import BaseParser, PlainText
+from ngdb        import BaseParser, PlainText
+from ngdb.parser import RichText
 
 ##############################################################################
 # Plain text parser tests.
@@ -227,5 +228,38 @@ class TestParseEvents( TestCase ):
                 ( "T", "!" )
             ]
         )
+
+##############################################################################
+# Test the Rich parser.
+class TestRichParser( TestCase ):
+    """Test the Rich-friendly parser."""
+
+    def test_empty_line( self ) -> None:
+        """An empty line should parse fine."""
+        self.assertEqual( str( RichText( "" ) ), "" )
+
+    def test_no_markup( self ) -> None:
+        """A line with no markup should parse fine."""
+        self.assertEqual( str( RichText( "Hello, World!" ) ), "Hello, World!" )
+
+    def test_escape_markup( self ) -> None:
+        """Text that looks like Rich markup should get escaped."""
+        self.assertEqual( str( RichText( "Hello, [W]orld!" ) ), "Hello, \\[W]orld!" )
+
+    def test_colour( self ) -> None:
+        """A colour attribute should come out as the expected markup."""
+        self.assertEqual( str( RichText( "^A02Hello" ) ), "[color(2) on color(0)]Hello[/]" )
+
+    def test_bold( self ) -> None:
+        """A bold attribute should turn into the Rich version."""
+        self.assertEqual( str( RichText( "^BHello^b" ) ), "[bold]Hello[/]" )
+
+    def test_reverse( self ) -> None:
+        """A reverse attribute should turn into the Rich version."""
+        self.assertEqual( str( RichText( "^RHello^r" ) ), "[reverse]Hello[/]" )
+
+    def test_underline( self ) -> None:
+        """An underline attribute should turn into the Rich version."""
+        self.assertEqual( str( RichText( "^UHello^u" ) ), "[underline]Hello[/]" )
 
 ### test_parser.py ends here
