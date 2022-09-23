@@ -12,6 +12,7 @@ omit =
 exclude_lines =
     pragma: no cover
     def __repr__
+    def __rich__
 
 [html]
 directory = .coverage_report
