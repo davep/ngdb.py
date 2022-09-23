@@ -40,13 +40,18 @@ class TestMenuViaShort( TestCase ):
             [ "Functions", "FAQs", "Revision History", "Credits", "About" ]
         )
         self.assertCountEqual(
-            [ prompt.prompt for prompt in self.guide.menus[ 0 ] ],
+            [ prompt.text for prompt in self.guide.menus[ 0 ] ],
             [ "Functions", "FAQs", "Revision History", "Credits", "About" ]
         )
 
     def test_menu_item( self ) -> None:
         """It should be possible to treat a menu like a list."""
         self.assertEqual( self.guide.menus[ 0 ][ 0 ][ 0 ], "Functions" )
-        self.assertEqual( self.guide.menus[ 0 ][ 0 ].prompt, "Functions" )
+        self.assertEqual( self.guide.menus[ 0 ][ 0 ].text, "Functions" )
+        self.assertEqual( str( self.guide.menus[ 0 ][ 0 ] ), "Functions" )
+        self.assertEqual( self.guide.menus[ 0 ][ 0 ][ 1 ], 525 )
+        self.assertEqual( self.guide.menus[ 0 ][ 0 ].offset, 525 )
+        self.assertEqual( int( self.guide.menus[ 0 ][ 0 ] ), 525 )
+        self.assertTrue( self.guide.menus[ 0 ][ 0 ] )
 
 ### test_guide_menu.py ends here

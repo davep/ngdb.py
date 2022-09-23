@@ -8,6 +8,7 @@ from typing import Type, Dict, Callable, Tuple, Iterator, NamedTuple
 # Local imports.
 from .reader  import GuideReader
 from .types   import EntryType, UnknownEntryType
+from .link    import Link
 from .seealso import SeeAlso
 from .parser  import RichText
 
@@ -329,29 +330,13 @@ class Short( Entry ):
         """
         return self._offsets
 
-    class Line( NamedTuple ):
-        """Named tuple that holds details of a line in a short entry."""
-
-        #: The text of the line.
-        text: str
-        #: The offset that the line points to.
-        offset: int
-
-        @property
-        def has_offset( self ) -> bool:
-            """Does this line have an associated offset into the file?
-
-            :type: bool
-            """
-            return self.offset > 0
-
-    def __getitem__( self, line: int ) -> Line:
+    def __getitem__( self, line: int ) -> Link:
         """Get a line and its offset."""
-        return self.Line( self.lines[ line ], self.offsets[ line ] )
+        return Link( self.lines[ line ], self.offsets[ line ] )
 
-    def __iter__( self ) -> Iterator[ Line ]:
+    def __iter__( self ) -> Iterator[ Link ]:
         """The lines in the entry along with the offsets into the guide."""
-        return ( self.Line( *line ) for line in zip( self.lines, self.offsets ) )
+        return ( Link( *line ) for line in zip( self.lines, self.offsets ) )
 
 ##############################################################################
 # Long entry class.
