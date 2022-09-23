@@ -221,14 +221,14 @@ class BaseParser:
 
         :param str text: The text to handle.
         """
-        del text
+        del text                # pragma: no cover
 
     def colour( self, colour: int ) -> None:
         """Handle the given colour value.
 
         :param int colour: The colour value to handle.
         """
-        del colour
+        del colour              # pragma: no cover
 
     def normal( self ) -> None:
         """Handle being asked to go to normal mode."""
@@ -256,7 +256,7 @@ class BaseParser:
 
         :param int char: The character value to handle.
         """
-        del char
+        del char                # pragma: no cover
 
 ##############################################################################
 # Plain text Norton Guide line parser.
