@@ -404,14 +404,25 @@ class RichText( MarkupText ):
         del cls
         return "[/]"
 
+    #: DOS to Rich colour mapping. This is just the exceptions.
+    COLOUR_MAP: Final = { 1: 4, 3: 6, 4: 1, 6: 3, 9: 21, 11: 14, 12: 196, 14: 11 }
+
+    @classmethod
+    def map_colour( cls, colour: int ) -> int:
+        """Map a DOS colour into a similar colour from Rich.
+
+        :param int colour: The DOS colour to map from.
+        :returns: The mapped colour.
+        :rtype: int
+        """
+        return cls.COLOUR_MAP.get( colour, colour )
+
     def colour( self, colour: int ) -> None:
         """Handle the given colour value.
 
         :param int colour: The colour value to handle.
         """
-        # TODO: The colour numbers used in Rich don't match those used in
-        # DOS. I need to implement a mapping here.
-        self.begin_markup( f"color({colour & 0xF}) on color({colour >> 4 & 0xF})" )
+        self.begin_markup( f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})" )
 
     def bold( self ) -> None:
         """Handle being asked to go to bold mode."""
