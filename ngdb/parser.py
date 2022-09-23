@@ -371,9 +371,9 @@ class MarkupText( PlainText, ABC ):
 class RichText( MarkupText ):
     """Read a line of Norton Guide text and mark up with Rich console markup.
 
-    **NOTE:** This is implemented in a way that doesn't quite that Rich is a
-    dependency of this library. This is provided here as a test and a handy
-    example, and one that uses Rich's plain text BBCode-a-like markup.
+    **NOTE:** This is implemented in a way that doesn't require that Rich is
+    a dependency of this library. This is provided here as a test and a
+    handy example, and one that uses Rich's plain text BBCode-a-like markup.
 
     See https://rich.readthedocs.io/en/stable/protocol.html
     """
