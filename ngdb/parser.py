@@ -422,7 +422,9 @@ class RichText( MarkupText ):
 
         :param int colour: The colour value to handle.
         """
-        self.begin_markup( f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})" )
+        self.begin_markup(
+            f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})"
+        )
 
     def bold( self ) -> None:
         """Handle being asked to go to bold mode."""
