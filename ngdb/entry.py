@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Type, Dict, Callable, Tuple, Iterator, NamedTuple
+from typing import Type, Dict, Callable, Tuple, Iterator
 
 ##############################################################################
 # Local imports.
