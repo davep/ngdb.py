@@ -174,9 +174,11 @@ DOS_MAP: Final = str.maketrans( {
 def make_dos_like( text: str ) -> str:
     """Try and make a string from a guide capable of retaining DOS-likeness.
 
-    :param str text: The text to convert.
-    :returns: The converted text.
-    :rtype: str
+    Args:
+        text (str): The text to convert.
+
+    Returns:
+        str: The converted text.
     """
     return text.translate( DOS_MAP )
 
