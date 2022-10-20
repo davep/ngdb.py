@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from pathlib   import Path
-from typing    import Tuple, Iterator, Union, Callable, Any, Final
+from typing    import Tuple, Iterator, Callable, Any, Final
 from functools import wraps
 
 ##############################################################################
@@ -18,9 +18,11 @@ from .entry  import Entry
 def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
-    :param Callable[...,Any] meth: The method fo protect.
-    :returns: The guard.
-    :rtype: Callable[...,Any]
+    Args:
+        meth (Callable[...,Any]): The method fo protect.
+
+    Returns:
+        Callable[...,Any]: The guard.
     """
     @wraps( meth )
     def _guard( self: "NortonGuide", *args: Any, **kwargs: Any ) -> Any:
@@ -35,7 +37,8 @@ def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
 class NortonGuide:
     """Norton Guide database wrapper class.
 
-    :ivar ~pathlib.Path path: The path of the database.
+    Attributes:
+        path (Path): The path of the database.
     """
 
     #: Lookup for valid database magic markers.
@@ -44,16 +47,17 @@ class NortonGuide:
         "NG": "Norton Guide"
     }
 
-    #: The length of a title in the header.
     TITLE_LENGTH: Final = 40
+    """int: The length of a title in the header."""
 
-    #: The length of a line in the credits.
     CREDIT_LENGTH: Final = 66
+    """int: The length of a line in the credits."""
 
-    def __init__( self, guide: Union[ str, Path ] ) -> None:
+    def __init__( self, guide: str | Path ) -> None:
         """Constructor.
 
-        :param Union[str,~pathlib.Path] guide: The guide to open.
+        Args:
+            guide (str | Path): The guide to open.
         """
 
         # Remember the guide path.
@@ -103,17 +107,15 @@ class NortonGuide:
     def _read_menus( self ) -> Iterator[ Menu ]:
         """Read the menus from the guide.
 
-        :yields: Menu
+        :yields:
+            Menu: A menu from the guide.
         """
         while EntryType.is_menu( self._guide.peek_word() ):
             yield Menu( self._guide )
 
     @property
     def is_open( self ) -> bool:
-        """Is the guide open?
-
-        :type: bool
-        """
+        """bool: Is the guide open?"""
         # Note that I first ensure that this instance actually does have a
         # `_guide` property as it's possible that an exception gets thrown
         # in the constructor and I have a __del__ method to ensure that the
@@ -124,10 +126,7 @@ class NortonGuide:
 
     @property
     def is_a( self ) -> bool:
-        """Is the guide actually a Norton Guide database?
-
-        :type: bool
-        """
+        """bool: Is the guide actually a Norton Guide database?"""
         return self.magic in self.MAGIC
 
     def close( self ) -> None:
@@ -153,33 +152,22 @@ class NortonGuide:
 
     @property
     def menu_count( self ) -> int:
-        """The count of menu options in the guide.
-
-        :type: int
-        """
+        """int: The count of menu options in the guide."""
         return self._menu_count
 
     @property
     def title( self ) -> str:
-        """The title of the guide.
-
-        :type: str
-        """
+        """str: The title of the guide."""
         return self._title
 
     @property
     def credits( self ) -> Tuple[ str, ... ]:
-        """The credits for the guide.
-
-        :type: Tuple[str,...]
-        """
+        """Tuple[str,...]: The credits for the guide."""
         return self._credits
 
     @property
     def magic( self ) -> str:
-        """The magic value for the guide.
-
-        :type: str
+        """str: The magic value for the guide.
 
         This tells us if the file is likely a Norton Guide database or not.
         It's always a two-character string and, normally, is ''NG''.
@@ -189,26 +177,22 @@ class NortonGuide:
 
     @property
     def made_with( self ) -> str:
-        """The name of the tool that was used to make the guide.
-
-        :type: str
-        """
+        """str: The name of the tool that was used to make the guide."""
         return self.MAGIC.get( self.magic, "Unknown" )
 
     @property
     def menus( self ) -> Tuple[ Menu, ... ]:
-        """The menus for the guide.
-
-        :type: Tuple[Menu,...]
-        """
+        """Tuple[Menu,...]: The menus for the guide."""
         return self._menus
 
     def goto( self, pos: int ) -> "NortonGuide":
         """Go to a specific location in the guide.
 
-        :param int pos: The position to go to.
-        :returns: self
-        :rtype: NortonGuide
+        Args:
+            pos (int): The position to go to.
+
+        Returns:
+            NortonGuide: Returns ``self``.
         """
         self._guide.goto( pos )
         return self
@@ -216,8 +200,8 @@ class NortonGuide:
     def goto_first( self ) -> "NortonGuide":
         """Go to the first entry in the guide.
 
-        :returns: self
-        :rtype: NortonGuide
+        Returns:
+            NortonGuide: Returns ``self``.
         """
         return self.goto( self._first_entry )
 
@@ -225,28 +209,29 @@ class NortonGuide:
     def skip( self ) -> "NortonGuide":
         """Skip the current entry.
 
-        :returns: self
-        :rtype: NortonGuide
-        :raises NGEOF: If we attempt to skip when at EOF.
+        Returns:
+            NortonGuide: Returns ``self``.
+
+        Raises:
+            NGEOF: If we attempt to skip when at EOF.
         """
         self._guide.skip_entry()
         return self
 
     @property
     def eof( self ) -> bool:
-        """Are we at the end of the guide?
-
-        :type: bool
-        """
+        """bool: Are we at the end of the guide?"""
         return self._guide.pos >= self.path.stat().st_size
 
     @not_eof
     def load( self ) -> Entry:
         """Load the entry at the current position.
 
-        :returns: The entry found at the current position.
-        :rtype: Entry
-        :raises NGEOF: If we attempt to load when at EOF.
+        Returns:
+            Entry: The entry found at the current position.
+
+        Raises:
+            NGEOF: If we attempt to load when at EOF.
         """
         pos = self._guide.pos
         try:
@@ -257,7 +242,8 @@ class NortonGuide:
     def __iter__( self ) -> Iterator[ Entry ]:
         """Allow iterating through every entry in the guide.
 
-        :yields: Entry
+        Yields:
+            Entry: An entry from the guide.
         """
         # Here I try my best to do this in a way that no other operations
         # that consume this iterator will affect it. So, starting with the
