@@ -32,9 +32,11 @@ class EntryType( Enum ):
     def is_short( cls, test: int ) -> bool:
         """Is the value the ID of a short entry?
 
-        :param int test: The value to test.
-        :returns: ``True`` if it is a short, ``False`` if not.
-        :rtype: bool
+        Args:
+            test (int): The value to test.
+
+        Returns:
+            bool: ``True`` if it is a short, ``False`` if not.
         """
         return cls( test ) is cls.SHORT
 
@@ -42,9 +44,11 @@ class EntryType( Enum ):
     def is_long( cls, test: int ) -> bool:
         """Is the value the ID of a long entry?
 
-        :param int test: The value to test.
-        :returns: ``True`` if it is a long, ``False`` if not.
-        :rtype: bool
+        Args:
+            test (int): The value to test.
+
+        Returns:
+            bool: ``True`` if it is a long, ``False`` if not.
         """
         return cls( test ) is cls.LONG
 
@@ -52,9 +56,11 @@ class EntryType( Enum ):
     def is_menu( cls, test: int ) -> bool:
         """Is the value the ID of a menu?
 
-        :param int test: The value to test.
-        :returns: ``True`` if it is a menu, ``False`` if not.
-        :rtype: bool
+        Args:
+            test (int): The value to test.
+
+        Returns:
+            bool:``True`` if it is a menu, ``False`` if not.
         """
         return cls( test ) is cls.MENU
 
