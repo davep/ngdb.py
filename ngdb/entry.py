@@ -20,7 +20,8 @@ class EntryParent:
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
         self._line   = guide.read_word()
         self._offset = guide.read_offset()
@@ -29,30 +30,32 @@ class EntryParent:
 
     @property
     def offset( self ) -> int:
-        """The offset of the parent entry, if there is one.
-
-        :type: int
-        """
+        """int: The offset of the parent entry, if there is one."""
         return self._offset
 
     def __bool__( self ) -> bool:
         """Is there a parent entry?
 
-        :returns: ``True`` if there is, ``False` if not.
-        :rtype: bool
+        Returns:
+            bool: ``True`` if there is, ``False` if not.
         """
         return self.offset > 0
 
     @staticmethod
     def _non_test( value: int ) -> int:
-        """Ensure a -1 is a -1."""
+        """Ensure a -1 is a -1.
+
+        Args:
+            value (int): The value to clean up.
+
+        Returns:
+            int: The value with an intended -1 guaranteed.
+        """
         return -1 if value == 0xFFFF else value
 
     @property
     def line( self ) -> int:
-        """The line in the parent entry that point to this entry.
-
-        :type: int
+        """int: The line in the parent entry that point to this entry.
 
         If there is no parent line this will be ``-1``. But also see
         ``has_line`` for a test for a parent entry line.
@@ -61,17 +64,12 @@ class EntryParent:
 
     @property
     def has_line( self ) -> int:
-        """Does this entry have a parent entry line that points to it?
-
-        :type: bool
-        """
+        """bool: Does this entry have a parent entry line that points to it?"""
         return self.line != -1
 
     @property
     def menu( self ) -> int:
-        """The menu that relates to this entry.
-
-        :type: int
+        """int: The menu that relates to this entry.
 
         If there is no menu, this will be ``-1``. But also see ``has_menu``
         to test if there is a related menu.
@@ -80,17 +78,12 @@ class EntryParent:
 
     @property
     def has_menu( self ) -> bool:
-        """Is there a menu related to this entry?
-
-        :type: bool
-        """
+        """bool: Is there a menu related to this entry?"""
         return self.menu != -1
 
     @property
     def prompt( self ) -> int:
-        """The menu prompt related to this entry.
-
-        :type: int
+        """int: The menu prompt related to this entry.
 
         If there is no menu prompt, this will be ``-1``. But also see
         ``has_prompt`` to test if there is a related menu prompt.
@@ -99,10 +92,7 @@ class EntryParent:
 
     @property
     def has_prompt( self ) -> bool:
-        """Is there a menu prompt related to this entry?
-
-        :type: bool
-        """
+        """bool: Is there a menu prompt related to this entry?"""
         return self.has_menu and self.prompt != -1
 
 ##############################################################################
@@ -125,9 +115,11 @@ class Entry:
     def loads( cls, entry_type: EntryType ) -> Callable[ [ TEntry ], TEntry ]:
         """Decorator for defining which class handles which entry type.
 
-        :param EntryType entry_type: The ID of the entry type being handled.
-        :returns: The decorator wrapper.
-        :rtype: Callable[[TEntry],TEntry]
+        Args:
+            entry_type (EntryType): The ID of the entry type being handled.
+
+        Returns:
+            Callable[[TEntry],TEntry]: The decorator wrapper.
         """
         def _register( handler: TEntry ) -> TEntry:
             """Inner decorator function."""
@@ -139,10 +131,14 @@ class Entry:
     def load( cls, guide: GuideReader ) -> "Entry":
         """Load the entry at the current position in the guide.
 
-        :param GuideReader guide: The reader object for the guide.
-        :returns: The correct type of entry object.
-        :rtype: Entry
-        :raises ~.types.UnknownEntryType: Indicates that the entry type is unknown.
+        Args:
+            guide (GuideReader): The reader object for the guide.
+
+        Returns:
+            Entry: The correct type of entry object.
+
+        Raises:
+            UnknownEntryType: Indicates that the entry type is unknown.
         """
         try:
             return cls._map[ EntryType( guide.peek_word() ) ]( guide )
@@ -152,7 +148,8 @@ class Entry:
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
 
         # Load up the main details for the entry.
@@ -171,7 +168,8 @@ class Entry:
     def _load_lines( self, guide: GuideReader ) -> None:
         """Load in all of the lines of text, from this point.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
         self._lines = tuple(
             guide.unrle( guide.read_strz( MAX_LINE_LENGTH ) ) for _ in range( len( self ) )
@@ -179,112 +177,86 @@ class Entry:
 
     @property
     def offset( self ) -> int:
-        """The file offset of this entry.
-
-        :type: int
-        """
+        """int: The file offset of this entry."""
         return self._offset
 
     @property
     def type_id( self ) -> int:
-        """The numeric ID of the type of entry.
-
-        :type: int
-        """
+        """int: The numeric ID of the type of entry."""
         return self._type
 
     @property
     def size( self ) -> int:
-        """The size of the entry in bytes.
-
-        :type: int
-        """
+        """int: The size of the entry in bytes."""
         return self._size
 
     def __len__( self ) -> int:
         """The number of lines in the entry.
 
-        :returns: The number of lines.
-        :rtype: int
+        Returns:
+            int: The number of lines.
         """
         return self._line_count
 
     @property
     def has_see_also( self ) -> bool:
-        """Does this entry have any see-also items?
-
-        :type: bool
-        """
+        """bool: Does this entry have any see-also items?"""
         return self._has_see_also > 0
 
     @property
     def parent( self ) -> EntryParent:
-        """Returns the parent entry information.
-
-        :type: EntryParent
-        """
+        """EntryParent: Returns the parent entry information."""
         return self._parent
 
     @property
     def previous( self ) -> int:
-        """The location of the previous entry.
-
-        :type: int
-        """
+        """int: The location of the previous entry."""
         return self._previous
 
     @property
     def has_previous( self ) -> bool:
-        """Is there a previous entry?
-
-        :type: bool
-        """
+        """bool: Is there a previous entry?"""
         return self.previous > 0
 
     @property
     def next( self ) -> int:
-        """The location of the next entry.
-
-        :type: int
-        """
+        """int: The location of the next entry."""
         return self._next
 
     @property
     def has_next( self ) -> bool:
-        """Is there a previous entry?
-
-        :type: bool
-        """
+        """bool: Is there a previous entry?"""
         return self.next > 0
 
     @property
     def lines( self ) -> Tuple[ str, ... ]:
-        """The lines of text in the entry.
-
-        :type: Tuple[str,...]
-        """
+        """Tuple[str,...]: The lines of text in the entry."""
         return self._lines
 
     def __str__( self ) -> str:
         """Return the text of the entry as a single string.
 
-        :returns: The entry's text.
-        :rtype: str
+        Returns:
+            str: The entry's text.
         """
         return "\n".join( self.lines )
 
     def __repr__( self ) -> str:
         """Simply say the type of entry as the representation of the object.
 
-        :returns: The name of the type of entry.
-        :rtype: str
+        Returns:
+            str: The name of the type of entry.
         """
         return f"<{self.__class__.__name__}: {self.offset}>"
 
     def __rich__( self ) -> str:
         """Support being printed in a Rich-enhanced REPL.
 
-        See https://rich.readthedocs.io/en/stable/protocol.html
+        Note:
+            See https://rich.readthedocs.io/en/stable/protocol.html
+
+        Returns:
+            str: Rich-friendly test.
         """
         return "\n".join( str( RichText( line ) ) for line in self.lines )
 
@@ -297,7 +269,8 @@ class Short( Entry ):
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
 
         # Call the super class.
@@ -313,8 +286,11 @@ class Short( Entry ):
     def _load_offsets( self, guide: GuideReader ) -> Iterator[ int ]:
         """Load up the offsets for each of the lines in the entry.
 
-        :param GuideReader guide: The reader object for the guide.
-        :yields: int
+        Args:
+            guide (GuideReader): The reader object for the guide.
+
+        Yields:
+            int: The offset for each line in the entry.
         """
         for _ in range( len( self ) ):
             # Skip a word -- I don't know what this is.
@@ -324,10 +300,7 @@ class Short( Entry ):
 
     @property
     def offsets( self ) -> Tuple[ int, ... ]:
-        """The offsets for each of the lines in the entry.
-
-        :type: Tuple[int,...]
-        """
+        """Tuple[int,...]: The offsets for each of the lines in the entry."""
         return self._offsets
 
     def __getitem__( self, line: int ) -> Link:
@@ -347,7 +320,8 @@ class Long( Entry ):
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
 
         # Call the super class.
@@ -361,10 +335,7 @@ class Long( Entry ):
 
     @property
     def see_also( self ) -> SeeAlso:
-        """The see-also information for this entry.
-
-        :type: SeeAlso
-        """
+        """SeeAlso: The see-also information for this entry."""
         return self._see_also
 
     def __getitem__( self, line: int ) -> str:
