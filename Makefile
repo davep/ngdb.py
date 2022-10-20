@@ -78,10 +78,6 @@ coveragetxt:			# Show a test-based code coverage report
 minpy:				# Check the minimum supported Python version
 	$(vermin) $(library)
 
-.PHONY: dscheck
-dscheck:			# Perform a doc-string check
-	pydscheck -e
-
 .PHONY: typecheck
 typecheck:			# Perform static type checks with mypy
 	$(mypy) --scripts-are-modules $(library) tests $(wildcard bin/[a-z]*)
@@ -91,7 +87,7 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 	$(mypy) --scripts-are-modules --strict $(library) tests $(wildcard bin/[a-z]*)
 
 .PHONY: checkall
-checkall: dscheck lint stricttypecheck test coverage # Check all the things
+checkall: lint stricttypecheck test coverage # Check all the things
 
 ##############################################################################
 # Documentation.
