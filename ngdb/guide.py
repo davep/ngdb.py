@@ -262,14 +262,18 @@ class NortonGuide:
                 break
 
     def __repr__( self ) -> str:
-        """The string representation of the guide."""
+        """The string representation of the guide.
+
+        Returns:
+            str: The guide's full path/file name.
+        """
         return f"<{self.__class__.__name__}: \"{self}\">"
 
     def __str__( self ) -> str:
         """The string representation of the guide.
 
-        :returns: The guide's full path/file name.
-        :rtype: str
+        Returns:
+            str: The guide's full path/file name.
         """
         return str( self.path.resolve() )
 
