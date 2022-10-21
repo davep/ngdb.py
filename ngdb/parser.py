@@ -29,16 +29,18 @@ CTRL_CHAR: Final = "^"
 class ParseState:
     """Raw text parsing state tracking class.
 
-    :ivar int ctrl: The location of the next control marker.
-    :ivar str raw: The current raw text that's left to handle.
-    :ivar TextMode mode: The current mode.
-    :ivar int last_attr: The last attribute encountered.
+    Attributes:
+        ctrl (int): The location of the next control marker.
+        raw (str): The current raw text that's left to handle.
+        mode (TextMode): The current mode.
+        last_attr (int): The last attribute encountered.
     """
 
     def __init__( self, line: str ) -> None:
         """Constructor.
 
-        :param str line: The line to work on.
+        Args:
+            line (str): The line to work on.
         """
         self.raw       = line
         self.ctrl      = line.find( CTRL_CHAR )
@@ -47,18 +49,12 @@ class ParseState:
 
     @property
     def work_left( self ) -> bool:
-        """Is there any work left to do?
-
-        :type: bool
-        """
+        """bool: Is there any work left to do?"""
         return self.ctrl != -1 and self.ctrl < len( self.raw )
 
     @property
     def ctrl_id( self ) -> str:
-        """The current control ID.
-
-        :type: str
-        """
+        """str: The current control ID."""
         try:
             return self.raw[ self.ctrl + 1 ].lower()
         except IndexError:
@@ -78,7 +74,8 @@ class BaseParser:
     def __init__( self, line: str ) -> None:
         """Constructor.
 
-        :param str line: The raw string to parse.
+        Args:
+            line (str): The raw string to parse.
         """
 
         # State tracker.
@@ -121,7 +118,8 @@ class BaseParser:
     def _ctrl_a( self, state: ParseState ) -> None:
         """Handle ^A markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
 
         # Get the actual attribute.
@@ -145,7 +143,8 @@ class BaseParser:
     def _ctrl_b( self, state: ParseState ) -> None:
         """Handle ^B markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
 
         # If we're in bold mode...
@@ -164,7 +163,8 @@ class BaseParser:
     def _ctrl_c( self, state: ParseState ) -> None:
         """Handle ^C markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
         self.char( int( state.raw[ state.ctrl+2:state.ctrl+4 ], 16 ) )
         state.ctrl += 4
@@ -172,7 +172,8 @@ class BaseParser:
     def _ctrl_n( self, state: ParseState ) -> None:
         """Handle ^N markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
         self.normal()
         state.mode = TextMode.NORMAL
@@ -181,7 +182,8 @@ class BaseParser:
     def _ctrl_r( self, state: ParseState ) -> None:
         """Handle ^R markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
 
         # If we're in reverse mode...
@@ -200,7 +202,8 @@ class BaseParser:
     def _ctrl_u( self, state: ParseState ) -> None:
         """Handle ^U markup.
 
-        :param ParseState state: The data that tracks parse state.
+        Args:
+            state (ParseState): The data that tracks parse state.
         """
 
         # If we're in underline mode...
@@ -219,14 +222,16 @@ class BaseParser:
     def text( self, text: str ) -> None:
         """Handle the given text.
 
-        :param str text: The text to handle.
+        Args:
+            text (str): The text to handle.
         """
         del text                # pragma: no cover
 
     def colour( self, colour: int ) -> None:
         """Handle the given colour value.
 
-        :param int colour: The colour value to handle.
+        Args:
+            colour (int): The colour value to handle.
         """
         del colour              # pragma: no cover
 
@@ -254,7 +259,8 @@ class BaseParser:
     def char( self, char: int ) -> None:
         """Handle an individual character value.
 
-        :param int char: The character value to handle.
+        Args:
+            char (int): The character value to handle.
         """
         del char                # pragma: no cover
 
@@ -266,7 +272,8 @@ class PlainText( BaseParser ):
     def __init__( self, line: str ) -> None:
         """Constructor.
 
-        :param str line: The raw string to parse.
+        Args:
+            line (str): The raw string to parse.
         """
 
         # We're going to accumulate the text into a hidden instance variable.
@@ -278,22 +285,24 @@ class PlainText( BaseParser ):
     def text( self, text: str ) -> None:
         """Handle the given text.
 
-        :param str text: The text to handle.
+        Args:
+            text (str): The text to handle.
         """
         self._text += text
 
     def char( self, char: int ) -> None:
         """Handle an individual character value.
 
-        :param int char: The character value to handle.
+        Args:
+            char (int): The character value to handle.
         """
         self.text( chr( char ) )
 
     def __str__( self ) -> str:
         """Return the plain text of the line.
 
-        :returns: The parsed line, as plan text.
-        :rtype: str
+        Returns:
+            str: The parsed line, as plan text.
         """
         return self._text
 
@@ -309,7 +318,8 @@ class MarkupText( PlainText, ABC ):
     def __init__( self, line: str ) -> None:
         """Constructor.
 
-        :param str line: The raw string to parse.
+        Args:
+            line (str): The raw string to parse.
         """
 
         # We're going to keep a stack of the markup.
@@ -322,9 +332,11 @@ class MarkupText( PlainText, ABC ):
     def open_markup( self, cls: str ) -> str:
         """Open markup for the given class.
 
-        :param str cls: The class of thing to open the markup for.
-        :returns: The opening markup text.
-        :rtype: str
+        Args:
+            cls (str): The class of thing to open the markup for.
+
+        Returns:
+            str: The opening markup text.
         """
         return ""
 
@@ -332,18 +344,24 @@ class MarkupText( PlainText, ABC ):
     def close_markup( self, cls: str ) -> str:
         """Close markup for the given class.
 
-        :param str cls: The class of thing to close the markup for.
-        :returns: The closing markup text.
-        :rtype: str
+        Args:
+            cls (str): The class of thing to close the markup for.
+
+        Returns:
+            str: The closing markup text.
         """
         return ""
 
     def begin_markup( self, cls: str ) -> None:
         """Start a section of markup.
 
-        :param str cls: The class for the markup.
+        Note:
+            As a side-effect of calling on this, the ``close_markup`` for
+            the same class will be placed on an internal stack, for use when
+            ``end_markup`` is called.
 
-        As a side-effect a closing
+        Args:
+            cls (str): The class for the markup.
         """
         self._text += self.open_markup( cls )
         self._stack.append( self.close_markup( cls ) )
@@ -353,15 +371,19 @@ class MarkupText( PlainText, ABC ):
         self._text += self._stack.pop()
 
     def normal( self ) -> None:
-        """Handle being asked to go to normal mode."""
+        """Handle being asked to go to normal mode.
+
+        Note:
+            Internally this also clears the whole stack of closing tags.
+        """
         self._text += "".join( reversed( self._stack ) )
         self._stack = []
 
     def __str__( self ) -> str:
         """Return the plain text of the line.
 
-        :returns: The parsed line, as plan text.
-        :rtype: str
+        Returns:
+            str: The parsed line, as plan text.
         """
         self.normal()
         return super().__str__()
@@ -371,56 +393,66 @@ class MarkupText( PlainText, ABC ):
 class RichText( MarkupText ):
     """Read a line of Norton Guide text and mark up with Rich console markup.
 
-    **NOTE:** This is implemented in a way that doesn't require that Rich is
-    a dependency of this library. This is provided here as a test and a
-    handy example, and one that uses Rich's plain text BBCode-a-like markup.
+    Note:
+        This is implemented in a way that doesn't require that Rich is a
+        dependency of this library. This is provided here as a test and a
+        handy example, and one that uses Rich's plain text BBCode-a-like
+        markup.
 
-    See https://rich.readthedocs.io/en/stable/protocol.html
+        See https://rich.readthedocs.io/en/stable/protocol.html
     """
 
     def text( self, text: str ) -> None:
         """Handle the given text.
 
-        :param str text: The text to handle.
+        Args:
+            text (str): The text to handle.
         """
         super().text( make_dos_like( text ).replace( "[", r"\[" ) )
 
     def open_markup( self, cls: str ) -> str:
         """Open markup for the given class.
 
-        :param str cls: The class of thing to open the markup for.
-        :returns: The opening markup text.
-        :rtype: str
+        Args:
+            cls (str): The class of thing to open the markup for.
+
+        Returns:
+            str: The opening markup text.
         """
         return f"[{cls}]"
 
     def close_markup( self, cls: str ) -> str:
         """Close markup for the given class.
 
-        :param str cls: The class of thing to close the markup for.
-        :returns: The closing markup text.
-        :rtype: str
+        Args:
+            cls (str): The class of thing to close the markup for.
+
+        Returns:
+            str: The closing markup text.
         """
         del cls
         return "[/]"
 
-    #: DOS to Rich colour mapping. This is just the exceptions.
     COLOUR_MAP: Final = { 1: 4, 3: 6, 4: 1, 6: 3, 9: 21, 11: 14, 12: 196, 14: 11 }
+    """DOS to Rich colour mapping. This is just the exceptions."""
 
     @classmethod
     def map_colour( cls, colour: int ) -> int:
         """Map a DOS colour into a similar colour from Rich.
 
-        :param int colour: The DOS colour to map from.
-        :returns: The mapped colour.
-        :rtype: int
+        Args:
+            colour (int): The DOS colour to map from.
+
+        Returns:
+            int: The mapped colour.
         """
         return cls.COLOUR_MAP.get( colour, colour )
 
     def colour( self, colour: int ) -> None:
         """Handle the given colour value.
 
-        :param int colour: The colour value to handle.
+        Args:
+            colour (int): The colour value to handle.
         """
         self.begin_markup(
             f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})"
