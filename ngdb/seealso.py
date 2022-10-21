@@ -26,7 +26,7 @@ class SeeAlso( PromptCollection ):
         """Constructor.
 
         Args:
-            guide(GuideReader): The reader object for the guide.
+            guide (GuideReader): The reader object for the guide.
             load (bool): Should we bother trying to load any?
 
         Note:
