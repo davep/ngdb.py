@@ -13,7 +13,8 @@ class Menu( PromptCollection ):
     def __init__( self, guide: GuideReader ) -> None:
         """Constructor.
 
-        :param GuideReader guide: The reader object for the guide.
+        Args:
+            guide (GuideReader): The reader object for the guide.
         """
 
         # Call the parent first.
@@ -53,22 +54,23 @@ class Menu( PromptCollection ):
 
     @property
     def title( self ) -> str:
-        """The title of the menu.
-
-        :type: str
-        """
+        """str: The title of the menu."""
         return self._title
 
     def __str__( self ) -> str:
         """Get the string representation of the menu.
 
-        :returns: The title of the menu.
-        :rtype: str
+        Returns:
+            str: The title of the menu.
         """
         return self.title
 
     def __repr__( self ) -> str:
-        """The string representation of the menu."""
+        """Get the string representation of the menu.
+
+        Returns:
+            str: The title of the menu.
+        """
         return f"<{self.__class__.__name__}: {self}>"
 
 ### menu.py ends here
