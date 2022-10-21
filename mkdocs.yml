@@ -1,3 +1,9 @@
 site_name: ngdb.py
 
+plugins:
+  - search:
+  - autorefs:
+  - mkdocstrings:
+      default_handler: python
+
 ### mkdocs.yml ends here
