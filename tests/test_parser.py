@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing   import List, Union, Tuple, Any, Iterator
+from typing   import Any, Iterator, Union
 from unittest import TestCase
 
 ##############################################################################
@@ -48,11 +48,11 @@ class TestPlainText( TestCase ):
 
 ##############################################################################
 #: Type of a single event that the TestParser will catch.
-TEvent = Union[ str, Tuple[ str, Any ] ]
+TEvent = Union[ str, tuple[ str, Any ] ]
 
 ##############################################################################
 #: Type of the collection of events in the TestParser.
-TEvents = List[ TEvent ]
+TEvents = list[ TEvent ]
 
 ##############################################################################
 # Unit-test-oriented Norton Guide line parser.
