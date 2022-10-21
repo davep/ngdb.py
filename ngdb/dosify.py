@@ -168,6 +168,7 @@ DOS_MAP: Final = str.maketrans( {
     254: "\u25A0",
     255: "\u00A0"
 } )
+"""Map For translating into DOS-a-like characters."""
 
 ##############################################################################
 # Try and make a string DOS-a-like.

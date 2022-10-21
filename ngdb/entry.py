@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Type, Dict, Callable, Tuple, Iterator, Final
+from typing import Type, Callable, Iterator, Final
 
 ##############################################################################
 # Local imports.
@@ -109,7 +109,7 @@ class Entry:
     """Norton Guide database entry class."""
 
     #: Holds the entry type mapper.
-    _map: Dict[ EntryType, TEntry ] = {}
+    _map: dict[ EntryType, TEntry ] = {}
 
     @classmethod
     def loads( cls, entry_type: EntryType ) -> Callable[ [ TEntry ], TEntry ]:
@@ -163,7 +163,7 @@ class Entry:
         self._next          = guide.read_offset()
 
         # Set up for loading in the lines.
-        self._lines: Tuple[ str, ... ] = ()
+        self._lines: tuple[ str, ... ] = ()
 
     def _load_lines( self, guide: GuideReader ) -> None:
         """Load in all of the lines of text, from this point.
@@ -229,8 +229,8 @@ class Entry:
         return self.next > 0
 
     @property
-    def lines( self ) -> Tuple[ str, ... ]:
-        """Tuple[str,...]: The lines of text in the entry."""
+    def lines( self ) -> tuple[ str, ... ]:
+        """tuple[str,...]: The lines of text in the entry."""
         return self._lines
 
     def __str__( self ) -> str:
@@ -299,8 +299,8 @@ class Short( Entry ):
             yield guide.read_offset()
 
     @property
-    def offsets( self ) -> Tuple[ int, ... ]:
-        """Tuple[int,...]: The offsets for each of the lines in the entry."""
+    def offsets( self ) -> tuple[ int, ... ]:
+        """tuple[int,...]: The offsets for each of the lines in the entry."""
         return self._offsets
 
     def __getitem__( self, line: int ) -> Link:

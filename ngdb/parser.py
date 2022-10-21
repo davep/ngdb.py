@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Final, List
+from typing import Final
 from enum   import Enum, auto
 from abc    import ABC, abstractmethod
 
@@ -323,7 +323,7 @@ class MarkupText( PlainText, ABC ):
         """
 
         # We're going to keep a stack of the markup.
-        self._stack: List[ str ] = []
+        self._stack: list[ str ] = []
 
         # Having set the above up, go parse.
         super().__init__( line )

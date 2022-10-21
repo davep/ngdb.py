@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Tuple, Iterator, Final
+from typing import Iterator, Final
 
 ##############################################################################
 # Local imports.
@@ -19,17 +19,17 @@ class PromptCollection:
     def __init__( self ) -> None:
         """Constructor."""
         self._count                      = 0
-        self._prompts: Tuple[ str, ... ] = ()
-        self._offsets: Tuple[ int, ... ] = ()
+        self._prompts: tuple[ str, ... ] = ()
+        self._offsets: tuple[ int, ... ] = ()
 
     @property
-    def prompts( self ) -> Tuple[ str, ... ]:
-        """Tuple[str,...]: The prompts in the collection."""
+    def prompts( self ) -> tuple[ str, ... ]:
+        """tuple[str,...]: The prompts in the collection."""
         return self._prompts
 
     @property
-    def offsets( self ) -> Tuple[ int, ... ]:
-        """Tuple[int,...]: The offsets into the guide for each prompt."""
+    def offsets( self ) -> tuple[ int, ... ]:
+        """tuple[int,...]: The offsets into the guide for each prompt."""
         return self._offsets
 
     def __len__( self ) -> int:

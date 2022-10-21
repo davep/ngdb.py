@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from pathlib   import Path
-from typing    import Tuple, Iterator, Callable, Any, Final
+from typing    import Iterator, Callable, Any, Final
 from functools import wraps
 
 ##############################################################################
@@ -161,8 +161,8 @@ class NortonGuide:
         return self._title
 
     @property
-    def credits( self ) -> Tuple[ str, ... ]:
-        """Tuple[str,...]: The credits for the guide."""
+    def credits( self ) -> tuple[ str, ... ]:
+        """tuple[str,...]: The credits for the guide."""
         return self._credits
 
     @property
@@ -181,8 +181,8 @@ class NortonGuide:
         return self.MAGIC.get( self.magic, "Unknown" )
 
     @property
-    def menus( self ) -> Tuple[ Menu, ... ]:
-        """Tuple[Menu,...]: The menus for the guide."""
+    def menus( self ) -> tuple[ Menu, ... ]:
+        """tuple[Menu,...]: The menus for the guide."""
         return self._menus
 
     def goto( self, pos: int ) -> "NortonGuide":
