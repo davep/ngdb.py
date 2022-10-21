@@ -7,7 +7,6 @@ from pathlib import Path
 from typing  import Final
 
 ##############################################################################
-# Low-level guide reader.
 class GuideReader:
     """Low-level guide reading class.
 

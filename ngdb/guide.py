@@ -14,7 +14,6 @@ from .menu   import Menu
 from .entry  import Entry
 
 ##############################################################################
-# EOF-protection method decorator.
 def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
@@ -33,7 +32,6 @@ def not_eof( meth: Callable[ ..., Any ] ) -> Callable[ ..., Any ]:
     return _guard
 
 ##############################################################################
-# Main Norton Guide class.
 class NortonGuide:
     """Norton Guide database wrapper class.
 
@@ -41,11 +39,11 @@ class NortonGuide:
         path (Path): The path of the database.
     """
 
-    #: Lookup for valid database magic markers.
     MAGIC: Final = {
         "EH": "Expert Help",
         "NG": "Norton Guide"
     }
+    """Lookup for valid database magic markers."""
 
     TITLE_LENGTH: Final = 40
     """int: The length of a title in the header."""

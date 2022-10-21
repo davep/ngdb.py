@@ -6,7 +6,6 @@ from .reader  import GuideReader
 from .prompts import PromptCollection
 
 ##############################################################################
-# Menu class.
 class Menu( PromptCollection ):
     """Class that loads and holds the details of a menu in the guide."""
 

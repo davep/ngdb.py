@@ -10,7 +10,6 @@ from .reader  import GuideReader
 from .prompts import PromptCollection
 
 ##############################################################################
-# Class that loads and holds a see-also collection.
 class SeeAlso( PromptCollection ):
     """Class to load and hold all the see alsos for a long entry."""
 

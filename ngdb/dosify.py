@@ -5,7 +5,6 @@
 from typing import Final
 
 ##############################################################################
-#: Map For translating into DOS-a-like characters.
 DOS_MAP: Final = str.maketrans( {
     0:   " ",
     1:   "\u263A",
@@ -171,7 +170,6 @@ DOS_MAP: Final = str.maketrans( {
 """Map For translating into DOS-a-like characters."""
 
 ##############################################################################
-# Try and make a string DOS-a-like.
 def make_dos_like( text: str ) -> str:
     """Try and make a string from a guide capable of retaining DOS-likeness.
 

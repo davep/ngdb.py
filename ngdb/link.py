@@ -5,7 +5,6 @@
 from typing import NamedTuple
 
 ##############################################################################
-# A text/offset link within a guide.
 class Link( NamedTuple ):
     """A link within a Norton Guide, comprising of some text and an offset."""
 

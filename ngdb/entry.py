@@ -13,7 +13,6 @@ from .seealso import SeeAlso
 from .parser  import RichText
 
 ##############################################################################
-# Loads and holds entry parent information.
 class EntryParent:
     """Class to load and hold the parent information for an entry."""
 
@@ -96,20 +95,19 @@ class EntryParent:
         return self.has_menu and self.prompt != -1
 
 ##############################################################################
-#: Type of the type of an entry.
 TEntry = Type[ "Entry" ]
+"""Type of the type of an entry."""
 
 ##############################################################################
-#: Maximum size of a line we'll look for in a guide.
 MAX_LINE_LENGTH: Final = 1024
+"""int: Maximum size of a line we'll look for in a guide."""
 
 ##############################################################################
-# Guide entry class.
 class Entry:
     """Norton Guide database entry class."""
 
-    #: Holds the entry type mapper.
     _map: dict[ EntryType, TEntry ] = {}
+    """dict[EntryType,TEntry]: Holds the entry type mapper."""
 
     @classmethod
     def loads( cls, entry_type: EntryType ) -> Callable[ [ TEntry ], TEntry ]:
@@ -261,7 +259,6 @@ class Entry:
         return "\n".join( str( RichText( line ) ) for line in self.lines )
 
 ##############################################################################
-# Short entry class.
 @Entry.loads( EntryType.SHORT )
 class Short( Entry ):
     """Short Norton Guide database entry."""
@@ -312,7 +309,6 @@ class Short( Entry ):
         return ( Link( *line ) for line in zip( self.lines, self.offsets ) )
 
 ##############################################################################
-# Long entry class.
 @Entry.loads( EntryType.LONG )
 class Long( Entry ):
     """Long Norton Guide database entry."""

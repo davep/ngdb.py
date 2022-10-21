@@ -5,28 +5,29 @@
 from enum import Enum
 
 ##############################################################################
-# Base exception.
 class NGDBError( Exception ):
     """Base exception of all exceptions in the library."""
 
 ##############################################################################
-# Unknown entry type error.
 class UnknownEntryType( NGDBError ):
     """Type of an exception when faced with an unknown entry type."""
 
 ##############################################################################
-# EOF error.
 class NGEOF( NGDBError ):
     """Type of an exception thrown when doing things at or past EOF."""
 
 ##############################################################################
-# Enum of Norton Guide database entry type IDs.
 class EntryType( Enum ):
     """Types of entry in a guide."""
 
     SHORT = 0
-    LONG  = 1
-    MENU  = 2
+    """The record ID for a short entry in a Norton Guide database."""
+
+    LONG = 1
+    """The record ID for a long entry in a Norton Guide database."""
+
+    MENU = 2
+    """The record ID for a menu in a Norton Guide database."""
 
     @classmethod
     def is_short( cls, test: int ) -> bool:

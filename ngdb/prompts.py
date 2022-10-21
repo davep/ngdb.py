@@ -9,7 +9,6 @@ from typing import Iterator, Final
 from .link import Link
 
 ##############################################################################
-# Base class for classes that are collections of prompts and offsets.
 class PromptCollection:
     """Base class for classes that contain prompt/offset collections."""
 

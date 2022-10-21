@@ -11,7 +11,6 @@ from abc    import ABC, abstractmethod
 from .dosify import make_dos_like
 
 ##############################################################################
-# Enumerated text modes for line parsing.
 class TextMode( Enum ):
     """Types of text mode used when parsing a Norton Guide line."""
     NORMAL    = auto()
@@ -21,11 +20,10 @@ class TextMode( Enum ):
     ATTR      = auto()
 
 ##############################################################################
-#: The control character that marks an upcoming attribute.
 CTRL_CHAR: Final = "^"
+"""The control character that marks an upcoming attribute."""
 
 ##############################################################################
-# Class to help track the state of raw parsing.
 class ParseState:
     """Raw text parsing state tracking class.
 
@@ -67,7 +65,6 @@ class ParseState:
             return ""
 
 ##############################################################################
-# Base parser class.
 class BaseParser:
     """The base text parsing class."""
 
@@ -265,7 +262,6 @@ class BaseParser:
         del char                # pragma: no cover
 
 ##############################################################################
-# Plain text Norton Guide line parser.
 class PlainText( BaseParser ):
     """Read a line of Norton Guide text as plain text."""
 
@@ -307,7 +303,6 @@ class PlainText( BaseParser ):
         return self._text
 
 ##############################################################################
-# Marked-up text Norton Guide line parser.
 class MarkupText( PlainText, ABC ):
     """Read a line of Norton Guide text and mark up with start/end tags.
 
@@ -389,7 +384,6 @@ class MarkupText( PlainText, ABC ):
         return super().__str__()
 
 ##############################################################################
-# Rich (the library) text Norton Guide parser.
 class RichText( MarkupText ):
     """Read a line of Norton Guide text and mark up with Rich console markup.
 
