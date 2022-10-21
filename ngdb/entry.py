@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from typing import Type, Dict, Callable, Tuple, Iterator
+from typing import Type, Dict, Callable, Tuple, Iterator, Final
 
 ##############################################################################
 # Local imports.
@@ -101,7 +101,7 @@ TEntry = Type[ "Entry" ]
 
 ##############################################################################
 #: Maximum size of a line we'll look for in a guide.
-MAX_LINE_LENGTH = 1024
+MAX_LINE_LENGTH: Final = 1024
 
 ##############################################################################
 # Guide entry class.
