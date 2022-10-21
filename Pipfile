@@ -13,6 +13,8 @@ typing-extensions = "*"
 vermin = "*"
 twine = "*"
 mkdocs = "*"
+mkdocs-autorefs = "*"
+mkdocstrings = {extras = ["python"], version = "*"}
 
 [requires]
 python_version = "3.10"
