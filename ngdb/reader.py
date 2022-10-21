@@ -29,9 +29,11 @@ class GuideReader:
     def unrle( cls, rle_text: str ) -> str:
         """Un-run-length-encode the given string.
 
-        :param str rle_text: The text that needs expanding.
-        :returns: The given text with all RLE components expanded.
-        :rtype: str
+        Args:
+            rle_text (str): The text that needs expanding.
+
+        Returns:
+            str: The given text with all RLE components expanded.
 
         Norton Guide database files use a very simple form of
         run-length-encoding for spaces. Simply put, if you find a byte in a
@@ -58,7 +60,8 @@ class GuideReader:
     def __init__( self, guide: Path ):
         """Constructor.
 
-        :param ~pathlib.Path guide: The guide to open.
+        Args:
+            guide (Path): The guide to open.
         """
         self._h = guide.open( "rb" )
 
@@ -68,38 +71,37 @@ class GuideReader:
 
     @property
     def pos( self ) -> int:
-        """The current position within the file.
-
-        :type: int
-        """
+        """int: The current position within the file."""
         return self._h.tell()
 
     def goto( self, pos: int ) -> "GuideReader":
         """Go to a specific byte position within the guide.
 
-        :param int pos: The position to go to.
-        :returns: self
-        :rtype: GuideReader
+        Args:
+            pos (int): The position to go to.
+
+        Returns:
+            GuideReader: self
         """
         self._h.seek( pos )
         return self
 
     @property
     def closed( self ) -> bool:
-        """Is the file closed?
-
-        :type: bool
-        """
+        """bool: Is the file closed?"""
         return self._h.closed
 
     def skip( self, count: int=1 ) -> "GuideReader":
         """Skip a number of bytes in the guide.
 
-        :param int count: The optional number of bytes to skip.
-        :returns: self
-        :rtype: GuideReader
+        Args:
+            count (int, optional): The optional number of bytes to skip.
 
-        **NOTE:** If ``count`` isn't supplied then 1 byte is skilled.
+        Returns:
+            GuideReader: self
+
+        Note:
+            If ``count`` isn't supplied then 1 byte is skipped.
         """
         self._h.seek( count, io.SEEK_CUR )
         return self
@@ -107,8 +109,8 @@ class GuideReader:
     def skip_entry( self ) -> "GuideReader":
         """Skip a whole entry in the guide.
 
-        :returns: self
-        :rtype: GuideReader
+        Returns:
+            GuideReader: self
         """
         return self.skip( 2 ).skip( self.read_word() + 22 )
 
@@ -116,20 +118,25 @@ class GuideReader:
     def _decrypt( value: int ) -> int:
         """Decrypt a given numeric value.
 
-        :param int value: The value to decrypt.
-        :returns: The decrypted value.
-        :rtype: int
+        Args:
+            value (int): The value to decrypt.
+
+        Returns:
+            int: The decrypted value.
         """
         return value ^ 0x1A
 
     def read_byte( self, decrypt: bool=True ) -> int:
         """Read a byte from the guide.
 
-        :param bool decrypt: Should the value be decrypted?
-        :returns: The byte value read.
-        :rtype: int
+        Args:
+            decrypt (bool, optional): Should the value be decrypted?
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Returns:
+            int: The byte value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         buff = self._h.read( 1 )[ 0 ]
         return self._decrypt( buff ) if decrypt else buff
@@ -137,22 +144,28 @@ class GuideReader:
     def read_word( self, decrypt: bool=True ) -> int:
         """Read a two-byte word from the guide.
 
-        :param bool decrypt: Should the value be decrypted?
-        :returns: The integer value read.
-        :rtype: int
+        Args:
+            decrypt (bool, optional): Should the value be decrypted?
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Returns:
+            int: The word value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         return self.read_byte( decrypt ) + ( self.read_byte( decrypt ) << 8 )
 
     def peek_word( self, decrypt: bool=True ) -> int:
         """Read a two-byte word but don't move the file location.
 
-        :param bool decrypt: Should the value be decrypted?
-        :returns: The integer value read.
-        :rtype: int
+        Args:
+            decrypt (bool, optional): Should the value be decrypted?
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Returns:
+            int: The word value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         try:
             return self.read_word( decrypt )
@@ -162,22 +175,26 @@ class GuideReader:
     def read_long( self, decrypt: bool=True ) -> int:
         """Read a four-byte long word from the guide.
 
-        :param bool decrypt: Should the value be decrypted?
-        :returns: The long integer value read.
-        :rtype: int
+        Args:
+            decrypt (bool, optional): Should the value be decrypted?
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Returns:
+            int: The long integer value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         return self.read_word( decrypt ) + ( self.read_word( decrypt ) << 16 )
 
     def read_offset( self ) -> int:
         """Read an offset value from the guide.
 
-        :returns: The offset value read.
-        :rtype: int
+        Returns:
+            int: The offset value read.
 
-        **NOTE:** This function ensures that an offset value that means
-        'there is no offset' returns as ``-1``.
+        Note:
+            This function ensures that an offset value that means 'there is
+            no offset' returns as ``-1``.
         """
         return -1 if ( offset := self.read_long( True ) ) == 0xFFFFFFFF else offset
 
@@ -185,21 +202,26 @@ class GuideReader:
     def _nul_trim( string: str ) -> str:
         """Trim a string from the first nul.
 
-        :param str string: The string to trim.
-        :returns: Everything up to but not including the first nul.
-        :rtype: str
+        Args:
+            string (str): The string to trim.
+
+        Returns:
+            str: Everything up to but not including the first nul.
         """
         return string[ 0:nul ] if ( nul := string.find( "\000" ) ) != -1 else string
 
     def read_str( self, length: int, decrypt: bool=True ) -> str:
         """Read a fixed-length string from the guide.
 
-        :param int length: The length of the string to read.
-        :param bool decrypt: Should the string be decrypted?
-        :returns: The string value read.
-        :rtype: str
+        Args:
+            length (int): The length of the string to read.
+            decrypt (bool, optional): Should the string be decrypted?
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Returns:
+            str: The string value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         return self._nul_trim( "".join(
             chr( self._decrypt( n ) if decrypt else n ) for n in tuple( self._h.read( length ) )
@@ -208,12 +230,20 @@ class GuideReader:
     def read_strz( self, length: int, decrypt: bool=True ) -> str:
         """Read a nul-terminated string from the guide.
 
-        :param int length: The maximum length of the string to read.
-        :param bool decrypt: Should the string be decrypted?
-        :returns: The string value read.
-        :rtype: str
+        This is similar to ``read_str``, but it will read only as far as the
+        first nul it encounters, within the bounds of ``length``, and the
+        file read location will be correctly settled to take this into
+        account.
 
-        **NOTE:** ``decrypt`` is optional and defaults to ``True``.
+        Args:
+            length (int): The maximum length of the string to read.
+            decrypt (bool, optional): Should the string be decrypted?
+
+        Returns:
+            str: The string value read.
+
+        Note:
+            ``decrypt`` is optional and defaults to ``True``.
         """
         # Remember where we are before we read in the string.
         pos = self.pos
