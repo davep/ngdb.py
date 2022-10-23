@@ -266,32 +266,15 @@ class PlainText( BaseParser ):
     """Read a line of Norton Guide text as plain text."""
 
     def __init__( self, line: str ) -> None:
-        """Constructor.
-
-        Args:
-            line (str): The raw string to parse.
-        """
-
         # We're going to accumulate the text into a hidden instance variable.
         self._text = ""
-
         # Having set the above up, go parse.
         super().__init__( line )
 
     def text( self, text: str ) -> None:
-        """Handle the given text.
-
-        Args:
-            text (str): The text to handle.
-        """
         self._text += text
 
     def char( self, char: int ) -> None:
-        """Handle an individual character value.
-
-        Args:
-            char (int): The character value to handle.
-        """
         self.text( chr( char ) )
 
     def __str__( self ) -> str:
@@ -311,15 +294,8 @@ class MarkupText( PlainText, ABC ):
     """
 
     def __init__( self, line: str ) -> None:
-        """Constructor.
-
-        Args:
-            line (str): The raw string to parse.
-        """
-
         # We're going to keep a stack of the markup.
         self._stack: list[ str ] = []
-
         # Having set the above up, go parse.
         super().__init__( line )
 
@@ -375,11 +351,6 @@ class MarkupText( PlainText, ABC ):
         self._stack = []
 
     def __str__( self ) -> str:
-        """Return the plain text of the line.
-
-        Returns:
-            str: The parsed line, as plan text.
-        """
         self.normal()
         return super().__str__()
 
@@ -397,33 +368,12 @@ class RichText( MarkupText ):
     """
 
     def text( self, text: str ) -> None:
-        """Handle the given text.
-
-        Args:
-            text (str): The text to handle.
-        """
         super().text( make_dos_like( text ).replace( "[", r"\[" ) )
 
     def open_markup( self, cls: str ) -> str:
-        """Open markup for the given class.
-
-        Args:
-            cls (str): The class of thing to open the markup for.
-
-        Returns:
-            str: The opening markup text.
-        """
         return f"[{cls}]"
 
     def close_markup( self, cls: str ) -> str:
-        """Close markup for the given class.
-
-        Args:
-            cls (str): The class of thing to close the markup for.
-
-        Returns:
-            str: The closing markup text.
-        """
         del cls
         return "[/]"
 
@@ -443,37 +393,26 @@ class RichText( MarkupText ):
         return cls.COLOUR_MAP.get( colour, colour )
 
     def colour( self, colour: int ) -> None:
-        """Handle the given colour value.
-
-        Args:
-            colour (int): The colour value to handle.
-        """
         self.begin_markup(
             f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})"
         )
 
     def bold( self ) -> None:
-        """Handle being asked to go to bold mode."""
         self.begin_markup( "bold" )
 
     def unbold( self ) -> None:
-        """Handle being asked to go out of bold mode."""
         self.end_markup()
 
     def reverse( self ) -> None:
-        """Handle being asked to go to reverse mode."""
         self.begin_markup( "reverse" )
 
     def unreverse( self ) -> None:
-        """Handle being asked to go out of reverse mode."""
         self.end_markup()
 
     def underline( self ) -> None:
-        """Handle being asked to go in underline mode."""
         self.begin_markup( "underline" )
 
     def ununderline( self ) -> None:
-        """Handle being asked to go out of underline mode."""
         self.end_markup()
 
 ### parser.py ends here
