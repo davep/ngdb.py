@@ -1,9 +1,38 @@
 site_name: ngdb.py
 
+nav:
+  - Introduction:
+    - index.md
+    - installing.md
+
+watch:
+  - ngdb/
+
 plugins:
   - search:
   - autorefs:
   - mkdocstrings:
       default_handler: python
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.tabs.sticky
+    - content.code.annotate
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    accent: purple
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    toggle:
+      icon: material/weather-night
+      name: Switch to light mode
 
 ### mkdocs.yml ends here
