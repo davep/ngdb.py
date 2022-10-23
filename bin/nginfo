@@ -4,7 +4,7 @@
 ##############################################################################
 # Module information.
 __author__     = "Dave Pearson"
-__copyright__  = "Copyright 2021, Dave Pearson"
+__copyright__  = "Copyright 2021-2022, Dave Pearson"
 __licence__    = "GPL"
 __credits__    = [ "Dave Pearson" ]
 __maintainer__ = "Dave Pearson"
