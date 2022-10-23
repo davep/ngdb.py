@@ -60,7 +60,6 @@ class TestParser( BaseParser ):
     """Parser class for working with unit tests."""
 
     def __init__( self, line: str ) -> None:
-        """Constructor."""
 
         # First off, we're going to collect all the different events that
         # happen, so start a list for doing that.
@@ -70,52 +69,33 @@ class TestParser( BaseParser ):
         super().__init__( line )
 
     def text( self, text: str ) -> None:
-        """Handle the given text.
-
-        :param str text: The text to handle.
-        """
         self._events.append( ( "T", text ) )
 
     def colour( self, colour: int ) -> None:
-        """Handle the given colour value.
-
-        :param int colour: The colour value to handle.
-        """
         self._events.append( ( "A", colour ) )
 
     def normal( self ) -> None:
-        """Handle being asked to go to normal mode."""
         self._events.append( "N" )
 
     def bold( self ) -> None:
-        """Handle being asked to go to bold mode."""
         self._events.append( "B" )
 
     def unbold( self ) -> None:
-        """Handle being asked to go out of bold mode."""
         self._events.append( "b" )
 
     def reverse( self ) -> None:
-        """Handle being asked to go to reverse mode."""
         self._events.append( "R" )
 
     def unreverse( self ) -> None:
-        """Handle being asked to go out of reverse mode."""
         self._events.append( "r" )
 
     def underline( self ) -> None:
-        """Handle being asked to go in underline mode."""
         self._events.append( "U" )
 
     def ununderline( self ) -> None:
-        """Handle being asked to go out of underline mode."""
         self._events.append( "u" )
 
     def char( self, char: int ) -> None:
-        """Handle an individual character value.
-
-        :param int char: The character value to handle.
-        """
         self._events.append( ( "C", char ) )
 
     def __iter__( self ) -> Iterator[ TEvent ]:
