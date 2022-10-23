@@ -1,6 +1,10 @@
 """Norton guide entry loading and holding code."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from typing import Type, Callable, Iterator, Final
 

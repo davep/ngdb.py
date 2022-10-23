@@ -1,6 +1,10 @@
 """Defines the class for opening and managing a Norton Guide database."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from pathlib   import Path
 from typing    import Iterator, Callable, Any, Final
