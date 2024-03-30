@@ -1,6 +1,10 @@
 """Norton Guide entry content markup unit tests."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from typing import Any, Iterator, Union
 from unittest import TestCase
