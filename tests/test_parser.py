@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Any, Iterator, Tuple, Union
+from typing import Any, Iterator, List, Tuple, Union
 from unittest import TestCase
 
 ##############################################################################
@@ -56,13 +56,11 @@ class TestPlainText(TestCase):
         self.assertEqual(str(PlainText("^")), "")
 
 
-##############################################################################
-#: Type of a single event that the TestParser will catch.
 TEvent: TypeAlias = Union[str, Tuple[str, Any]]
+"""Type of a single event that the TestParser will catch."""
 
-##############################################################################
-#: Type of the collection of events in the TestParser.
-TEvents = list[TEvent]
+TEvents: TypeAlias = List[TEvent]
+"""Type of the collection of events in the TestParser."""
 
 
 ##############################################################################
