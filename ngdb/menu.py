@@ -2,14 +2,15 @@
 
 ##############################################################################
 # Local imports.
-from .reader  import GuideReader
 from .prompts import PromptCollection
+from .reader import GuideReader
+
 
 ##############################################################################
-class Menu( PromptCollection ):
+class Menu(PromptCollection):
     """Class that loads and holds the details of a menu in the guide."""
 
-    def __init__( self, guide: GuideReader ) -> None:
+    def __init__(self, guide: GuideReader) -> None:
         """Constructor.
 
         Args:
@@ -21,30 +22,30 @@ class Menu( PromptCollection ):
 
         # Skip the type marker for the menu. Our caller should have tested
         # that we're a menu.
-        _ = guide.read_word( False )
+        _ = guide.read_word(False)
 
         # Skip the byte size of the menu section.
-        _ = guide.read_word( False )
+        _ = guide.read_word(False)
 
         # Next up, read the prompt count.
         self._count = guide.read_word() - 1
 
         # Now skip 20 bytes. I'm not sure what they are.
-        guide.skip( 20 )
+        guide.skip(20)
 
         # Next up is the collection of offsets for each menu prompt.
-        self._offsets = tuple( guide.read_offset() for _ in range( len( self ) ) )
+        self._offsets = tuple(guide.read_offset() for _ in range(len(self)))
 
         # Skip a number of values I don't know the purpose of, but I've
         # never needed. It seems to be two sets of long integer arrays.
-        guide.skip( ( len( self ) + 1 ) * 8 )
+        guide.skip((len(self) + 1) * 8)
 
         # We've now got to the title of the menu.
-        self._title = guide.read_strz( self.MAX_PROMPT_LENGTH )
+        self._title = guide.read_strz(self.MAX_PROMPT_LENGTH)
 
         # After the title comes the prompts.
         self._prompts = tuple(
-            guide.read_strz( self.MAX_PROMPT_LENGTH ) for _ in range( len( self ) )
+            guide.read_strz(self.MAX_PROMPT_LENGTH) for _ in range(len(self))
         )
 
         # Finally, skip an unknown byte. This should then place us on the
@@ -52,11 +53,11 @@ class Menu( PromptCollection ):
         guide.skip()
 
     @property
-    def title( self ) -> str:
+    def title(self) -> str:
         """str: The title of the menu."""
         return self._title
 
-    def __str__( self ) -> str:
+    def __str__(self) -> str:
         """Get the string representation of the menu.
 
         Returns:
@@ -64,12 +65,13 @@ class Menu( PromptCollection ):
         """
         return self.title
 
-    def __repr__( self ) -> str:
+    def __repr__(self) -> str:
         """Get the string representation of the menu.
 
         Returns:
             str: The title of the menu.
         """
         return f"<{self.__class__.__name__}: {self}>"
+
 
 ### menu.py ends here

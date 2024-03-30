@@ -4,13 +4,15 @@
 # Python imports.
 from typing import Final
 
-##############################################################################
-# Local imports.
-from .reader  import GuideReader
 from .prompts import PromptCollection
 
 ##############################################################################
-class SeeAlso( PromptCollection ):
+# Local imports.
+from .reader import GuideReader
+
+
+##############################################################################
+class SeeAlso(PromptCollection):
     """Class to load and hold all the see alsos for a long entry."""
 
     MAX_SEE_ALSO: Final = 20
@@ -21,7 +23,7 @@ class SeeAlso( PromptCollection ):
     against corrupt guides.
     """
 
-    def __init__( self, guide: GuideReader, load: bool ) -> None:
+    def __init__(self, guide: GuideReader, load: bool) -> None:
         """Constructor.
 
         Args:
@@ -44,17 +46,17 @@ class SeeAlso( PromptCollection ):
 
         # Should we actually bother trying to load anything?
         if load:
-
             # Get the count of see-also entries.
-            self._count = min( guide.read_word(), self.MAX_SEE_ALSO )
+            self._count = min(guide.read_word(), self.MAX_SEE_ALSO)
 
             # Get the offsets for each of the see-also entries.
-            self._offsets = tuple( guide.read_offset() for _ in range( len( self ) ) )
+            self._offsets = tuple(guide.read_offset() for _ in range(len(self)))
 
             # Get the prompts for each of the see-also items.
             self._prompts = tuple(
-                guide.unrle( guide.read_strz( self.MAX_PROMPT_LENGTH ) )
-                for _ in range( len( self ) )
+                guide.unrle(guide.read_strz(self.MAX_PROMPT_LENGTH))
+                for _ in range(len(self))
             )
+
 
 ### seealso.py ends here

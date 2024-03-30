@@ -10,12 +10,14 @@ pylint = "*"
 mypy = "*"
 coverage = "*"
 typing-extensions = "*"
-vermin = "*"
 twine = "*"
 mkdocs = "*"
 mkdocs-autorefs = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-material = "*"
+pre-commit = "*"
+black = "*"
+build = "*"
 
 [requires]
 python_version = "3.10"

@@ -4,7 +4,8 @@
 # Python imports.
 import io
 from pathlib import Path
-from typing  import Final
+from typing import Final
+
 
 ##############################################################################
 class GuideReader:
@@ -25,7 +26,7 @@ class GuideReader:
     RLE_MARKER: Final = "\xFF"
 
     @classmethod
-    def unrle( cls, rle_text: str ) -> str:
+    def unrle(cls, rle_text: str) -> str:
         """Un-run-length-encode the given string.
 
         Args:
@@ -44,36 +45,36 @@ class GuideReader:
         """
 
         expanded = ""
-        start    = 0
-        split    = rle_text.find( cls.RLE_MARKER )
+        start = 0
+        split = rle_text.find(cls.RLE_MARKER)
 
         while split > -1:
-            expanded += rle_text[ start:split ] + " " * (
-                1 if rle_text[ split + 1 ] == cls.RLE_MARKER else ord( rle_text[ split + 1 ] )
+            expanded += rle_text[start:split] + " " * (
+                1 if rle_text[split + 1] == cls.RLE_MARKER else ord(rle_text[split + 1])
             )
             start = split + 2
-            split = rle_text.find( cls.RLE_MARKER, start )
+            split = rle_text.find(cls.RLE_MARKER, start)
 
-        return expanded + rle_text[ start: ]
+        return expanded + rle_text[start:]
 
-    def __init__( self, guide: Path ):
+    def __init__(self, guide: Path):
         """Constructor.
 
         Args:
             guide (Path): The guide to open.
         """
-        self._h = guide.open( "rb" )
+        self._h = guide.open("rb")
 
-    def close( self ) -> None:
+    def close(self) -> None:
         """Close the guide."""
         self._h.close()
 
     @property
-    def pos( self ) -> int:
+    def pos(self) -> int:
         """int: The current position within the file."""
         return self._h.tell()
 
-    def goto( self, pos: int ) -> "GuideReader":
+    def goto(self, pos: int) -> "GuideReader":
         """Go to a specific byte position within the guide.
 
         Args:
@@ -82,15 +83,15 @@ class GuideReader:
         Returns:
             GuideReader: self
         """
-        self._h.seek( pos )
+        self._h.seek(pos)
         return self
 
     @property
-    def closed( self ) -> bool:
+    def closed(self) -> bool:
         """bool: Is the file closed?"""
         return self._h.closed
 
-    def skip( self, count: int=1 ) -> "GuideReader":
+    def skip(self, count: int = 1) -> "GuideReader":
         """Skip a number of bytes in the guide.
 
         Args:
@@ -102,19 +103,19 @@ class GuideReader:
         Note:
             If ``count`` isn't supplied then 1 byte is skipped.
         """
-        self._h.seek( count, io.SEEK_CUR )
+        self._h.seek(count, io.SEEK_CUR)
         return self
 
-    def skip_entry( self ) -> "GuideReader":
+    def skip_entry(self) -> "GuideReader":
         """Skip a whole entry in the guide.
 
         Returns:
             GuideReader: self
         """
-        return self.skip( 2 ).skip( self.read_word() + 22 )
+        return self.skip(2).skip(self.read_word() + 22)
 
     @staticmethod
-    def _decrypt( value: int ) -> int:
+    def _decrypt(value: int) -> int:
         """Decrypt a given numeric value.
 
         Args:
@@ -125,7 +126,7 @@ class GuideReader:
         """
         return value ^ 0x1A
 
-    def read_byte( self, decrypt: bool=True ) -> int:
+    def read_byte(self, decrypt: bool = True) -> int:
         """Read a byte from the guide.
 
         Args:
@@ -137,10 +138,10 @@ class GuideReader:
         Note:
             ``decrypt`` is optional and defaults to ``True``.
         """
-        buff = self._h.read( 1 )[ 0 ]
-        return self._decrypt( buff ) if decrypt else buff
+        buff = self._h.read(1)[0]
+        return self._decrypt(buff) if decrypt else buff
 
-    def read_word( self, decrypt: bool=True ) -> int:
+    def read_word(self, decrypt: bool = True) -> int:
         """Read a two-byte word from the guide.
 
         Args:
@@ -152,9 +153,9 @@ class GuideReader:
         Note:
             ``decrypt`` is optional and defaults to ``True``.
         """
-        return self.read_byte( decrypt ) + ( self.read_byte( decrypt ) << 8 )
+        return self.read_byte(decrypt) + (self.read_byte(decrypt) << 8)
 
-    def peek_word( self, decrypt: bool=True ) -> int:
+    def peek_word(self, decrypt: bool = True) -> int:
         """Read a two-byte word but don't move the file location.
 
         Args:
@@ -167,11 +168,11 @@ class GuideReader:
             ``decrypt`` is optional and defaults to ``True``.
         """
         try:
-            return self.read_word( decrypt )
+            return self.read_word(decrypt)
         finally:
-            self.skip( -2 )
+            self.skip(-2)
 
-    def read_long( self, decrypt: bool=True ) -> int:
+    def read_long(self, decrypt: bool = True) -> int:
         """Read a four-byte long word from the guide.
 
         Args:
@@ -183,9 +184,9 @@ class GuideReader:
         Note:
             ``decrypt`` is optional and defaults to ``True``.
         """
-        return self.read_word( decrypt ) + ( self.read_word( decrypt ) << 16 )
+        return self.read_word(decrypt) + (self.read_word(decrypt) << 16)
 
-    def read_offset( self ) -> int:
+    def read_offset(self) -> int:
         """Read an offset value from the guide.
 
         Returns:
@@ -195,10 +196,10 @@ class GuideReader:
             This function ensures that an offset value that means 'there is
             no offset' returns as ``-1``.
         """
-        return -1 if ( offset := self.read_long( True ) ) == 0xFFFFFFFF else offset
+        return -1 if (offset := self.read_long(True)) == 0xFFFFFFFF else offset
 
     @staticmethod
-    def _nul_trim( string: str ) -> str:
+    def _nul_trim(string: str) -> str:
         """Trim a string from the first nul.
 
         Args:
@@ -207,9 +208,9 @@ class GuideReader:
         Returns:
             str: Everything up to but not including the first nul.
         """
-        return string[ 0:nul ] if ( nul := string.find( "\000" ) ) != -1 else string
+        return string[0:nul] if (nul := string.find("\000")) != -1 else string
 
-    def read_str( self, length: int, decrypt: bool=True ) -> str:
+    def read_str(self, length: int, decrypt: bool = True) -> str:
         """Read a fixed-length string from the guide.
 
         Args:
@@ -222,11 +223,14 @@ class GuideReader:
         Note:
             ``decrypt`` is optional and defaults to ``True``.
         """
-        return self._nul_trim( "".join(
-            chr( self._decrypt( n ) if decrypt else n ) for n in tuple( self._h.read( length ) )
-        ) )
+        return self._nul_trim(
+            "".join(
+                chr(self._decrypt(n) if decrypt else n)
+                for n in tuple(self._h.read(length))
+            )
+        )
 
-    def read_strz( self, length: int, decrypt: bool=True ) -> str:
+    def read_strz(self, length: int, decrypt: bool = True) -> str:
         """Read a nul-terminated string from the guide.
 
         This is similar to ``read_str``, but it will read only as far as the
@@ -247,10 +251,11 @@ class GuideReader:
         # Remember where we are before we read in the string.
         pos = self.pos
         # Now read in the string.
-        buff = self.read_str( length, decrypt )
+        buff = self.read_str(length, decrypt)
         # Now skip to the location where the nul was found.
-        self.goto( pos + len( buff ) + 1 )
+        self.goto(pos + len(buff) + 1)
         # Return the string.
         return buff
+
 
 ### reader.py ends here

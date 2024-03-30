@@ -2,21 +2,21 @@
 
 ######################################################################
 # Main library information.
-__author__     = "Dave Pearson"
-__copyright__  = "Copyright 2021-2022, Dave Pearson"
-__credits__    = [ "Dave Pearson" ]
+__author__ = "Dave Pearson"
+__copyright__ = "Copyright 2021-2022, Dave Pearson"
+__credits__ = ["Dave Pearson"]
 __maintainer__ = "Dave Pearson"
-__email__      = "davep@davep.org"
-__version__    = "0.6.0"
-__licence__    = "GPLv3+"
+__email__ = "davep@davep.org"
+__version__ = "0.6.0"
+__licence__ = "GPLv3+"
 
 ##############################################################################
 # Import things for easier access.
-from .types  import NGDBError, UnknownEntryType, NGEOF
-from .guide  import NortonGuide
-from .entry  import Entry, Short, Long
-from .parser import BaseParser, PlainText, MarkupText
 from .dosify import make_dos_like
+from .entry import Entry, Long, Short
+from .guide import NortonGuide
+from .parser import BaseParser, MarkupText, PlainText
+from .types import NGEOF, NGDBError, UnknownEntryType
 
 ##############################################################################
 # Define what importing * means.
@@ -31,7 +31,7 @@ __all__ = (
     "BaseParser",
     "PlainText",
     "MarkupText",
-    "make_dos_like"
+    "make_dos_like",
 )
 
 ### __init__.py ends here

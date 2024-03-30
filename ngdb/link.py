@@ -4,8 +4,9 @@
 # Python imports.
 from typing import NamedTuple
 
+
 ##############################################################################
-class Link( NamedTuple ):
+class Link(NamedTuple):
     """A link within a Norton Guide, comprising of some text and an offset."""
 
     text: str
@@ -14,7 +15,7 @@ class Link( NamedTuple ):
     offset: int
     """int: The offset of the link."""
 
-    def __str__( self ) -> str:
+    def __str__(self) -> str:
         """Returns the text of the link.
 
         Returns:
@@ -22,7 +23,7 @@ class Link( NamedTuple ):
         """
         return self.text
 
-    def __int__( self ) -> int:
+    def __int__(self) -> int:
         """Returns the offset of the link.
 
         Returns:
@@ -31,16 +32,17 @@ class Link( NamedTuple ):
         return self.offset
 
     @property
-    def has_offset( self ) -> bool:
+    def has_offset(self) -> bool:
         """bool: Does this link have an associated offset into the guide?"""
         return self.offset > 0
 
-    def __bool__( self ) -> bool:
+    def __bool__(self) -> bool:
         """Does the link actually link anywhere?
 
         Returns:
             bool: ``True`` if the link links somewhere, ``False`` if not.
         """
         return self.has_offset
+
 
 ### link.py ends here
