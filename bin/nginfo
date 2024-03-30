@@ -4,7 +4,7 @@
 ##############################################################################
 # Module information.
 __author__     = "Dave Pearson"
-__copyright__  = "Copyright 2021, Dave Pearson"
+__copyright__  = "Copyright 2021-2022, Dave Pearson"
 __licence__    = "GPL"
 __credits__    = [ "Dave Pearson" ]
 __maintainer__ = "Dave Pearson"
@@ -25,8 +25,8 @@ from ngdb import NortonGuide, __version__ as ngdb_ver
 def get_args() -> argparse.Namespace:
     """Get the arguments passed by the user.
 
-    :returns: The parsed arguments.
-    :rtype: ~argparse.Namespace
+    Returns:
+        argparse.Namespace: The parsed arguments.
     """
 
     # Version information, used in a couple of paces.
@@ -60,8 +60,12 @@ def get_args() -> argparse.Namespace:
 def info( guide_path: Path, verbose: bool=False ) -> None:
     """Dump Norton Guide information to stdout.
 
-    :param ~pathlib.Path guide_path: The path to the guide to print info for.
-    :param bool verbose: Flag to say if verbose information should be printed.
+    Args:
+        guide_path (Path): The path to the guide to print info for.
+        verbose (bool, optional): Flag to say if verbose information should be printed.
+
+    Note:
+        If not provided, ``verbose`` defaults to ``False``.
     """
     with NortonGuide( guide_path ) as guide:
         print(

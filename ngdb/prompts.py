@@ -1,72 +1,72 @@
 """Provides a class that is the base for a prompt collection."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
-from typing import Tuple, Iterator, Final
+from typing import Final, Iterator
 
 ##############################################################################
 # Local imports.
 from .link import Link
 
+
 ##############################################################################
-# Base class for classes that are collections of prompts and offsets.
 class PromptCollection:
     """Base class for classes that contain prompt/offset collections."""
 
-    #: The maximum length of a prompt in a guide.
     MAX_PROMPT_LENGTH: Final = 128
+    """The maximum length of a prompt in a guide."""
 
-    def __init__( self ) -> None:
+    def __init__(self) -> None:
         """Constructor."""
-        self._count                      = 0
-        self._prompts: Tuple[ str, ... ] = ()
-        self._offsets: Tuple[ int, ... ] = ()
+        self._count = 0
+        self._prompts: tuple[str, ...] = ()
+        self._offsets: tuple[int, ...] = ()
 
     @property
-    def prompts( self ) -> Tuple[ str, ... ]:
-        """The prompts in the collection.
-
-        :type: Tuple[str,...]
-        """
+    def prompts(self) -> tuple[str, ...]:
+        """The prompts in the collection."""
         return self._prompts
 
     @property
-    def offsets( self ) -> Tuple[ int, ... ]:
-        """The offsets into the guide for each prompt.
-
-        :type: Tuple[int,...]
-        """
+    def offsets(self) -> tuple[int, ...]:
+        """The offsets into the guide for each prompt."""
         return self._offsets
 
-    def __len__( self ) -> int:
+    def __len__(self) -> int:
         """Get the number of prompts in the collection.
 
-        :returns: The count of prompts.
-        :rtype: int
+        Returns:
+            The count of prompts.
         """
         return self._count
 
-    def __getitem__( self, prompt: int ) -> Link:
+    def __getitem__(self, prompt: int) -> Link:
         """Get a prompt/offset pair.
 
-        :returns: The requested prompt and its offset.
-        :rtype: Link
+        Returns:
+            The requested prompt and its offset.
         """
-        return Link( self.prompts[ prompt ], self.offsets[ prompt ] )
+        return Link(self.prompts[prompt], self.offsets[prompt])
 
-    def __iter__( self ) -> Iterator[ Link ]:
+    def __iter__(self) -> Iterator[Link]:
         """Get an iterator of prompt and offset pairs.
 
-        :yields: Link
+        Yields:
+            A link containing the prompt/offset, from the collection.
         """
-        return ( Link( *prompt ) for prompt in zip( self.prompts, self.offsets ) )
+        return (Link(*prompt) for prompt in zip(self.prompts, self.offsets))
 
-    def __bool__( self ) -> bool:
+    def __bool__(self) -> bool:
         """Test if there are any prompts in the collection.
 
-        :returns: ``True`` if there are prompts, ``False`` if not.
-        :rtype: bool
+        Returns:
+            ``True`` if there are prompts, ``False`` if not.
         """
-        return bool( len( self ) )
+        return bool(len(self))
+
 
 ### prompts.py ends here

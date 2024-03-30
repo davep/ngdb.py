@@ -1,265 +1,224 @@
 """Norton Guide entry content markup unit tests."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
-from typing   import List, Union, Tuple, Any, Iterator
+from typing import Any, Iterator, List, Tuple, Union
 from unittest import TestCase
 
 ##############################################################################
+# Backward compatibility.
+from typing_extensions import TypeAlias
+
+##############################################################################
 # Library imports.
-from ngdb        import BaseParser, PlainText
+from ngdb import BaseParser, PlainText
 from ngdb.parser import RichText
+
 
 ##############################################################################
 # Plain text parser tests.
-class TestPlainText( TestCase ):
+class TestPlainText(TestCase):
     """Perform parser tests against the plain text parser."""
 
-    def test_empty_string( self ) -> None:
+    def test_empty_string(self) -> None:
         """It can handle an empty line."""
-        self.assertEqual( str( PlainText( "" ) ), "" )
+        self.assertEqual(str(PlainText("")), "")
 
-    def test_no_markup( self ) -> None:
+    def test_no_markup(self) -> None:
         """It can handle a line with no markup."""
-        self.assertEqual( str( PlainText( "Test" ) ), "Test" )
+        self.assertEqual(str(PlainText("Test")), "Test")
 
-    def test_strips_non_text_markup( self ) -> None:
+    def test_strips_non_text_markup(self) -> None:
         """It should strip all non-text markup without issue."""
         self.assertEqual(
-            str( PlainText( "^A10This ^Bis ^Na ^Rtest, ^Ureally it is." ) ),
-            "This is a test, really it is."
+            str(PlainText("^A10This ^Bis ^Na ^Rtest, ^Ureally it is.")),
+            "This is a test, really it is.",
         )
 
-    def test_strips_only_non_text_markup( self ) -> None:
+    def test_strips_only_non_text_markup(self) -> None:
         """It should turn non-text markup only into an empty string."""
-        self.assertEqual( str( PlainText( "^A10^B^N^R^U" ) ), "" )
+        self.assertEqual(str(PlainText("^A10^B^N^R^U")), "")
 
-    def test_ctrl_ctrl( self ) -> None:
+    def test_ctrl_ctrl(self) -> None:
         """^^ should become ^."""
-        self.assertEqual( str( PlainText( "^^" * 10 ) ), "^" * 10 )
+        self.assertEqual(str(PlainText("^^" * 10)), "^" * 10)
 
-    def test_char_code( self ) -> None:
+    def test_char_code(self) -> None:
         """It should be able to handle character codes."""
-        self.assertEqual( str( PlainText( "^C20^C21" ) ), " !" )
+        self.assertEqual(str(PlainText("^C20^C21")), " !")
 
-    def test_truncated_markup( self ) -> None:
+    def test_truncated_markup(self) -> None:
         """It should handle truncated markup."""
-        self.assertEqual( str( PlainText( "^" ) ), "" )
+        self.assertEqual(str(PlainText("^")), "")
 
-##############################################################################
-#: Type of a single event that the TestParser will catch.
-TEvent = Union[ str, Tuple[ str, Any ] ]
 
-##############################################################################
-#: Type of the collection of events in the TestParser.
-TEvents = List[ TEvent ]
+TEvent: TypeAlias = Union[str, Tuple[str, Any]]
+"""Type of a single event that the TestParser will catch."""
+
+TEvents: TypeAlias = List[TEvent]
+"""Type of the collection of events in the TestParser."""
+
 
 ##############################################################################
 # Unit-test-oriented Norton Guide line parser.
-class TestParser( BaseParser ):
+class TestParser(BaseParser):
     """Parser class for working with unit tests."""
 
-    def __init__( self, line: str ) -> None:
-        """Constructor."""
-
+    def __init__(self, line: str) -> None:
         # First off, we're going to collect all the different events that
         # happen, so start a list for doing that.
         self._events: TEvents = []
 
         # Then call the super.
-        super().__init__( line )
+        super().__init__(line)
 
-    def text( self, text: str ) -> None:
-        """Handle the given text.
+    def text(self, text: str) -> None:
+        self._events.append(("T", text))
 
-        :param str text: The text to handle.
-        """
-        self._events.append( ( "T", text ) )
+    def colour(self, colour: int) -> None:
+        self._events.append(("A", colour))
 
-    def colour( self, colour: int ) -> None:
-        """Handle the given colour value.
+    def normal(self) -> None:
+        self._events.append("N")
 
-        :param int colour: The colour value to handle.
-        """
-        self._events.append( ( "A", colour ) )
+    def bold(self) -> None:
+        self._events.append("B")
 
-    def normal( self ) -> None:
-        """Handle being asked to go to normal mode."""
-        self._events.append( "N" )
+    def unbold(self) -> None:
+        self._events.append("b")
 
-    def bold( self ) -> None:
-        """Handle being asked to go to bold mode."""
-        self._events.append( "B" )
+    def reverse(self) -> None:
+        self._events.append("R")
 
-    def unbold( self ) -> None:
-        """Handle being asked to go out of bold mode."""
-        self._events.append( "b" )
+    def unreverse(self) -> None:
+        self._events.append("r")
 
-    def reverse( self ) -> None:
-        """Handle being asked to go to reverse mode."""
-        self._events.append( "R" )
+    def underline(self) -> None:
+        self._events.append("U")
 
-    def unreverse( self ) -> None:
-        """Handle being asked to go out of reverse mode."""
-        self._events.append( "r" )
+    def ununderline(self) -> None:
+        self._events.append("u")
 
-    def underline( self ) -> None:
-        """Handle being asked to go in underline mode."""
-        self._events.append( "U" )
+    def char(self, char: int) -> None:
+        self._events.append(("C", char))
 
-    def ununderline( self ) -> None:
-        """Handle being asked to go out of underline mode."""
-        self._events.append( "u" )
-
-    def char( self, char: int ) -> None:
-        """Handle an individual character value.
-
-        :param int char: The character value to handle.
-        """
-        self._events.append( ( "C", char ) )
-
-    def __iter__( self ) -> Iterator[ TEvent ]:
+    def __iter__(self) -> Iterator[TEvent]:
         """The collection of events caught by the parser."""
-        return iter( self._events )
+        return iter(self._events)
+
 
 ##############################################################################
 # Parser event unit tests.
-class TestParseEvents( TestCase ):
+class TestParseEvents(TestCase):
     """Test the various events that happen within a parser."""
 
-    def test_empty_line( self ) -> None:
+    def test_empty_line(self) -> None:
         """There should be no events in an empty line."""
-        self.assertListEqual( list( TestParser( "" ) ), [] )
+        self.assertListEqual(list(TestParser("")), [])
 
-    def test_no_markup( self ) -> None:
+    def test_no_markup(self) -> None:
         """There should be a single text event for a non-markup line."""
-        self.assertListEqual( list( TestParser( "Hello, World!" ) ), [ ( "T", "Hello, World!" ) ] )
+        self.assertListEqual(
+            list(TestParser("Hello, World!")), [("T", "Hello, World!")]
+        )
 
-    def test_colour( self ) -> None:
+    def test_colour(self) -> None:
         """There should be a colour event when there's a ^A."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^A20World!" ) ),
-            [
-                ( "T", "Hello, " ),
-                ( "A", 0x20 ),
-                ( "T", "World!" )
-            ]
+            list(TestParser("Hello, ^A20World!")),
+            [("T", "Hello, "), ("A", 0x20), ("T", "World!")],
         )
 
-    def test_multi_colour( self ) -> None:
+    def test_multi_colour(self) -> None:
         """Multiple there should be multiple colour events with multiple ^A."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^A20World^A64!" ) ),
-            [
-                ( "T", "Hello, " ),
-                ( "A", 0x20 ),
-                ( "T", "World" ),
-                ( "A", 0x64 ),
-                ( "T", "!" )
-            ]
+            list(TestParser("Hello, ^A20World^A64!")),
+            [("T", "Hello, "), ("A", 0x20), ("T", "World"), ("A", 0x64), ("T", "!")],
         )
 
-    def test_same_colour( self ) -> None:
+    def test_same_colour(self) -> None:
         """Two consecutive ^A of the same colour should cause a ^N."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^A20World^A20!" ) ),
-            [
-                ( "T", "Hello, " ),
-                ( "A", 0x20 ),
-                ( "T", "World" ),
-                "N",
-                ( "T", "!" )
-            ]
+            list(TestParser("Hello, ^A20World^A20!")),
+            [("T", "Hello, "), ("A", 0x20), ("T", "World"), "N", ("T", "!")],
         )
 
-    def test_bold( self ) -> None:
+    def test_bold(self) -> None:
         """It should be possible to turn bold on and off with ^B."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^BWorld^B!" ) ),
-            [
-                ( "T", "Hello, " ),
-                "B",
-                ( "T", "World" ),
-                "b",
-                ( "T", "!" )
-            ]
+            list(TestParser("Hello, ^BWorld^B!")),
+            [("T", "Hello, "), "B", ("T", "World"), "b", ("T", "!")],
         )
 
-    def test_char( self ) -> None:
+    def test_char(self) -> None:
         """It should be possible to generate characters with ^C."""
         self.assertListEqual(
-            list( TestParser( "".join( f"^C{n:02x}" for n in range( 256 ) ) ) ),
-            [ ( "C", n ) for n in range( 256 ) ]
+            list(TestParser("".join(f"^C{n:02x}" for n in range(256)))),
+            [("C", n) for n in range(256)],
         )
 
-    def test_normal( self ) -> None:
+    def test_normal(self) -> None:
         """A ^N markup should result in a back-to-normal event."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^NWorld!" ) ),
+            list(TestParser("Hello, ^NWorld!")),
             [
-                ( "T", "Hello, " ),
+                ("T", "Hello, "),
                 "N",
-                ( "T", "World!" ),
-            ]
+                ("T", "World!"),
+            ],
         )
 
-    def test_reverse( self ) -> None:
+    def test_reverse(self) -> None:
         """It should be possible to turn reverse on and off with ^R."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^RWorld^R!" ) ),
-            [
-                ( "T", "Hello, " ),
-                "R",
-                ( "T", "World" ),
-                "r",
-                ( "T", "!" )
-            ]
+            list(TestParser("Hello, ^RWorld^R!")),
+            [("T", "Hello, "), "R", ("T", "World"), "r", ("T", "!")],
         )
 
-    def test_underline( self ) -> None:
+    def test_underline(self) -> None:
         """It should be possible to turn underline on and off with ^U."""
         self.assertListEqual(
-            list( TestParser( "Hello, ^UWorld^U!" ) ),
-            [
-                ( "T", "Hello, " ),
-                "U",
-                ( "T", "World" ),
-                "u",
-                ( "T", "!" )
-            ]
+            list(TestParser("Hello, ^UWorld^U!")),
+            [("T", "Hello, "), "U", ("T", "World"), "u", ("T", "!")],
         )
+
 
 ##############################################################################
 # Test the Rich parser.
-class TestRichParser( TestCase ):
+class TestRichParser(TestCase):
     """Test the Rich-friendly parser."""
 
-    def test_empty_line( self ) -> None:
+    def test_empty_line(self) -> None:
         """An empty line should parse fine."""
-        self.assertEqual( str( RichText( "" ) ), "" )
+        self.assertEqual(str(RichText("")), "")
 
-    def test_no_markup( self ) -> None:
+    def test_no_markup(self) -> None:
         """A line with no markup should parse fine."""
-        self.assertEqual( str( RichText( "Hello, World!" ) ), "Hello, World!" )
+        self.assertEqual(str(RichText("Hello, World!")), "Hello, World!")
 
-    def test_escape_markup( self ) -> None:
+    def test_escape_markup(self) -> None:
         """Text that looks like Rich markup should get escaped."""
-        self.assertEqual( str( RichText( "Hello, [W]orld!" ) ), "Hello, \\[W]orld!" )
+        self.assertEqual(str(RichText("Hello, [W]orld!")), "Hello, \\[W]orld!")
 
-    def test_colour( self ) -> None:
+    def test_colour(self) -> None:
         """A colour attribute should come out as the expected markup."""
-        self.assertEqual( str( RichText( "^A02Hello" ) ), "[color(2) on color(0)]Hello[/]" )
+        self.assertEqual(str(RichText("^A02Hello")), "[color(2) on color(0)]Hello[/]")
 
-    def test_bold( self ) -> None:
+    def test_bold(self) -> None:
         """A bold attribute should turn into the Rich version."""
-        self.assertEqual( str( RichText( "^BHello^b" ) ), "[bold]Hello[/]" )
+        self.assertEqual(str(RichText("^BHello^b")), "[bold]Hello[/]")
 
-    def test_reverse( self ) -> None:
+    def test_reverse(self) -> None:
         """A reverse attribute should turn into the Rich version."""
-        self.assertEqual( str( RichText( "^RHello^r" ) ), "[reverse]Hello[/]" )
+        self.assertEqual(str(RichText("^RHello^r")), "[reverse]Hello[/]")
 
-    def test_underline( self ) -> None:
+    def test_underline(self) -> None:
         """An underline attribute should turn into the Rich version."""
-        self.assertEqual( str( RichText( "^UHello^u" ) ), "[underline]Hello[/]" )
+        self.assertEqual(str(RichText("^UHello^u")), "[underline]Hello[/]")
+
 
 ### test_parser.py ends here
