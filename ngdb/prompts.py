@@ -1,6 +1,10 @@
 """Provides a class that is the base for a prompt collection."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from typing import Final, Iterator
 
