@@ -11,15 +11,16 @@ from typing import Final
 class GuideReader:
     """Low-level guide reading class.
 
-    **NOTE:** For now, no optimisation has taken place, in many cases the
-    way this class reads data from a guide will be a method that's on the
-    slower side. This is on purpose; it's about readable code that
-    represents the underlying data structure rather than the fastest method
-    of getting data into memory.
+    Note:
+        For now, no optimisation has taken place, in many cases the way this
+        class reads data from a guide will be a method that's on the slower
+        side. This is on purpose; it's about readable code that represents
+        the underlying data structure rather than the fastest method of
+        getting data into memory.
 
-    Once the rest of the library is done and working well this extra bit if
-    docstring will likely be removed because work to improve the speed of
-    this class will finally take place.
+        Once the rest of the library is done and working well this extra bit
+        if docstring will likely be removed because work to improve the
+        speed of this class will finally take place.
     """
 
     #: The value that marks run-length-encoded spaces.
@@ -30,10 +31,10 @@ class GuideReader:
         """Un-run-length-encode the given string.
 
         Args:
-            rle_text (str): The text that needs expanding.
+            rle_text: The text that needs expanding.
 
         Returns:
-            str: The given text with all RLE components expanded.
+            The given text with all RLE components expanded.
 
         Norton Guide database files use a very simple form of
         run-length-encoding for spaces. Simply put, if you find a byte in a
@@ -61,7 +62,7 @@ class GuideReader:
         """Constructor.
 
         Args:
-            guide (Path): The guide to open.
+            guide: The guide to open.
         """
         self._h = guide.open("rb")
 
@@ -71,34 +72,34 @@ class GuideReader:
 
     @property
     def pos(self) -> int:
-        """int: The current position within the file."""
+        """The current position within the file."""
         return self._h.tell()
 
     def goto(self, pos: int) -> "GuideReader":
         """Go to a specific byte position within the guide.
 
         Args:
-            pos (int): The position to go to.
+            posThe position to go to.
 
         Returns:
-            GuideReader: self
+            self
         """
         self._h.seek(pos)
         return self
 
     @property
     def closed(self) -> bool:
-        """bool: Is the file closed?"""
+        """Is the file closed?"""
         return self._h.closed
 
     def skip(self, count: int = 1) -> "GuideReader":
         """Skip a number of bytes in the guide.
 
         Args:
-            count (int, optional): The optional number of bytes to skip.
+            count: The optional number of bytes to skip.
 
         Returns:
-            GuideReader: self
+            self
 
         Note:
             If ``count`` isn't supplied then 1 byte is skipped.
@@ -110,7 +111,7 @@ class GuideReader:
         """Skip a whole entry in the guide.
 
         Returns:
-            GuideReader: self
+            self
         """
         return self.skip(2).skip(self.read_word() + 22)
 
@@ -119,10 +120,10 @@ class GuideReader:
         """Decrypt a given numeric value.
 
         Args:
-            value (int): The value to decrypt.
+            value: The value to decrypt.
 
         Returns:
-            int: The decrypted value.
+            The decrypted value.
         """
         return value ^ 0x1A
 
@@ -130,10 +131,10 @@ class GuideReader:
         """Read a byte from the guide.
 
         Args:
-            decrypt (bool, optional): Should the value be decrypted?
+            decrypt: Should the value be decrypted?
 
         Returns:
-            int: The byte value read.
+            The byte value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.
@@ -145,10 +146,10 @@ class GuideReader:
         """Read a two-byte word from the guide.
 
         Args:
-            decrypt (bool, optional): Should the value be decrypted?
+            decrypt: Should the value be decrypted?
 
         Returns:
-            int: The word value read.
+            The word value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.
@@ -159,10 +160,10 @@ class GuideReader:
         """Read a two-byte word but don't move the file location.
 
         Args:
-            decrypt (bool, optional): Should the value be decrypted?
+            decrypt: Should the value be decrypted?
 
         Returns:
-            int: The word value read.
+            The word value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.
@@ -176,10 +177,10 @@ class GuideReader:
         """Read a four-byte long word from the guide.
 
         Args:
-            decrypt (bool, optional): Should the value be decrypted?
+            decrypt: Should the value be decrypted?
 
         Returns:
-            int: The long integer value read.
+            The long integer value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.
@@ -190,7 +191,7 @@ class GuideReader:
         """Read an offset value from the guide.
 
         Returns:
-            int: The offset value read.
+            The offset value read.
 
         Note:
             This function ensures that an offset value that means 'there is
@@ -203,10 +204,10 @@ class GuideReader:
         """Trim a string from the first nul.
 
         Args:
-            string (str): The string to trim.
+            string: The string to trim.
 
         Returns:
-            str: Everything up to but not including the first nul.
+            Everything up to but not including the first nul.
         """
         return string[0:nul] if (nul := string.find("\000")) != -1 else string
 
@@ -214,11 +215,11 @@ class GuideReader:
         """Read a fixed-length string from the guide.
 
         Args:
-            length (int): The length of the string to read.
-            decrypt (bool, optional): Should the string be decrypted?
+            length: The length of the string to read.
+            decrypt: Should the string be decrypted?
 
         Returns:
-            str: The string value read.
+            The string value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.
@@ -239,11 +240,11 @@ class GuideReader:
         account.
 
         Args:
-            length (int): The maximum length of the string to read.
-            decrypt (bool, optional): Should the string be decrypted?
+            length: The maximum length of the string to read.
+            decrypt: Should the string be decrypted?
 
         Returns:
-            str: The string value read.
+            The string value read.
 
         Note:
             ``decrypt`` is optional and defaults to ``True``.

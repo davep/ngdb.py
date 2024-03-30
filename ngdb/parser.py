@@ -32,17 +32,17 @@ class ParseState:
     """Raw text parsing state tracking class.
 
     Attributes:
-        ctrl (int): The location of the next control marker.
-        raw (str): The current raw text that's left to handle.
-        mode (TextMode): The current mode.
-        last_attr (int): The last attribute encountered.
+        ctrl: The location of the next control marker.
+        raw: The current raw text that's left to handle.
+        mode: The current mode.
+        last_attr: The last attribute encountered.
     """
 
     def __init__(self, line: str) -> None:
         """Constructor.
 
         Args:
-            line (str): The line to work on.
+            line: The line to work on.
         """
         self.raw = line
         self.ctrl = line.find(CTRL_CHAR)
@@ -51,12 +51,12 @@ class ParseState:
 
     @property
     def work_left(self) -> bool:
-        """bool: Is there any work left to do?"""
+        """Is there any work left to do?"""
         return self.ctrl != -1 and self.ctrl < len(self.raw)
 
     @property
     def ctrl_id(self) -> str:
-        """str: The current control ID."""
+        """The current control ID."""
         try:
             return self.raw[self.ctrl + 1].lower()
         except IndexError:
@@ -77,7 +77,7 @@ class BaseParser:
         """Constructor.
 
         Args:
-            line (str): The raw string to parse.
+            line: The raw string to parse.
         """
 
         # State tracker.
@@ -120,7 +120,7 @@ class BaseParser:
         """Handle ^A markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
 
         # Get the actual attribute.
@@ -145,7 +145,7 @@ class BaseParser:
         """Handle ^B markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
 
         # If we're in bold mode...
@@ -165,7 +165,7 @@ class BaseParser:
         """Handle ^C markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
         self.char(int(state.raw[state.ctrl + 2 : state.ctrl + 4], 16))
         state.ctrl += 4
@@ -174,7 +174,7 @@ class BaseParser:
         """Handle ^N markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
         self.normal()
         state.mode = TextMode.NORMAL
@@ -184,7 +184,7 @@ class BaseParser:
         """Handle ^R markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
 
         # If we're in reverse mode...
@@ -204,7 +204,7 @@ class BaseParser:
         """Handle ^U markup.
 
         Args:
-            state (ParseState): The data that tracks parse state.
+            state: The data that tracks parse state.
         """
 
         # If we're in underline mode...
@@ -224,7 +224,7 @@ class BaseParser:
         """Handle the given text.
 
         Args:
-            text (str): The text to handle.
+            text: The text to handle.
         """
         del text  # pragma: no cover
 
@@ -232,7 +232,7 @@ class BaseParser:
         """Handle the given colour value.
 
         Args:
-            colour (int): The colour value to handle.
+            colour: The colour value to handle.
         """
         del colour  # pragma: no cover
 
@@ -261,7 +261,7 @@ class BaseParser:
         """Handle an individual character value.
 
         Args:
-            char (int): The character value to handle.
+            char: The character value to handle.
         """
         del char  # pragma: no cover
 
@@ -286,7 +286,7 @@ class PlainText(BaseParser):
         """Return the plain text of the line.
 
         Returns:
-            str: The parsed line, as plan text.
+            The parsed line, as plan text.
         """
         return self._text
 
@@ -310,10 +310,10 @@ class MarkupText(PlainText, ABC):
         """Open markup for the given class.
 
         Args:
-            cls (str): The class of thing to open the markup for.
+            cls: The class of thing to open the markup for.
 
         Returns:
-            str: The opening markup text.
+            The opening markup text.
         """
         return ""
 
@@ -322,23 +322,23 @@ class MarkupText(PlainText, ABC):
         """Close markup for the given class.
 
         Args:
-            cls (str): The class of thing to close the markup for.
+            The class of thing to close the markup for.
 
         Returns:
-            str: The closing markup text.
+            The closing markup text.
         """
         return ""
 
     def begin_markup(self, cls: str) -> None:
         """Start a section of markup.
 
+        Args:
+            clsThe class for the markup.
+
         Note:
             As a side-effect of calling on this, the ``close_markup`` for
             the same class will be placed on an internal stack, for use when
             ``end_markup`` is called.
-
-        Args:
-            cls (str): The class for the markup.
         """
         self._text += self.open_markup(cls)
         self._stack.append(self.close_markup(cls))
@@ -392,10 +392,10 @@ class RichText(MarkupText):
         """Map a DOS colour into a similar colour from Rich.
 
         Args:
-            colour (int): The DOS colour to map from.
+            colour: The DOS colour to map from.
 
         Returns:
-            int: The mapped colour.
+            The mapped colour.
         """
         return cls.COLOUR_MAP.get(colour, colour)
 

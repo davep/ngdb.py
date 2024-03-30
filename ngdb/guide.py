@@ -24,10 +24,10 @@ def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
     Args:
-        meth (Callable[...,Any]): The method fo protect.
+        meth: The method fo protect.
 
     Returns:
-        Callable[...,Any]: The guard.
+        The guard.
     """
 
     @wraps(meth)
@@ -45,23 +45,23 @@ class NortonGuide:
     """Norton Guide database wrapper class.
 
     Attributes:
-        path (Path): The path of the database.
+        path: The path of the database.
     """
 
     MAGIC: Final = {"EH": "Expert Help", "NG": "Norton Guide"}
     """Lookup for valid database magic markers."""
 
     TITLE_LENGTH: Final = 40
-    """int: The length of a title in the header."""
+    """The length of a title in the header."""
 
     CREDIT_LENGTH: Final = 66
-    """int: The length of a line in the credits."""
+    """The length of a line in the credits."""
 
     def __init__(self, guide: str | Path) -> None:
         """Constructor.
 
         Args:
-            guide (str | Path): The guide to open.
+            guide: The guide to open.
         """
 
         # Remember the guide path.
@@ -112,14 +112,14 @@ class NortonGuide:
         """Read the menus from the guide.
 
         :yields:
-            Menu: A menu from the guide.
+            A menu from the guide.
         """
         while EntryType.is_menu(self._guide.peek_word()):
             yield Menu(self._guide)
 
     @property
     def is_open(self) -> bool:
-        """bool: Is the guide open?"""
+        """Is the guide open?"""
         # Note that I first ensure that this instance actually does have a
         # `_guide` property as it's possible that an exception gets thrown
         # in the constructor and I have a __del__ method to ensure that the
@@ -130,14 +130,15 @@ class NortonGuide:
 
     @property
     def is_a(self) -> bool:
-        """bool: Is the guide actually a Norton Guide database?"""
+        """Is the guide actually a Norton Guide database?"""
         return self.magic in self.MAGIC
 
     def close(self) -> None:
         """Close the guide, if it's open.
 
-        **NOTE:** Closing the guide when it isn't open is a non-op. It's
-        always safe to make this call.
+        Note:
+            Closing the guide when it isn't open is a non-op. It's always
+            safe to make this call.
         """
         if self.is_open:
             self._guide.close()
@@ -156,22 +157,22 @@ class NortonGuide:
 
     @property
     def menu_count(self) -> int:
-        """int: The count of menu options in the guide."""
+        """The count of menu options in the guide."""
         return self._menu_count
 
     @property
     def title(self) -> str:
-        """str: The title of the guide."""
+        """The title of the guide."""
         return self._title
 
     @property
     def credits(self) -> tuple[str, ...]:
-        """tuple[str,...]: The credits for the guide."""
+        """The credits for the guide."""
         return self._credits
 
     @property
     def magic(self) -> str:
-        """str: The magic value for the guide.
+        """The magic value for the guide.
 
         This tells us if the file is likely a Norton Guide database or not.
         It's always a two-character string and, normally, is ''NG''.
@@ -181,22 +182,22 @@ class NortonGuide:
 
     @property
     def made_with(self) -> str:
-        """str: The name of the tool that was used to make the guide."""
+        """The name of the tool that was used to make the guide."""
         return self.MAGIC.get(self.magic, "Unknown")
 
     @property
     def menus(self) -> tuple[Menu, ...]:
-        """tuple[Menu,...]: The menus for the guide."""
+        """The menus for the guide."""
         return self._menus
 
     def goto(self, pos: int) -> "NortonGuide":
         """Go to a specific location in the guide.
 
         Args:
-            pos (int): The position to go to.
+            posThe position to go to.
 
         Returns:
-            NortonGuide: Returns ``self``.
+            Returns ``self``.
         """
         self._guide.goto(pos)
         return self
@@ -205,7 +206,7 @@ class NortonGuide:
         """Go to the first entry in the guide.
 
         Returns:
-            NortonGuide: Returns ``self``.
+            Returns ``self``.
         """
         return self.goto(self._first_entry)
 
@@ -214,7 +215,7 @@ class NortonGuide:
         """Skip the current entry.
 
         Returns:
-            NortonGuide: Returns ``self``.
+            Returns ``self``.
 
         Raises:
             NGEOF: If we attempt to skip when at EOF.
@@ -224,7 +225,7 @@ class NortonGuide:
 
     @property
     def eof(self) -> bool:
-        """bool: Are we at the end of the guide?"""
+        """Are we at the end of the guide?"""
         return self._guide.pos >= self.path.stat().st_size
 
     @not_eof
@@ -232,7 +233,7 @@ class NortonGuide:
         """Load the entry at the current position.
 
         Returns:
-            Entry: The entry found at the current position.
+            The entry found at the current position.
 
         Raises:
             NGEOF: If we attempt to load when at EOF.
@@ -247,7 +248,7 @@ class NortonGuide:
         """Allow iterating through every entry in the guide.
 
         Yields:
-            Entry: An entry from the guide.
+            An entry from the guide.
         """
         # Here I try my best to do this in a way that no other operations
         # that consume this iterator will affect it. So, starting with the
@@ -269,7 +270,7 @@ class NortonGuide:
         """The string representation of the guide.
 
         Returns:
-            str: The guide's full path/file name.
+            The guide's full path/file name.
         """
         return f'<{self.__class__.__name__}: "{self}">'
 
@@ -277,7 +278,7 @@ class NortonGuide:
         """The string representation of the guide.
 
         Returns:
-            str: The guide's full path/file name.
+            The guide's full path/file name.
         """
         return str(self.path.resolve())
 

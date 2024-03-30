@@ -24,19 +24,19 @@ class PromptCollection:
 
     @property
     def prompts(self) -> tuple[str, ...]:
-        """tuple[str,...]: The prompts in the collection."""
+        """The prompts in the collection."""
         return self._prompts
 
     @property
     def offsets(self) -> tuple[int, ...]:
-        """tuple[int,...]: The offsets into the guide for each prompt."""
+        """The offsets into the guide for each prompt."""
         return self._offsets
 
     def __len__(self) -> int:
         """Get the number of prompts in the collection.
 
         Returns:
-            int: The count of prompts.
+            The count of prompts.
         """
         return self._count
 
@@ -44,7 +44,7 @@ class PromptCollection:
         """Get a prompt/offset pair.
 
         Returns:
-            Link: The requested prompt and its offset.
+            The requested prompt and its offset.
         """
         return Link(self.prompts[prompt], self.offsets[prompt])
 
@@ -52,7 +52,7 @@ class PromptCollection:
         """Get an iterator of prompt and offset pairs.
 
         Yields:
-            Link: A link containing the prompt/offset, from the collection.
+            A link containing the prompt/offset, from the collection.
         """
         return (Link(*prompt) for prompt in zip(self.prompts, self.offsets))
 
@@ -60,7 +60,7 @@ class PromptCollection:
         """Test if there are any prompts in the collection.
 
         Returns:
-            bool: ``True`` if there are prompts, ``False`` if not.
+            ``True`` if there are prompts, ``False`` if not.
         """
         return bool(len(self))
 

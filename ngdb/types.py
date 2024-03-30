@@ -38,10 +38,10 @@ class EntryType(Enum):
         """Is the value the ID of a short entry?
 
         Args:
-            test (int): The value to test.
+            test: The value to test.
 
         Returns:
-            bool: ``True`` if it is a short, ``False`` if not.
+            ``True`` if it is a short, ``False`` if not.
         """
         return cls(test) is cls.SHORT
 
@@ -50,10 +50,10 @@ class EntryType(Enum):
         """Is the value the ID of a long entry?
 
         Args:
-            test (int): The value to test.
+            test: The value to test.
 
         Returns:
-            bool: ``True`` if it is a long, ``False`` if not.
+            ``True`` if it is a long, ``False`` if not.
         """
         return cls(test) is cls.LONG
 
@@ -62,10 +62,10 @@ class EntryType(Enum):
         """Is the value the ID of a menu?
 
         Args:
-            test (int): The value to test.
+            test: The value to test.
 
         Returns:
-            bool:``True`` if it is a menu, ``False`` if not.
+            ``True`` if it is a menu, ``False`` if not.
         """
         return cls(test) is cls.MENU
 

@@ -177,10 +177,10 @@ def make_dos_like(text: str) -> str:
     """Try and make a string from a guide capable of retaining DOS-likeness.
 
     Args:
-        text (str): The text to convert.
+        text: The text to convert.
 
     Returns:
-        str: The converted text.
+        The converted text.
     """
     return text.translate(DOS_MAP)
 

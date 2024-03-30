@@ -14,7 +14,7 @@ class Menu(PromptCollection):
         """Constructor.
 
         Args:
-            guide (GuideReader): The reader object for the guide.
+            guide: The reader object for the guide.
         """
 
         # Call the parent first.
@@ -54,14 +54,14 @@ class Menu(PromptCollection):
 
     @property
     def title(self) -> str:
-        """str: The title of the menu."""
+        """The title of the menu."""
         return self._title
 
     def __str__(self) -> str:
         """Get the string representation of the menu.
 
         Returns:
-            str: The title of the menu.
+            The title of the menu.
         """
         return self.title
 
@@ -69,7 +69,7 @@ class Menu(PromptCollection):
         """Get the string representation of the menu.
 
         Returns:
-            str: The title of the menu.
+            The title of the menu.
         """
         return f"<{self.__class__.__name__}: {self}>"
 

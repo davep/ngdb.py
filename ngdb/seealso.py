@@ -16,7 +16,7 @@ class SeeAlso(PromptCollection):
     """Class to load and hold all the see alsos for a long entry."""
 
     MAX_SEE_ALSO: Final = 20
-    """int: Max number of see also items we'll handle.
+    """Max number of see also items we'll handle.
 
     This is the limit published in the Expert Help Compiler manual and,
     while this limit isn't really needed in this code, it does help guard
@@ -27,8 +27,8 @@ class SeeAlso(PromptCollection):
         """Constructor.
 
         Args:
-            guide (GuideReader): The reader object for the guide.
-            load (bool): Should we bother trying to load any?
+            guide: The reader object for the guide.
+            load: Should we bother trying to load any?
 
         Note:
             The ``load`` parameter might look a bit daft, and it is, but a
