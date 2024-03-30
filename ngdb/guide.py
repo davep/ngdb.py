@@ -10,12 +10,11 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Final, Iterator
 
+##############################################################################
+# Local imports.
 from .entry import Entry
 from .menu import Menu
 from .reader import GuideReader
-
-##############################################################################
-# Local imports.
 from .types import NGEOF, EntryType
 
 
