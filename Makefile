@@ -10,6 +10,7 @@ mypy     := $(run) mypy
 twine    := $(run) twine
 build    := $(python) -m build
 black    := $(run) black
+mkdocs   := $(run) mkdocs
 
 ##############################################################################
 # Run the app.
@@ -77,6 +78,16 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 
 .PHONY: checkall
 checkall: lint stricttypecheck test # Check all the things
+
+##############################################################################
+# Documentation.
+.PHONY: docs
+docs:				# Generate the system documentation
+	echo GNDN for now
+
+.PHONY: rtfm
+rtfm:				# Locally read the library documentation
+	$(mkdocs) serve
 
 ##############################################################################
 # Package/publish.
