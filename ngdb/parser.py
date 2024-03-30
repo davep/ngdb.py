@@ -1,6 +1,10 @@
 """Norton Guide parser for the text inside a guide."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from abc import ABC, abstractmethod
 from enum import Enum, auto
