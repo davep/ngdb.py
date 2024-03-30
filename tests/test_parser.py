@@ -6,8 +6,12 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Any, Iterator, Union
+from typing import Any, Iterator, Tuple, Union
 from unittest import TestCase
+
+##############################################################################
+# Backward compatibility.
+from typing_extensions import TypeAlias
 
 ##############################################################################
 # Library imports.
@@ -54,7 +58,7 @@ class TestPlainText(TestCase):
 
 ##############################################################################
 #: Type of a single event that the TestParser will catch.
-TEvent = Union[str, tuple[str, Any]]
+TEvent: TypeAlias = Union[str, Tuple[str, Any]]
 
 ##############################################################################
 #: Type of the collection of events in the TestParser.
