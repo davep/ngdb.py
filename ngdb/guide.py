@@ -11,6 +11,10 @@ from pathlib import Path
 from typing import Any, Callable, Final, Iterator
 
 ##############################################################################
+# Typing backward compatibility.
+from typing_extensions import Self
+
+##############################################################################
 # Local imports.
 from .entry import Entry
 from .menu import Menu
@@ -189,7 +193,7 @@ class NortonGuide:
         """The menus for the guide."""
         return self._menus
 
-    def goto(self, pos: int) -> "NortonGuide":
+    def goto(self, pos: int) -> Self:
         """Go to a specific location in the guide.
 
         Args:
@@ -201,7 +205,7 @@ class NortonGuide:
         self._guide.goto(pos)
         return self
 
-    def goto_first(self) -> "NortonGuide":
+    def goto_first(self) -> Self:
         """Go to the first entry in the guide.
 
         Returns:
@@ -210,7 +214,7 @@ class NortonGuide:
         return self.goto(self._first_entry)
 
     @not_eof
-    def skip(self) -> "NortonGuide":
+    def skip(self) -> Self:
         """Skip the current entry.
 
         Returns:

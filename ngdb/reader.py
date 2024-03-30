@@ -6,6 +6,10 @@ import io
 from pathlib import Path
 from typing import Final
 
+##############################################################################
+# Typing backward compatibility.
+from typing_extensions import Self
+
 
 ##############################################################################
 class GuideReader:
@@ -92,7 +96,7 @@ class GuideReader:
         """Is the file closed?"""
         return self._h.closed
 
-    def skip(self, count: int = 1) -> "GuideReader":
+    def skip(self, count: int = 1) -> Self:
         """Skip a number of bytes in the guide.
 
         Args:
@@ -107,7 +111,7 @@ class GuideReader:
         self._h.seek(count, io.SEEK_CUR)
         return self
 
-    def skip_entry(self) -> "GuideReader":
+    def skip_entry(self) -> Self:
         """Skip a whole entry in the guide.
 
         Returns:
