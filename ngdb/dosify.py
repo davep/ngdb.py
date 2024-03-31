@@ -5,7 +5,7 @@
 from typing import Final
 
 ##############################################################################
-DOS_MAP: Final = str.maketrans(
+DOS_MAP: Final[dict[int, str]] = str.maketrans(
     {
         0: " ",
         1: "\u263A",

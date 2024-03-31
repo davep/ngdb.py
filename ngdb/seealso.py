@@ -15,7 +15,7 @@ from .reader import GuideReader
 class SeeAlso(PromptCollection):
     """Class to load and hold all the see alsos for a long entry."""
 
-    MAX_SEE_ALSO: Final = 20
+    MAX_SEE_ALSO: Final[int] = 20
     """Max number of see also items we'll handle.
 
     This is the limit published in the Expert Help Compiler manual and,

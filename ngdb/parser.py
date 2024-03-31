@@ -27,7 +27,7 @@ class TextMode(Enum):
 
 
 ##############################################################################
-CTRL_CHAR: Final = "^"
+CTRL_CHAR: Final[str] = "^"
 """The control character that marks an upcoming attribute."""
 
 
@@ -388,7 +388,16 @@ class RichText(MarkupText):
         del cls
         return "[/]"
 
-    COLOUR_MAP: Final = {1: 4, 3: 6, 4: 1, 6: 3, 9: 21, 11: 14, 12: 196, 14: 11}
+    COLOUR_MAP: Final[dict[int, int]] = {
+        1: 4,
+        3: 6,
+        4: 1,
+        6: 3,
+        9: 21,
+        11: 14,
+        12: 196,
+        14: 11,
+    }
     """DOS to Rich colour mapping. This is just the exceptions."""
 
     @classmethod

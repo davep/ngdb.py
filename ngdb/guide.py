@@ -54,10 +54,10 @@ class NortonGuide:
     MAGIC: Final = {"EH": "Expert Help", "NG": "Norton Guide"}
     """Lookup for valid database magic markers."""
 
-    TITLE_LENGTH: Final = 40
+    TITLE_LENGTH: Final[int] = 40
     """The length of a title in the header."""
 
-    CREDIT_LENGTH: Final = 66
+    CREDIT_LENGTH: Final[int] = 66
     """The length of a line in the credits."""
 
     def __init__(self, guide: str | Path) -> None:

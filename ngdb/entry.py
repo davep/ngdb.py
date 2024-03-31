@@ -105,7 +105,7 @@ TEntry = Type["Entry"]
 """Type of the type of an entry."""
 
 ##############################################################################
-MAX_LINE_LENGTH: Final = 1024
+MAX_LINE_LENGTH: Final[int] = 1024
 """Maximum size of a line we'll look for in a guide."""
 
 
