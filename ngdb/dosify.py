@@ -1,6 +1,10 @@
 """Code to support the DOS heritage of most Norton Guide databases."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from typing import Final
 
