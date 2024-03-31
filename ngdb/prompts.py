@@ -17,7 +17,7 @@ from .link import Link
 class PromptCollection:
     """Base class for classes that contain prompt/offset collections."""
 
-    MAX_PROMPT_LENGTH: Final = 128
+    MAX_PROMPT_LENGTH: Final[int] = 128
     """The maximum length of a prompt in a guide."""
 
     def __init__(self) -> None:

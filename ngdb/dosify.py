@@ -1,11 +1,15 @@
 """Code to support the DOS heritage of most Norton Guide databases."""
 
 ##############################################################################
+# Python compatibility hackage.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from typing import Final
 
 ##############################################################################
-DOS_MAP: Final = str.maketrans(
+DOS_MAP: Final[dict[int, str]] = str.maketrans(
     {
         0: " ",
         1: "\u263A",
