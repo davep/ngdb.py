@@ -4,12 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+typing-extensions = "*"
 
 [dev-packages]
 pylint = "*"
 mypy = "*"
 coverage = "*"
-typing-extensions = "*"
 twine = "*"
 mkdocs = "*"
 mkdocs-autorefs = "*"
