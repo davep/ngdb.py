@@ -28,7 +28,7 @@ class GuideReader:
     """
 
     #: The value that marks run-length-encoded spaces.
-    RLE_MARKER: Final[str] = "\xFF"
+    RLE_MARKER: Final[str] = "\xff"
 
     @classmethod
     def unrle(cls, rle_text: str) -> str:
