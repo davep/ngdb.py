@@ -25,6 +25,7 @@ from .types import NGEOF, EntryType
 EOFResult = TypeVar("EOFResult")
 """Return type of a method decorated with `@not_eof`."""
 
+
 ##############################################################################
 def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
