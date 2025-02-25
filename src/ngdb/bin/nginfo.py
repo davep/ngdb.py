@@ -1,15 +1,4 @@
-#!/usr/bin/env python
 """Display information about Norton Guide files."""
-
-##############################################################################
-# Module information.
-__author__     = "Dave Pearson"
-__copyright__  = "Copyright 2021-2022, Dave Pearson"
-__licence__    = "GPL"
-__credits__    = [ "Dave Pearson" ]
-__maintainer__ = "Dave Pearson"
-__email__      = "davep@davep.org"
-__version__    = "0.0.1"
 
 ##############################################################################
 # Python imports.
@@ -18,10 +7,10 @@ from pathlib import Path
 
 ##############################################################################
 # Local imports.
-from ngdb import NortonGuide, __version__ as ngdb_ver
+from .. import NortonGuide, __version__
+
 
 ##############################################################################
-# Get the command line arguments.
 def get_args() -> argparse.Namespace:
     """Get the arguments passed by the user.
 
@@ -30,34 +19,34 @@ def get_args() -> argparse.Namespace:
     """
 
     # Version information, used in a couple of paces.
-    version = f"v{__version__} (ngdb v{ngdb_ver})"
+    version = f"v{__version__}"
 
     # Create the argument parser object.
     parser = argparse.ArgumentParser(
-        description = "Display information about a Norton Guide Database file",
-        epilog      = version
+        description="Display information about a Norton Guide Database file",
+        epilog=version,
     )
 
     # Add --version
     parser.add_argument(
-        "-v", "--version",
-        help    = "Show version information.",
-        action  = "version",
-        version = f"%(prog)s {version}"
+        "-v",
+        "--version",
+        help="Show version information.",
+        action="version",
+        version=f"%(prog)s {version}",
     )
 
     # The remainder is the path to the guides to look at.
     parser.add_argument(
-        "guides", nargs="+",
-        help = "The guides to get information for"
+        "guides", nargs="+", help="The guides to get information for", type=Path
     )
 
     # Parse the command line.
     return parser.parse_args()
 
+
 ##############################################################################
-# Show information about a given Norton Guide.
-def info( guide_path: Path, verbose: bool=False ) -> None:
+def info(guide_path: Path, verbose: bool = False) -> None:
     """Dump Norton Guide information to stdout.
 
     Args:
@@ -67,36 +56,26 @@ def info( guide_path: Path, verbose: bool=False ) -> None:
     Note:
         If not provided, ``verbose`` defaults to ``False``.
     """
-    with NortonGuide( guide_path ) as guide:
+    with NortonGuide(guide_path) as guide:
         print(
             f"{guide.magic:2} {guide_path.stem:20} "
             f"{guide.title if guide.is_a else '- Not a Norton Guide Database -'}"
         )
         if verbose:
-            print( "\n" )
-            print( "\n".join( guide.credits ) )
+            print("\n")
+            print("\n".join(guide.credits))
+
 
 ##############################################################################
-# Main function.
 def main() -> None:
     """Main function."""
+    for guide in (args := get_args()).guides:
+        info(guide, verbose=(len(args.guides) == 1))
 
-    # Get the arguments.
-    args = get_args()
-
-    # If we've been asked about just one guide...
-    if len( args.guides ) == 1:
-        # ...print some verbose information about that guide.
-        info( Path( args.guides[ 0 ] ), verbose=True )
-    else:
-        # For each guide we've been asked to look at...
-        for guide in args.guides:
-            # ...show some information about the guide.
-            info( Path( guide ) )
 
 ##############################################################################
 # Main entry point.
 if __name__ == "__main__":
     main()
 
-### nginfo ends here
+### nginfo.py ends here

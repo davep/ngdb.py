@@ -43,6 +43,9 @@ Source = "https://github.com/davep/ngdb.py"
 Issues = "https://github.com/davep/ngdb.py/issues"
 Discussions = "https://github.com/davep/ngdb.py/discussions"
 
+[project.scripts]
+nginfo = "ngdb.bin.nginfo:main"
+
 [build-system]
 # https://github.com/astral-sh/rye/issues/1446
 requires = ["hatchling==1.26.3", "hatch-vcs"]
