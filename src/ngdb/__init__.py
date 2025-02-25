@@ -25,17 +25,17 @@ from .types import NGEOF, NGDBError, UnknownEntryType
 ##############################################################################
 # Define what importing * means.
 __all__ = (
+    "BaseParser",
+    "Entry",
+    "Long",
+    "make_dos_like",
+    "MarkupText",
     "NGDBError",
-    "UnknownEntryType",
     "NGEOF",
     "NortonGuide",
-    "Entry",
-    "Short",
-    "Long",
-    "BaseParser",
     "PlainText",
-    "MarkupText",
-    "make_dos_like",
+    "Short",
+    "UnknownEntryType",
 )
 
 ### __init__.py ends here
