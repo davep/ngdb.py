@@ -15,7 +15,7 @@ __version__ = version("ngdb")
 __licence__ = "GPLv3+"
 
 ##############################################################################
-# Import things for easier access.
+# Local imports.
 from .dosify import make_dos_like
 from .entry import Entry, Long, Short
 from .guide import NortonGuide
@@ -23,7 +23,7 @@ from .parser import BaseParser, MarkupText, PlainText
 from .types import NGEOF, NGDBError, UnknownEntryType
 
 ##############################################################################
-# Define what importing * means.
+# Exports.
 __all__ = (
     "BaseParser",
     "Entry",
