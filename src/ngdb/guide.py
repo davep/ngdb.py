@@ -8,7 +8,7 @@ from __future__ import annotations
 # Python imports.
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Final, Iterator
+from typing import Any, Callable, Final, Iterator, TypeVar
 
 ##############################################################################
 # Typing backward compatibility.
@@ -21,9 +21,12 @@ from .menu import Menu
 from .reader import GuideReader
 from .types import NGEOF, EntryType
 
+##############################################################################
+EOFResult = TypeVar("EOFResult")
+"""Return type of a method decorated with `@not_eof`."""
 
 ##############################################################################
-def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
+def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
     Args:
@@ -34,7 +37,7 @@ def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
     """
 
     @wraps(meth)
-    def _guard(self: "NortonGuide", *args: Any, **kwargs: Any) -> Any:
+    def _guard(self: NortonGuide, *args: Any, **kwargs: Any) -> EOFResult:
         """Guard the given method call."""
         if self.eof:
             raise NGEOF
@@ -51,7 +54,7 @@ class NortonGuide:
         path: The path of the database.
     """
 
-    MAGIC: Final = {"EH": "Expert Help", "NG": "Norton Guide"}
+    MAGIC: Final[dict[str, str]] = {"EH": "Expert Help", "NG": "Norton Guide"}
     """Lookup for valid database magic markers."""
 
     TITLE_LENGTH: Final[int] = 40

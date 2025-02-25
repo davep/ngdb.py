@@ -101,10 +101,6 @@ class EntryParent:
 
 
 ##############################################################################
-TEntry = Type["Entry"]
-"""Type of the type of an entry."""
-
-##############################################################################
 MAX_LINE_LENGTH: Final[int] = 1024
 """Maximum size of a line we'll look for in a guide."""
 
@@ -113,11 +109,11 @@ MAX_LINE_LENGTH: Final[int] = 1024
 class Entry:
     """Norton Guide database entry class."""
 
-    _map: dict[EntryType, TEntry] = {}
+    _map: dict[EntryType, type[Entry]] = {}
     """Holds the entry type mapper."""
 
     @classmethod
-    def loads(cls, entry_type: EntryType) -> Callable[[TEntry], TEntry]:
+    def loads(cls, entry_type: EntryType) -> Callable[[type[Entry]], type[Entry]]:
         """Decorator for defining which class handles which entry type.
 
         Args:
@@ -127,7 +123,7 @@ class Entry:
             The decorator wrapper.
         """
 
-        def _register(handler: TEntry) -> TEntry:
+        def _register(handler: type[Entry]) -> type[Entry]:
             """Inner decorator function."""
             cls._map[entry_type] = handler
             return handler
@@ -135,7 +131,7 @@ class Entry:
         return _register
 
     @classmethod
-    def load(cls, guide: GuideReader) -> "Entry":
+    def load(cls, guide: GuideReader) -> Entry:
         """Load the entry at the current position in the guide.
 
         Args:
