@@ -83,7 +83,7 @@ class GuideReader:
         """Go to a specific byte position within the guide.
 
         Args:
-            posThe position to go to.
+            pos: The position to go to.
 
         Returns:
             self

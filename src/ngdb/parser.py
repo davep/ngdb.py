@@ -326,7 +326,7 @@ class MarkupText(PlainText, ABC):
         """Close markup for the given class.
 
         Args:
-            The class of thing to close the markup for.
+            cls: The class of thing to close the markup for.
 
         Returns:
             The closing markup text.
@@ -337,7 +337,7 @@ class MarkupText(PlainText, ABC):
         """Start a section of markup.
 
         Args:
-            clsThe class for the markup.
+            cls: The class for the markup.
 
         Note:
             As a side-effect of calling on this, the ``close_markup`` for
