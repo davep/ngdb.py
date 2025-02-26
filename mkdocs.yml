@@ -18,7 +18,7 @@ plugins:
     enable_inventory: false
     handlers:
       python:
-        import:
+        inventories:
           - https://docs.python.org/3/objects.inv
         options:
           filters:
