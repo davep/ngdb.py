@@ -12,7 +12,7 @@ mypy   := $(run) mypy
 # Local "interactive testing" of the code.
 .PHONY: run
 run:				# Run the code in a testing context
-	$(python) -m $(lib)
+	$(run) nginfo tests/guides/eg.ng
 
 .PHONY: debug
 debug:				# Run the code with Textual devtools enabled
