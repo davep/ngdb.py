@@ -59,6 +59,8 @@ dev-dependencies = [
     "mypy>=1.14.1",
     "pytest>=8.3.4",
     "mkdocstrings>=0.28.2",
+    "mkdocs-material>=9.6.5",
+    "mkdocs-autorefs>=1.4.0",
 ]
 
 [tool.hatch.metadata]
