@@ -202,7 +202,7 @@ class NortonGuide:
         """Go to a specific location in the guide.
 
         Args:
-            posThe position to go to.
+            pos: The position to go to.
 
         Returns:
             Returns ``self``.
