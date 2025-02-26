@@ -67,7 +67,7 @@ checkall: codestyle lint stricttypecheck test # Check all the things
 # Documentation.
 .PHONY: docs
 docs:                           # Generate the system documentation
-	echo GNDN for now
+	$(mkdocs) build
 
 .PHONY: rtfm
 rtfm:                           # Locally read the library documentation
