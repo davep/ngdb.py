@@ -75,8 +75,7 @@ rtfm:                           # Locally read the library documentation
 
 .PHONY: publishdocs
 publishdocs: docs		# Set up the docs for publishing
-	$(run) ghp-import site
-	git checkout gh-pages
+	$(run) ghp-import --push site
 
 ##############################################################################
 # Package/publish.
