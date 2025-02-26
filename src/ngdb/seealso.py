@@ -4,10 +4,9 @@
 # Python imports.
 from typing import Final
 
-from .prompts import PromptCollection
-
 ##############################################################################
 # Local imports.
+from .prompts import PromptCollection
 from .reader import GuideReader
 
 
