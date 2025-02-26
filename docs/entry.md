@@ -1,15 +1,7 @@
-# Entry Classes
+---
+title: ngdb.entry
+---
 
-## Entry Base Class
-
-::: ngdb.Entry
-
-## Short Entry Class
-
-::: ngdb.Short
-
-## Long Entry Class
-
-::: ngdb.Long
+::: ngdb.entry
 
 [//]: # (entry.md ends here)

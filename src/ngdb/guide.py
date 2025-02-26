@@ -23,7 +23,7 @@ from .types import NGEOF, EntryType
 
 ##############################################################################
 EOFResult = TypeVar("EOFResult")
-"""Return type of a method decorated with `@not_eof`."""
+"""Return type of a method decorated with [`@not_eof`][ngdb.guide.not_eof]."""
 
 
 ##############################################################################
@@ -35,6 +35,11 @@ def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
 
     Returns:
         The guard.
+
+    This decorator is used as part of [`NortonGuide`][ngdb.NortonGuide], to
+    decorate functions that should test for being
+    [`eof`][ngdb.NortonGuide.eof] before the work of the method is done. If
+    the guide is `eof` [`NGEOF`][ngdb.types.NGEOF] will be raised.
     """
 
     @wraps(meth)

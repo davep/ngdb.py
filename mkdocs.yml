@@ -4,8 +4,17 @@ nav:
   - Introduction:
     - index.md
     - installing.md
-    - norton_guide.md
+  - API:
+    - dosify.md
     - entry.md
+    - guide.md
+    - link.md
+    - menu.md
+    - parser.md
+    - prompts.md
+    - reader.md
+    - see_also.md
+    - types.md
 
 watch:
   - src/ngdb
