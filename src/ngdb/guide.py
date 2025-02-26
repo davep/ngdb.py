@@ -49,11 +49,7 @@ def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
 
 ##############################################################################
 class NortonGuide:
-    """Norton Guide database wrapper class.
-
-    Attributes:
-        path: The path of the database.
-    """
+    """Norton Guide database wrapper class."""
 
     MAGIC: Final[dict[str, str]] = {"EH": "Expert Help", "NG": "Norton Guide"}
     """Lookup for valid database magic markers."""
@@ -71,13 +67,13 @@ class NortonGuide:
             guide: The guide to open.
         """
 
-        # Remember the guide path.
-        self.path = Path(guide)
+        self._path = Path(guide)
+        """The path to the guide."""
 
         # Attempt to open the guide. Note that we're going to hold it open
         # until we're asked to close it in the close method, so we also
         # nicely ask pylint to hush.
-        self._guide = GuideReader(self.path)
+        self._guide = GuideReader(self._path)
 
         # Now, having opened it fine, read in the header.
         self._read_header()
@@ -94,6 +90,11 @@ class NortonGuide:
             # At this point we should be sat on top of the first entry, so
             # let's remember where that is.
             self._first_entry = self._guide.pos
+
+    @property
+    def path(self) -> Path:
+        """The path to the guide."""
+        return self._path
 
     def _read_header(self) -> None:
         """Read the header of the Norton Guide database."""
@@ -233,7 +234,7 @@ class NortonGuide:
     @property
     def eof(self) -> bool:
         """Are we at the end of the guide?"""
-        return self._guide.pos >= self.path.stat().st_size
+        return self._guide.pos >= self._path.stat().st_size
 
     @not_eof
     def load(self) -> Entry:
@@ -287,7 +288,7 @@ class NortonGuide:
         Returns:
             The guide's full path/file name.
         """
-        return str(self.path.resolve())
+        return str(self._path.resolve())
 
 
 ### guide.py ends here
