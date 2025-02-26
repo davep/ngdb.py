@@ -54,8 +54,8 @@ def test_short_load_correct_type(short: Entry) -> None:
 def test_short_correct_id(short: Entry) -> None:
     """A short entry should have a short entry ID."""
     assert short.type_id == 0
-    assert EntryType.is_short(short.type_id)
-    assert not EntryType.is_long(short.type_id)
+    assert EntryType.is_short(short.type_id) is True
+    assert EntryType.is_long(short.type_id) is False
 
 
 ##############################################################################
@@ -67,37 +67,37 @@ def test_short_entry_size(short: Entry) -> None:
 ##############################################################################
 def test_short_parent(short: Entry) -> None:
     """The test short entry should not have a parent."""
-    assert not bool(short.parent)
+    assert bool(short.parent) is False
 
 
 ##############################################################################
 def test_short_parent_line(short: Entry) -> None:
     """It test should entry should not have a parent line."""
-    assert not short.parent.has_line
+    assert short.parent.has_line is False
 
 
 ##############################################################################
 def test_short_parent_menu(short: Entry) -> None:
     """The test short entry should have a parent menu."""
-    assert short.parent.has_menu
+    assert short.parent.has_menu is True
 
 
 ##############################################################################
 def test_short_parent_prompt(short: Entry) -> None:
     """The test short entry should have a parent menu prompt."""
-    assert short.parent.has_prompt
+    assert short.parent.has_prompt is True
 
 
 ##############################################################################
 def test_short_previous(short: Entry) -> None:
     """The test short should not have a previous entry."""
-    assert not short.has_previous
+    assert short.has_previous is False
 
 
 ##############################################################################
 def test_short_next(short: Entry) -> None:
     """The test short should not have a next entry."""
-    assert not short.has_next
+    assert short.has_next is False
 
 
 ##############################################################################
@@ -124,7 +124,7 @@ def test_short_list_like(short: Short) -> None:
         == " OL_95AppTitle()          Set/get the Windows 95 application title."
     )
     assert short[0].offset == 1389
-    assert short[0].has_offset
+    assert short[0].has_offset is True
 
 
 ##############################################################################
@@ -146,8 +146,8 @@ def test_long_load_correct_type(long: Long) -> None:
 def test_long_correct_id(long: Long) -> None:
     """A long entry should have a long entry ID."""
     assert long.type_id == 1
-    assert not EntryType.is_short(long.type_id)
-    assert EntryType.is_long(long.type_id)
+    assert EntryType.is_short(long.type_id) is False
+    assert EntryType.is_long(long.type_id) is True
 
 
 ##############################################################################
@@ -159,38 +159,38 @@ def test_long_entry_size(long: Long) -> None:
 ##############################################################################
 def test_long_parent(long: Long) -> None:
     """The long entry should have a parent."""
-    assert bool(long.parent)
+    assert bool(long.parent) is True
 
 
 ##############################################################################
 def test_long_parent_line(long: Long) -> None:
     """The long entry should have a parent line."""
-    assert long.parent.has_line
+    assert long.parent.has_line is True
     assert long.parent.line == 0
 
 
 ##############################################################################
 def test_long_parent_menu(long: Long) -> None:
     """The test long entry should have a parent menu."""
-    assert long.parent.has_menu
+    assert long.parent.has_menu is True
 
 
 ##############################################################################
 def test_long_parent_prompt(long: Long) -> None:
     """The test long entry should have a parent menu prompt."""
-    assert long.parent.has_prompt
+    assert long.parent.has_prompt is True
 
 
 ##############################################################################
 def test_long_previous(long: Long) -> None:
     """The test long entry should not have a previous entry."""
-    assert not long.has_previous
+    assert long.has_previous is False
 
 
 ##############################################################################
 def test_long_next(long: Long) -> None:
     """The test long entry should have a next entry."""
-    assert long.has_next
+    assert long.has_next is True
 
 
 ##############################################################################

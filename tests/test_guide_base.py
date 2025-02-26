@@ -31,8 +31,8 @@ def test_open_missing_guide() -> None:
 def test_with_closes_guide() -> None:
     """When `with` is used with a guide, it should be closed afterwards.."""
     with NortonGuide(GOOD_GUIDE) as guide:
-        assert guide.is_open
-    assert not guide.is_open
+        assert guide.is_open is True
+    assert guide.is_open is False
 
 
 ##############################################################################

@@ -23,7 +23,7 @@ def guide() -> NortonGuide:
 ##############################################################################
 def test_is_ng(guide: NortonGuide) -> None:
     """It should be possible to test for a valid database."""
-    assert guide.is_a
+    assert guide.is_a is True
 
 
 ##############################################################################
