@@ -73,6 +73,11 @@ docs:                           # Generate the system documentation
 rtfm:                           # Locally read the library documentation
 	$(mkdocs) serve
 
+.PHONY: publishdocs
+publishdocs: docs		# Set up the docs for publishing
+	$(run) ghp-import site
+	git checkout gh-pages
+
 ##############################################################################
 # Package/publish.
 .PHONY: package
