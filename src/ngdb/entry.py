@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Callable, Final, Iterator, Type
+from typing import Callable, Final, Iterator
 
 ##############################################################################
 # Local imports.
