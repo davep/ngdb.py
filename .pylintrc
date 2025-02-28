@@ -1,9 +1,0 @@
-[FORMAT]
-max-line-length=120
-
-[BASIC]
-# I feel the max number of public attributes is too low.
-max-attributes=20
-
-[MESSAGES CONTROL]
-disable=fixme

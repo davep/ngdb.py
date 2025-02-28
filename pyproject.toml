@@ -1,5 +1,68 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "ngdb"
+version = "0.6.2"
+description = "Norton Guide database reading library"
+authors = [
+    { name = "Dave Pearson", email = "davep@davep.org" }
+]
+dependencies = [
+    "typing-extensions",
+]
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "GNU General Public License v3 or later (GPLv3+)" }
+keywords = [
+    "library",
+    "dbase",
+    "clipper",
+    "norton guide reader",
+    "documentation",
+    "database",
+    "help",
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 3 - Alpha",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
 
-### pyproject.toml ends here
+[project.urls]
+Homepage = "https://blog.davep.org/ngdb.py/"
+Repository = "https://github.com/davep/ngdb.py"
+Documentation = "https://blog.davep.org/ngdb.py/"
+Source = "https://github.com/davep/ngdb.py"
+Issues = "https://github.com/davep/ngdb.py/issues"
+Discussions = "https://github.com/davep/ngdb.py/discussions"
+
+[build-system]
+# https://github.com/astral-sh/rye/issues/1446
+requires = ["hatchling==1.26.3", "hatch-vcs"]
+# requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pre-commit>=4.0.1",
+    "mypy>=1.14.1",
+    "pytest>=8.3.4",
+    "mkdocstrings[python]>=0.28.2",
+    "mkdocs-material>=9.6.5",
+    "mkdocs-autorefs>=1.4.0",
+    "ghp-import>=2.1.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ngdb"]

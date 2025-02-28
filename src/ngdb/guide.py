@@ -8,7 +8,7 @@ from __future__ import annotations
 # Python imports.
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Final, Iterator
+from typing import Any, Callable, Final, Iterator, TypeVar
 
 ##############################################################################
 # Typing backward compatibility.
@@ -21,9 +21,13 @@ from .menu import Menu
 from .reader import GuideReader
 from .types import NGEOF, EntryType
 
+##############################################################################
+EOFResult = TypeVar("EOFResult")
+"""Return type of a method decorated with [`@not_eof`][ngdb.guide.not_eof]."""
+
 
 ##############################################################################
-def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
+def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
     Args:
@@ -31,10 +35,15 @@ def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
 
     Returns:
         The guard.
+
+    This decorator is used as part of [`NortonGuide`][ngdb.NortonGuide], to
+    decorate functions that should test for being
+    [`eof`][ngdb.NortonGuide.eof] before the work of the method is done. If
+    the guide is `eof` [`NGEOF`][ngdb.types.NGEOF] will be raised.
     """
 
     @wraps(meth)
-    def _guard(self: "NortonGuide", *args: Any, **kwargs: Any) -> Any:
+    def _guard(self: NortonGuide, *args: Any, **kwargs: Any) -> EOFResult:
         """Guard the given method call."""
         if self.eof:
             raise NGEOF
@@ -45,13 +54,9 @@ def not_eof(meth: Callable[..., Any]) -> Callable[..., Any]:
 
 ##############################################################################
 class NortonGuide:
-    """Norton Guide database wrapper class.
+    """Norton Guide database wrapper class."""
 
-    Attributes:
-        path: The path of the database.
-    """
-
-    MAGIC: Final = {"EH": "Expert Help", "NG": "Norton Guide"}
+    MAGIC: Final[dict[str, str]] = {"EH": "Expert Help", "NG": "Norton Guide"}
     """Lookup for valid database magic markers."""
 
     TITLE_LENGTH: Final[int] = 40
@@ -67,13 +72,13 @@ class NortonGuide:
             guide: The guide to open.
         """
 
-        # Remember the guide path.
-        self.path = Path(guide)
+        self._path = Path(guide)
+        """The path to the guide."""
 
         # Attempt to open the guide. Note that we're going to hold it open
         # until we're asked to close it in the close method, so we also
         # nicely ask pylint to hush.
-        self._guide = GuideReader(self.path)
+        self._guide = GuideReader(self._path)
 
         # Now, having opened it fine, read in the header.
         self._read_header()
@@ -90,6 +95,11 @@ class NortonGuide:
             # At this point we should be sat on top of the first entry, so
             # let's remember where that is.
             self._first_entry = self._guide.pos
+
+    @property
+    def path(self) -> Path:
+        """The path to the guide."""
+        return self._path
 
     def _read_header(self) -> None:
         """Read the header of the Norton Guide database."""
@@ -114,7 +124,7 @@ class NortonGuide:
     def _read_menus(self) -> Iterator[Menu]:
         """Read the menus from the guide.
 
-        :yields:
+        Yields
             A menu from the guide.
         """
         while EntryType.is_menu(self._guide.peek_word()):
@@ -146,7 +156,7 @@ class NortonGuide:
         if self.is_open:
             self._guide.close()
 
-    def __enter__(self) -> "NortonGuide":
+    def __enter__(self) -> Self:
         """Handle entry to context."""
         return self
 
@@ -197,7 +207,7 @@ class NortonGuide:
         """Go to a specific location in the guide.
 
         Args:
-            posThe position to go to.
+            pos: The position to go to.
 
         Returns:
             Returns ``self``.
@@ -229,7 +239,7 @@ class NortonGuide:
     @property
     def eof(self) -> bool:
         """Are we at the end of the guide?"""
-        return self._guide.pos >= self.path.stat().st_size
+        return self._guide.pos >= self._path.stat().st_size
 
     @not_eof
     def load(self) -> Entry:
@@ -283,7 +293,7 @@ class NortonGuide:
         Returns:
             The guide's full path/file name.
         """
-        return str(self.path.resolve())
+        return str(self._path.resolve())
 
 
 ### guide.py ends here

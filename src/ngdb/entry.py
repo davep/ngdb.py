@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Callable, Final, Iterator, Type
+from typing import Callable, Final, Iterator
 
 ##############################################################################
 # Local imports.
@@ -41,7 +41,7 @@ class EntryParent:
         """Is there a parent entry?
 
         Returns:
-            ``True`` if there is, ``False` if not.
+            [`True`][True] if there is, [`False`][False] if not.
         """
         return self.offset > 0
 
@@ -62,7 +62,8 @@ class EntryParent:
         """The line in the parent entry that point to this entry.
 
         If there is no parent line this will be ``-1``. But also see
-        ``has_line`` for a test for a parent entry line.
+        [`has_line`][ngdb.entry.EntryParent.has_line] for a test for a
+        parent entry line.
         """
         return self._non_test(self._line)
 
@@ -75,8 +76,9 @@ class EntryParent:
     def menu(self) -> int:
         """The menu that relates to this entry.
 
-        If there is no menu, this will be ``-1``. But also see ``has_menu``
-        to test if there is a related menu.
+        If there is no menu, this will be `-1`. But also see
+        [`has_menu`][ngdb.entry.EntryParent.has_menu] to test if there is a
+        related menu.
         """
         return self._non_test(self._menu)
 
@@ -89,8 +91,9 @@ class EntryParent:
     def prompt(self) -> int:
         """The menu prompt related to this entry.
 
-        If there is no menu prompt, this will be ``-1``. But also see
-        ``has_prompt`` to test if there is a related menu prompt.
+        If there is no menu prompt, this will be `-1`. But also see
+        [`has_prompt`][ngdb.entry.EntryParent.has_prompt] to test if there
+        is a related menu prompt.
         """
         return self._non_test(self._prompt)
 
@@ -101,10 +104,6 @@ class EntryParent:
 
 
 ##############################################################################
-TEntry = Type["Entry"]
-"""Type of the type of an entry."""
-
-##############################################################################
 MAX_LINE_LENGTH: Final[int] = 1024
 """Maximum size of a line we'll look for in a guide."""
 
@@ -113,11 +112,11 @@ MAX_LINE_LENGTH: Final[int] = 1024
 class Entry:
     """Norton Guide database entry class."""
 
-    _map: dict[EntryType, TEntry] = {}
+    _map: dict[EntryType, type[Entry]] = {}
     """Holds the entry type mapper."""
 
     @classmethod
-    def loads(cls, entry_type: EntryType) -> Callable[[TEntry], TEntry]:
+    def loads(cls, entry_type: EntryType) -> Callable[[type[Entry]], type[Entry]]:
         """Decorator for defining which class handles which entry type.
 
         Args:
@@ -125,9 +124,16 @@ class Entry:
 
         Returns:
             The decorator wrapper.
+
+        Example:
+            ```python
+            @Entry.loads(EntryType.SHORT)
+            class Short(Entry):
+                ...
+            ```
         """
 
-        def _register(handler: TEntry) -> TEntry:
+        def _register(handler: type[Entry]) -> type[Entry]:
             """Inner decorator function."""
             cls._map[entry_type] = handler
             return handler
@@ -135,7 +141,7 @@ class Entry:
         return _register
 
     @classmethod
-    def load(cls, guide: GuideReader) -> "Entry":
+    def load(cls, guide: GuideReader) -> Entry:
         """Load the entry at the current position in the guide.
 
         Args:
@@ -234,7 +240,7 @@ class Entry:
 
     @property
     def has_next(self) -> bool:
-        """Is there a previous entry?"""
+        """Is there a next entry?"""
         return self.next > 0
 
     @property
@@ -251,7 +257,7 @@ class Entry:
         return "\n".join(self.lines)
 
     def __repr__(self) -> str:
-        """Simply say the type of entry as the representation of the object.
+        """Returns a string representation of the object.
 
         Returns:
             The name of the type of entry.
@@ -259,10 +265,7 @@ class Entry:
         return f"<{self.__class__.__name__}: {self.offset}>"
 
     def __rich__(self) -> str:
-        """Support being printed in a Rich-enhanced REPL.
-
-        Note:
-            See https://rich.readthedocs.io/en/stable/protocol.html
+        """Support being printed in a [Rich-enhanced REPL](https://rich.readthedocs.io/en/stable/protocol.html).
 
         Returns:
             Rich-friendly test.
@@ -281,15 +284,9 @@ class Short(Entry):
         Args:
             guide: The reader object for the guide.
         """
-
-        # Call the super class.
         super().__init__(guide)
-
-        # Next up, load up all of the offsets associated with each of the
-        # lines in the entry.
         self._offsets = tuple(self._load_offsets(guide))
-
-        # Finally, load in the actual text.
+        """The offsets for each line in the short entry."""
         self._load_lines(guide)
 
     def _load_offsets(self, guide: GuideReader) -> Iterator[int]:
@@ -313,11 +310,22 @@ class Short(Entry):
         return self._offsets
 
     def __getitem__(self, line: int) -> Link:
-        """Get a line and its offset."""
+        """Get a line and its offset.
+
+        Args:
+            line: The line to get the link information for.
+
+        Returns:
+            The link associated with that line.
+        """
         return Link(self.lines[line], self.offsets[line])
 
     def __iter__(self) -> Iterator[Link]:
-        """The lines in the entry along with the offsets into the guide."""
+        """The lines in the entry along with the offsets into the guide.
+
+        Returns:
+            An iterator of link data.
+        """
         return (Link(*line) for line in zip(self.lines, self.offsets))
 
 
@@ -332,15 +340,10 @@ class Long(Entry):
         Args:
             guide: The reader object for the guide.
         """
-
-        # Call the super class.
         super().__init__(guide)
-
-        # Load in the actual text.
         self._load_lines(guide)
-
-        # Load up the see-also information.
         self._see_also = SeeAlso(guide, self.has_see_also)
+        """The see-also data for the long entry."""
 
     @property
     def see_also(self) -> SeeAlso:
@@ -348,11 +351,22 @@ class Long(Entry):
         return self._see_also
 
     def __getitem__(self, line: int) -> str:
-        """Get a line from the entry."""
+        """Get a line from the entry.
+
+        Args:
+            line: The lint to get.
+
+        Returns:
+            The line.
+        """
         return self.lines[line]
 
     def __iter__(self) -> Iterator[str]:
-        """The lines in the entry."""
+        """The lines in the entry.
+
+        Returns:
+            An iterator of strings that are the lines in the entry.
+        """
         return iter(self.lines)
 
 

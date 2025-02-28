@@ -47,6 +47,9 @@ class PromptCollection:
     def __getitem__(self, prompt: int) -> Link:
         """Get a prompt/offset pair.
 
+        Args:
+            prompt: The prompt to get the details for.
+
         Returns:
             The requested prompt and its offset.
         """
@@ -64,7 +67,7 @@ class PromptCollection:
         """Test if there are any prompts in the collection.
 
         Returns:
-            ``True`` if there are prompts, ``False`` if not.
+            [`True`][True] if there are prompts, [`False`][False] if not.
         """
         return bool(len(self))
 

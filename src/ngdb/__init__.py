@@ -1,37 +1,45 @@
 """ngdb - Norton Guide database reading library."""
 
+##############################################################################
+# Python imports.
+from importlib.metadata import version
+
 ######################################################################
 # Main library information.
 __author__ = "Dave Pearson"
-__copyright__ = "Copyright 2021-2024, Dave Pearson"
+__copyright__ = "Copyright 2021-2025, Dave Pearson"
 __credits__ = ["Dave Pearson"]
 __maintainer__ = "Dave Pearson"
 __email__ = "davep@davep.org"
-__version__ = "0.6.2"
+__version__ = version("ngdb")
 __licence__ = "GPLv3+"
 
 ##############################################################################
-# Import things for easier access.
+# Local imports.
 from .dosify import make_dos_like
 from .entry import Entry, Long, Short
 from .guide import NortonGuide
+from .menu import Menu
 from .parser import BaseParser, MarkupText, PlainText
+from .seealso import SeeAlso
 from .types import NGEOF, NGDBError, UnknownEntryType
 
 ##############################################################################
-# Define what importing * means.
+# Exports.
 __all__ = (
+    "BaseParser",
+    "Entry",
+    "Long",
+    "make_dos_like",
+    "MarkupText",
+    "Menu",
     "NGDBError",
-    "UnknownEntryType",
     "NGEOF",
     "NortonGuide",
-    "Entry",
-    "Short",
-    "Long",
-    "BaseParser",
     "PlainText",
-    "MarkupText",
-    "make_dos_like",
+    "SeeAlso",
+    "Short",
+    "UnknownEntryType",
 )
 
 ### __init__.py ends here
