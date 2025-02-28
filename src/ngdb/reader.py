@@ -27,8 +27,8 @@ class GuideReader:
         speed of this class will finally take place.
     """
 
-    #: The value that marks run-length-encoded spaces.
-    RLE_MARKER: Final[str] = "\xff"
+    RLE_MARKER: Final[str] = chr(0xFF)
+    """The value that marks run-length-encoded spaces."""
 
     @classmethod
     def unrle(cls, rle_text: str) -> str:
@@ -40,13 +40,14 @@ class GuideReader:
         Returns:
             The given text with all RLE components expanded.
 
-        Norton Guide database files use a very simple form of
-        run-length-encoding for spaces. Simply put, if you find a byte in a
-        string that is 0xFF, then the next byte is the number of spaces to
-        insert into the string at this point. I've also found that 0xFF
-        followed by 0xFF seems to mean you should insert a literal 0xFF (I
-        think), although I've found that using a literal space makes more
-        sense.
+        Note:
+            Norton Guide database files use a very simple form of
+            run-length-encoding for spaces. Simply put, if you find a byte
+            in a string that is `0xFF`, then the next byte is the number of
+            spaces to insert into the string at this point. I've also found
+            that `0xFF` followed by `0xFF` seems to mean you should insert a
+            literal `0xFF` (I think), although I've found that using a
+            literal space makes more sense.
         """
 
         expanded = ""
@@ -69,6 +70,7 @@ class GuideReader:
             guide: The guide to open.
         """
         self._h = guide.open("rb")
+        """The handle for the open guide."""
 
     def close(self) -> None:
         """Close the guide."""
@@ -79,7 +81,7 @@ class GuideReader:
         """The current position within the file."""
         return self._h.tell()
 
-    def goto(self, pos: int) -> "GuideReader":
+    def goto(self, pos: int) -> Self:
         """Go to a specific byte position within the guide.
 
         Args:
@@ -103,10 +105,7 @@ class GuideReader:
             count: The optional number of bytes to skip.
 
         Returns:
-            self
-
-        Note:
-            If ``count`` isn't supplied then 1 byte is skipped.
+            Self.
         """
         self._h.seek(count, io.SEEK_CUR)
         return self
@@ -115,7 +114,7 @@ class GuideReader:
         """Skip a whole entry in the guide.
 
         Returns:
-            self
+            Self.
         """
         return self.skip(2).skip(self.read_word() + 22)
 
@@ -139,9 +138,6 @@ class GuideReader:
 
         Returns:
             The byte value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         buff = self._h.read(1)[0]
         return self._decrypt(buff) if decrypt else buff
@@ -154,9 +150,6 @@ class GuideReader:
 
         Returns:
             The word value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         return self.read_byte(decrypt) + (self.read_byte(decrypt) << 8)
 
@@ -168,9 +161,6 @@ class GuideReader:
 
         Returns:
             The word value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         try:
             return self.read_word(decrypt)
@@ -185,9 +175,6 @@ class GuideReader:
 
         Returns:
             The long integer value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         return self.read_word(decrypt) + (self.read_word(decrypt) << 16)
 
@@ -199,7 +186,7 @@ class GuideReader:
 
         Note:
             This function ensures that an offset value that means 'there is
-            no offset' returns as ``-1``.
+            no offset' returns as `-1`.
         """
         return -1 if (offset := self.read_long(True)) == 0xFFFFFFFF else offset
 
@@ -224,9 +211,6 @@ class GuideReader:
 
         Returns:
             The string value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         return self._nul_trim(
             "".join(
@@ -238,10 +222,10 @@ class GuideReader:
     def read_strz(self, length: int, decrypt: bool = True) -> str:
         """Read a nul-terminated string from the guide.
 
-        This is similar to ``read_str``, but it will read only as far as the
-        first nul it encounters, within the bounds of ``length``, and the
-        file read location will be correctly settled to take this into
-        account.
+        This is similar to [`read_str`][ngdb.reader.GuideReader.read_str],
+        but it will read only as far as the first `nul` it encounters,
+        within the bounds of `length`, and the file read location will be
+        correctly settled to take this into account.
 
         Args:
             length: The maximum length of the string to read.
@@ -249,9 +233,6 @@ class GuideReader:
 
         Returns:
             The string value read.
-
-        Note:
-            ``decrypt`` is optional and defaults to ``True``.
         """
         # Remember where we are before we read in the string.
         pos = self.pos

@@ -20,10 +20,15 @@ class TextMode(Enum):
     """Types of text mode used when parsing a Norton Guide line."""
 
     NORMAL = auto()
+    """Normal text."""
     BOLD = auto()
+    """Bold text."""
     UNDERLINE = auto()
+    """Underlined text."""
     REVERSE = auto()
+    """Reverse text."""
     ATTR = auto()
+    """Raw colour attribute."""
 
 
 ##############################################################################
@@ -33,14 +38,7 @@ CTRL_CHAR: Final[str] = "^"
 
 ##############################################################################
 class ParseState:
-    """Raw text parsing state tracking class.
-
-    Attributes:
-        ctrl: The location of the next control marker.
-        raw: The current raw text that's left to handle.
-        mode: The current mode.
-        last_attr: The last attribute encountered.
-    """
+    """Raw text parsing state tracking class."""
 
     def __init__(self, line: str) -> None:
         """Constructor.
@@ -49,9 +47,13 @@ class ParseState:
             line: The line to work on.
         """
         self.raw = line
+        """The current raw text that's left to handle."""
         self.ctrl = line.find(CTRL_CHAR)
+        """The location of the next control marker."""
         self.mode = TextMode.NORMAL
+        """The current mode."""
         self.last_attr = -1
+        """The last attribute encountered."""
 
     @property
     def work_left(self) -> bool:
@@ -372,10 +374,8 @@ class RichText(MarkupText):
     Note:
         This is implemented in a way that doesn't require that Rich is a
         dependency of this library. This is provided here as a test and a
-        handy example, and one that uses Rich's plain text BBCode-a-like
-        markup.
-
-        See https://rich.readthedocs.io/en/stable/protocol.html
+        handy example, and one that uses [Rich's plain text BBCode-a-like
+        markup](https://rich.readthedocs.io/en/stable/protocol.html).
     """
 
     def text(self, text: str) -> None:
@@ -414,7 +414,7 @@ class RichText(MarkupText):
 
     def colour(self, colour: int) -> None:
         self.begin_markup(
-            f"color({self.map_colour( colour & 0xF )}) on color({self.map_colour( colour >> 4 & 0xF )})"
+            f"color({self.map_colour(colour & 0xF)}) on color({self.map_colour(colour >> 4 & 0xF)})"
         )
 
     def bold(self) -> None:

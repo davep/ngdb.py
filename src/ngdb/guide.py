@@ -124,7 +124,7 @@ class NortonGuide:
     def _read_menus(self) -> Iterator[Menu]:
         """Read the menus from the guide.
 
-        :yields:
+        Yields
             A menu from the guide.
         """
         while EntryType.is_menu(self._guide.peek_word()):
@@ -156,7 +156,7 @@ class NortonGuide:
         if self.is_open:
             self._guide.close()
 
-    def __enter__(self) -> "NortonGuide":
+    def __enter__(self) -> Self:
         """Handle entry to context."""
         return self
 

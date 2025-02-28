@@ -19,4 +19,28 @@ access is developed.
 
 This is that library.
 
+# Installing
+
+`ngdb` is [available from pypi](https://pypi.org/project/ngdb/) and can be
+installed with `pip` or similar Python package tools:
+
+```shell
+$ pip install ngdb
+```
+
+# Requirements
+
+The only requirement for this library, other than the standard Python
+library, is
+[`typing-extensions`](https://typing-extensions.readthedocs.io/en/latest/#).
+
+# Source
+
+The source for this library can always be found [in its GitHub
+repository](https://github.com/davep/ngdb.py).
+
+```sh
+git clone git@github.com:davep/ngdb.py.git
+```
+
 [//]: # (index.md ends here)
