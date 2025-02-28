@@ -15,14 +15,6 @@ mkdocs := $(run) mkdocs
 run:				# Run the code in a testing context
 	$(run) nginfo tests/guides/eg.ng
 
-.PHONY: debug
-debug:				# Run the code with Textual devtools enabled
-	TEXTUAL=devtools make
-
-.PHONY: console
-console:			# Run the textual console
-	$(run) textual console
-
 ##############################################################################
 # Setup/update packages the system requires.
 .PHONY: setup
