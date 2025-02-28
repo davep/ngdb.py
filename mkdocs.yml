@@ -1,8 +1,6 @@
 site_name: ngdb
 docs_dir: docs/source
 repo_url: https://github.com/davep/ngdb.py
-exclude_docs: |
-  !.nojekyll
 
 nav:
   - Introduction:
