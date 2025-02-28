@@ -1,4 +1,6 @@
 site_name: ngdb
+exclude_docs: |
+  !.nojekyll
 
 nav:
   - Introduction:
