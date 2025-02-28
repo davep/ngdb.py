@@ -10,10 +10,8 @@ mypy   := $(run) mypy
 mkdocs := $(run) mkdocs
 
 ##############################################################################
-# Local "interactive testing" of the code.
-.PHONY: run
-run:				# Run the code in a testing context
-	$(run) nginfo tests/guides/eg.ng
+# Show help by default.
+.DEFAULT_GOAL := help
 
 ##############################################################################
 # Setup/update packages the system requires.
