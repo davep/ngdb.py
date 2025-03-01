@@ -1,6 +1,6 @@
 [project]
 name = "ngdb"
-version = "0.6.2"
+version = "0.7.0"
 description = "Norton Guide database reading library"
 authors = [
     { name = "Dave Pearson", email = "davep@davep.org" }
