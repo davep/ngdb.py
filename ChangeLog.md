@@ -1,8 +1,8 @@
 # ChangeLog
 
-## Unreleased
+## v0.7.0
 
-**Released: WiP**
+**Released: 2025-03-01**
 
 - Complete revamp of the repository.
   ([#4](https://github.com/davep/ngdb.py/pull/4))
