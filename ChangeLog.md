@@ -1,5 +1,11 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Exported `Link` at the top-level of the library.
+
 ## v0.7.0
 
 **Released: 2025-03-01**
