@@ -5,6 +5,8 @@
 **Released: WiP**
 
 - Exported `Link` at the top-level of the library.
+- Changed the way that entries are loaded so that type checks don't get
+  confused. [#8](https://github.com/davep/ngdb.py/issues/8)
 
 ## v0.7.0
 

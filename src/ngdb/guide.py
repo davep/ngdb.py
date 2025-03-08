@@ -16,10 +16,10 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from .entry import Entry
+from .entry import Long, Short
 from .menu import Menu
 from .reader import GuideReader
-from .types import NGEOF, EntryType
+from .types import NGEOF, EntryType, UnknownEntryType
 
 ##############################################################################
 EOFResult = TypeVar("EOFResult")
@@ -242,26 +242,44 @@ class NortonGuide:
         return self._guide.pos >= self._path.stat().st_size
 
     @not_eof
-    def load(self) -> Entry:
+    def load(self) -> Short | Long:
         """Load the entry at the current position.
 
         Returns:
-            The entry found at the current position.
+            The entry found at the current position. Either a
+            [`Short`][ngdb.Short] or a [`Long`][ngdb.Long] entry.
 
         Raises:
             NGEOF: If we attempt to load when at EOF.
+            UnknownEntryType: If the type wasn't an entry.
         """
         pos = self._guide.pos
         try:
-            return Entry.load(self._guide)
+            match EntryType(self._guide.peek_word()):
+                case EntryType.SHORT:
+                    return Short(self._guide)
+                case EntryType.LONG:
+                    return Long(self._guide)
+                case EntryType.MENU:
+                    raise UnknownEntryType(
+                        "Expecting a short or long entry but got a menu"
+                    )
+        except ValueError:
+            raise UnknownEntryType(
+                f"Unknown entry type: {self._guide.peek_word()}"
+            ) from None
         finally:
             self.goto(pos)
 
-    def __iter__(self) -> Iterator[Entry]:
+    def __iter__(self) -> Iterator[Short | Long]:
         """Allow iterating through every entry in the guide.
 
         Yields:
-            An entry from the guide.
+            An entry from the guide. Either a [`Short`][ngdb.Short] or a
+            [`Long`][ngdb.Long] entry.
+
+        Raises:
+            UnknownEntryType: If an unknown type of entry is encountered.
         """
         # Here I try my best to do this in a way that no other operations
         # that consume this iterator will affect it. So, starting with the
