@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Callable, Final, Iterator
+from typing import Final, Iterator
 
 ##############################################################################
 # Local imports.
@@ -14,7 +14,6 @@ from .link import Link
 from .parser import RichText
 from .reader import GuideReader
 from .seealso import SeeAlso
-from .types import EntryType, UnknownEntryType
 
 
 ##############################################################################
@@ -111,54 +110,6 @@ MAX_LINE_LENGTH: Final[int] = 1024
 ##############################################################################
 class Entry:
     """Norton Guide database entry class."""
-
-    _map: dict[EntryType, type[Entry]] = {}
-    """Holds the entry type mapper."""
-
-    @classmethod
-    def loads(cls, entry_type: EntryType) -> Callable[[type[Entry]], type[Entry]]:
-        """Decorator for defining which class handles which entry type.
-
-        Args:
-            entry_type: The ID of the entry type being handled.
-
-        Returns:
-            The decorator wrapper.
-
-        Example:
-            ```python
-            @Entry.loads(EntryType.SHORT)
-            class Short(Entry):
-                ...
-            ```
-        """
-
-        def _register(handler: type[Entry]) -> type[Entry]:
-            """Inner decorator function."""
-            cls._map[entry_type] = handler
-            return handler
-
-        return _register
-
-    @classmethod
-    def load(cls, guide: GuideReader) -> Entry:
-        """Load the entry at the current position in the guide.
-
-        Args:
-            guide: The reader object for the guide.
-
-        Returns:
-            The correct type of entry object.
-
-        Raises:
-            UnknownEntryType: Indicates that the entry type is unknown.
-        """
-        try:
-            return cls._map[EntryType(guide.peek_word())](guide)
-        except (ValueError, KeyError) as error:
-            raise UnknownEntryType(
-                f"Unknown guide entry type: {guide.peek_word()}"
-            ) from error
 
     def __init__(self, guide: GuideReader) -> None:
         """Constructor.
@@ -274,7 +225,6 @@ class Entry:
 
 
 ##############################################################################
-@Entry.loads(EntryType.SHORT)
 class Short(Entry):
     """Short Norton Guide database entry."""
 
@@ -330,7 +280,6 @@ class Short(Entry):
 
 
 ##############################################################################
-@Entry.loads(EntryType.LONG)
 class Long(Entry):
     """Long Norton Guide database entry."""
 
