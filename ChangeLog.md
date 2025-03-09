@@ -1,8 +1,8 @@
 # ChangeLog
 
-## Unreleased
+## v0.8.0
 
-**Released: WiP**
+**Released: 2025-03-09**
 
 - Exported `Link` at the top-level of the library.
 - Changed the way that entries are loaded so that type checks don't get
