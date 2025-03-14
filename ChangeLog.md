@@ -5,6 +5,7 @@
 **Released: WiP**
 
 - Added `NortonGuide.maybe`.
+  ([#11](https://github.com/davep/ngdb.py/pull/11))
 
 ## v0.8.0
 
