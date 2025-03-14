@@ -96,6 +96,29 @@ class NortonGuide:
             # let's remember where that is.
             self._first_entry = self._guide.pos
 
+    @staticmethod
+    def maybe(candidate: Path) -> bool:
+        """Does the given file look like it might be a Norton Guide?
+
+        Args:
+            candidate: The file to consider.
+
+        Returns:
+            [`True`][True] if the file might be a Norton Guide,
+                [`False`][False] if not.
+
+        Notes:
+            The content of the file is *not* looked at here, just the name
+            of the file. This means it can be used as a fast initial filter.
+            To see if a file is *really* a Norton Guide open it with
+            [`NortonGuide`][ngdb.NortonGuide] and check
+            [`is_a`][ngdb.NortonGuide.is_a].
+
+            Also keep in mind that even the existence of the file isn't
+            taken into account.
+        """
+        return candidate.suffix.lower() == ".ng"
+
     @property
     def path(self) -> Path:
         """The path to the guide."""

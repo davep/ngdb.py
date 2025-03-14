@@ -1,5 +1,11 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Added `NortonGuide.maybe`.
+
 ## v0.8.0
 
 **Released: 2025-03-09**
