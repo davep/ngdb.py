@@ -1,8 +1,8 @@
 # ChangeLog
 
-## Unreleased
+## v0.9.0
 
-**Released: WiP**
+**Released: 2025-03-15**
 
 - Added `NortonGuide.maybe`.
   ([#11](https://github.com/davep/ngdb.py/pull/11))
