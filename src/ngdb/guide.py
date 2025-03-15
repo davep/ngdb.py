@@ -147,7 +147,7 @@ class NortonGuide:
     def _read_menus(self) -> Iterator[Menu]:
         """Read the menus from the guide.
 
-        Yields
+        Yields:
             A menu from the guide.
         """
         while EntryType.is_menu(self._guide.peek_word()):
@@ -211,8 +211,8 @@ class NortonGuide:
         """The magic value for the guide.
 
         This tells us if the file is likely a Norton Guide database or not.
-        It's always a two-character string and, normally, is ''NG''.
-        However, if the guide was made for Expert Help, it could be ''EH''.
+        It's always a two-character string and, normally, is `NG`.
+        However, if the guide was made for Expert Help, it could be `EH`.
         """
         return self._magic
 
@@ -233,7 +233,7 @@ class NortonGuide:
             pos: The position to go to.
 
         Returns:
-            Returns ``self``.
+            Self.
         """
         self._guide.goto(pos)
         return self
@@ -242,7 +242,7 @@ class NortonGuide:
         """Go to the first entry in the guide.
 
         Returns:
-            Returns ``self``.
+            Self.
         """
         return self.goto(self._first_entry)
 
@@ -251,7 +251,7 @@ class NortonGuide:
         """Skip the current entry.
 
         Returns:
-            Returns ``self``.
+            Self.
 
         Raises:
             NGEOF: If we attempt to skip when at EOF.
@@ -324,7 +324,7 @@ class NortonGuide:
         """The string representation of the guide.
 
         Returns:
-            The guide's full path/file name.
+            A string representation of the guide object.
         """
         return f'<{self.__class__.__name__}: "{self}">'
 
@@ -332,7 +332,7 @@ class NortonGuide:
         """The string representation of the guide.
 
         Returns:
-            The guide's full path/file name.
+            The guide's full path/file name as a string.
         """
         return str(self._path.resolve())
 

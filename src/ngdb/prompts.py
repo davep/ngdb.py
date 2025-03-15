@@ -23,8 +23,11 @@ class PromptCollection:
     def __init__(self) -> None:
         """Constructor."""
         self._count = 0
+        """The count of prompts in the collection."""
         self._prompts: tuple[str, ...] = ()
+        """The prompts in the collection."""
         self._offsets: tuple[int, ...] = ()
+        """The offsets related to the prompts in the collection."""
 
     @property
     def prompts(self) -> tuple[str, ...]:
