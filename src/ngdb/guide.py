@@ -270,7 +270,7 @@ class NortonGuide:
 
         Returns:
             The entry found at the current position. Either a
-              [`Short`][ngdb.Short] or a [`Long`][ngdb.Long] entry.
+                [`Short`][ngdb.Short] or a [`Long`][ngdb.Long] entry.
 
         Raises:
             NGEOF: If we attempt to load when at EOF.
@@ -299,7 +299,7 @@ class NortonGuide:
 
         Yields:
             An entry from the guide. Either a [`Short`][ngdb.Short] or a
-              [`Long`][ngdb.Long] entry.
+                [`Long`][ngdb.Long] entry.
 
         Raises:
             UnknownEntryType: If an unknown type of entry is encountered.
