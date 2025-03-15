@@ -868,6 +868,30 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ngdb.guide.NortonGuide.maybe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;maybe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" maybe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ngdb.guide.NortonGuide.maybe(candidate)" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-parameter"></code>&nbsp;candidate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ngdb.guide.NortonGuide.skip" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;skip
@@ -1359,6 +1383,30 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ngdb.guide.NortonGuide.maybe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;maybe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" maybe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ngdb.guide.NortonGuide.maybe(candidate)" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-parameter"></code>&nbsp;candidate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ngdb.guide.NortonGuide.skip" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;skip
@@ -1737,8 +1785,8 @@
 
         <p>The magic value for the guide.</p>
 <p>This tells us if the file is likely a Norton Guide database or not.
-It's always a two-character string and, normally, is ''NG''.
-However, if the guide was made for Expert Help, it could be ''EH''.</p>
+It's always a two-character string and, normally, is <code>NG</code>.
+However, if the guide was made for Expert Help, it could be <code>EH</code>.</p>
     </div>
 
 </div>
@@ -1921,11 +1969,35 @@ However, if the guide was made for Expert Help, it could be ''EH''.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title=" Entry (ngdb.entry.Entry)" href="../entry/#ngdb.entry.Entry">Entry</a></code>
+                  <code><a class="autorefs autorefs-internal" title=" Short (ngdb.entry.Short)" href="../entry/#ngdb.entry.Short">Short</a> | <a class="autorefs autorefs-internal" title=" Long (ngdb.entry.Long)" href="../entry/#ngdb.entry.Long">Long</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>An entry from the guide.</p>
+                <p>An entry from the guide. Either a <a class="autorefs autorefs-internal" title=" Short" href="../entry/#ngdb.entry.Short"><code>Short</code></a> or a
+<a class="autorefs autorefs-internal" title=" Long" href="../entry/#ngdb.entry.Long"><code>Long</code></a> entry.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title=" UnknownEntryType (ngdb.types.UnknownEntryType)" href="../types/#ngdb.types.UnknownEntryType">UnknownEntryType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If an unknown type of entry is encountered.</p>
               </div>
             </td>
           </tr>
@@ -1967,7 +2039,7 @@ However, if the guide was made for Expert Help, it could be ''EH''.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The guide's full path/file name.</p>
+                <p>A string representation of the guide object.</p>
               </div>
             </td>
           </tr>
@@ -2009,7 +2081,7 @@ However, if the guide was made for Expert Help, it could be ''EH''.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The guide's full path/file name.</p>
+                <p>The guide's full path/file name as a string.</p>
               </div>
             </td>
           </tr>
@@ -2107,7 +2179,7 @@ safe to make this call.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Returns <code>self</code>.</p>
+                <p>Self.</p>
               </div>
             </td>
           </tr>
@@ -2149,7 +2221,7 @@ safe to make this call.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Returns <code>self</code>.</p>
+                <p>Self.</p>
               </div>
             </td>
           </tr>
@@ -2187,11 +2259,12 @@ safe to make this call.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title=" Entry (ngdb.entry.Entry)" href="../entry/#ngdb.entry.Entry">Entry</a></code>
+                  <code><a class="autorefs autorefs-internal" title=" Short (ngdb.entry.Short)" href="../entry/#ngdb.entry.Short">Short</a> | <a class="autorefs autorefs-internal" title=" Long (ngdb.entry.Long)" href="../entry/#ngdb.entry.Long">Long</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The entry found at the current position.</p>
+                <p>The entry found at the current position. Either a
+<a class="autorefs autorefs-internal" title=" Short" href="../entry/#ngdb.entry.Short"><code>Short</code></a> or a <a class="autorefs autorefs-internal" title=" Long" href="../entry/#ngdb.entry.Long"><code>Long</code></a> entry.</p>
               </div>
             </td>
           </tr>
@@ -2218,9 +2291,108 @@ safe to make this call.</p>
               </div>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title=" UnknownEntryType (ngdb.types.UnknownEntryType)" href="../types/#ngdb.types.UnknownEntryType">UnknownEntryType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the type wasn't an entry.</p>
+              </div>
+            </td>
+          </tr>
       </tbody>
     </table>
 
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ngdb.guide.NortonGuide.maybe" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">maybe</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">maybe</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title=" candidate (ngdb.guide.NortonGuide.maybe(candidate))" href="#ngdb.guide.NortonGuide.maybe(candidate)">candidate</a></span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Does the given file look like it might be a Norton Guide?</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+<h4 id="ngdb.guide.NortonGuide.maybe(candidate)" class="doc doc-heading doc-heading-parameter">                  <code>candidate</code>
+</h4>            </td>
+            <td>
+                  <code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The file to consider.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/constants.html#True"><code>True</code></a> if the file might be a Norton Guide,
+<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/constants.html#False"><code>False</code></a> if not.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>The content of the file is <em>not</em> looked at here, just the name
+of the file. This means it can be used as a fast initial filter.
+To see if a file is <em>really</em> a Norton Guide open it with
+<a class="autorefs autorefs-internal" title=" NortonGuide" href="#ngdb.guide.NortonGuide"><code>NortonGuide</code></a> and check
+<a class="autorefs autorefs-internal" title=" is_a" href="#ngdb.guide.NortonGuide.is_a"><code>is_a</code></a>.</p>
+<p>Also keep in mind that even the existence of the file isn't
+taken into account.</p>
+</details>
     </div>
 
 </div>
@@ -2256,7 +2428,7 @@ safe to make this call.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Returns <code>self</code>.</p>
+                <p>Self.</p>
               </div>
             </td>
           </tr>
