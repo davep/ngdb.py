@@ -18,6 +18,10 @@ from ngdb import NortonGuide
     "candidate, expected_result",
     (
         (Path(""), False),
+        (Path("ng"), False),
+        (Path("ng."), False),
+        (Path(".ng"), False),
+        (Path(".ng.ng"), True),
         (Path("foo.txt"), False),
         (Path("foo.ng"), True),
         (Path("foo.NG"), True),
@@ -25,6 +29,7 @@ from ngdb import NortonGuide
         (Path("foo.nG"), True),
         (Path("foo.bar.baz.ng"), True),
         (Path("foo.ng."), False),
+        (Path("foo.ngng"), False),
         (Path("foo.ng.gz"), False),
     ),
 )
