@@ -88,7 +88,7 @@ class GuideReader:
             pos: The position to go to.
 
         Returns:
-            self
+            Self.
         """
         self._h.seek(pos)
         return self

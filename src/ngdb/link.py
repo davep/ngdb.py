@@ -40,7 +40,7 @@ class Link(NamedTuple):
         """Does the link actually link anywhere?
 
         Returns:
-            ``True`` if the link links somewhere, ``False`` if not.
+            [`True`][True] if the link links somewhere, [`False`][False] if not.
         """
         return self.has_offset
 

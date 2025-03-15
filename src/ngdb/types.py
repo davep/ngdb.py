@@ -41,7 +41,7 @@ class EntryType(Enum):
             test: The value to test.
 
         Returns:
-            ``True`` if it is a short, ``False`` if not.
+            [`True`][True] if it is a short, [`False`][False] if not.
         """
         return cls(test) is cls.SHORT
 
@@ -53,7 +53,7 @@ class EntryType(Enum):
             test: The value to test.
 
         Returns:
-            ``True`` if it is a long, ``False`` if not.
+            [`True`][True] if it is a long, [`False`][False] if not.
         """
         return cls(test) is cls.LONG
 
@@ -65,7 +65,7 @@ class EntryType(Enum):
             test: The value to test.
 
         Returns:
-            ``True`` if it is a menu, ``False`` if not.
+            [`True`][True] if it is a menu, [`False`][False] if not.
         """
         return cls(test) is cls.MENU
 
