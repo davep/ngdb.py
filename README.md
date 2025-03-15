@@ -1,6 +1,6 @@
 # ngdb - A Python library for reading Norton Guide database files
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/davep/ngdb.py/style-and-lint.yaml)](https://github.com/davep/ngdb.py/actions)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/davep/ngdb.py/style-lint-and-test.yaml)](https://github.com/davep/ngdb.py/actions)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/davep/ngdb.py/latest)](https://github.com/davep/ngdb.py/commits/main/)
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/davep/ngdb.py)](https://github.com/davep/ngdb.py/issues)
 [![GitHub Release Date](https://img.shields.io/github/release-date/davep/ngdb.py)](https://github.com/davep/ngdb.py/releases)
