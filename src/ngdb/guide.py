@@ -74,10 +74,13 @@ class NortonGuide:
         self._path = Path(guide)
         """The path to the guide."""
         self._guide = GuideReader(self._path)
+        """The guide reading object."""
         if self._read_header().is_a:
             self._menus = tuple(menu for menu in self._read_menus())
+            """The menus for the guide."""
             assert len(self._menus) == self._menu_count
             self._first_entry = self._guide.pos
+            """The location of the first entry within the guide."""
 
     @staticmethod
     def maybe(candidate: str | Path) -> bool:
