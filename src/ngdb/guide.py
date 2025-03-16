@@ -80,7 +80,7 @@ class NortonGuide:
             self._first_entry = self._guide.pos
 
     @staticmethod
-    def maybe(candidate: Path) -> bool:
+    def maybe(candidate: str | Path) -> bool:
         """Does the given file look like it might be a Norton Guide?
 
         Args:
@@ -100,7 +100,7 @@ class NortonGuide:
             Also keep in mind that even the existence of the file isn't
             taken into account.
         """
-        return candidate.suffix.lower() == ".ng"
+        return Path(candidate).suffix.lower() == ".ng"
 
     @property
     def path(self) -> Path:
