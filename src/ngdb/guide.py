@@ -71,33 +71,19 @@ class NortonGuide:
         Args:
             guide: The guide to open.
         """
-
         self._path = Path(guide)
         """The path to the guide."""
-
-        # Attempt to open the guide. Note that we're going to hold it open
-        # until we're asked to close it in the close method, so we also
-        # nicely ask pylint to hush.
         self._guide = GuideReader(self._path)
-
-        # Now, having opened it fine, read in the header.
-        self._read_header()
-
-        # Having read in the header, does it look like it's a Norton Guide
-        # database we've been pointed at?
-        if self.is_a:
-            # Seems so. In that case sort the menus.
+        """The guide reading object."""
+        if self._read_header().is_a:
             self._menus = tuple(menu for menu in self._read_menus())
-
-            # The number of menus should be correct at this point.
+            """The menus for the guide."""
             assert len(self._menus) == self._menu_count
-
-            # At this point we should be sat on top of the first entry, so
-            # let's remember where that is.
             self._first_entry = self._guide.pos
+            """The location of the first entry within the guide."""
 
     @staticmethod
-    def maybe(candidate: Path) -> bool:
+    def maybe(candidate: str | Path) -> bool:
         """Does the given file look like it might be a Norton Guide?
 
         Args:
@@ -117,32 +103,27 @@ class NortonGuide:
             Also keep in mind that even the existence of the file isn't
             taken into account.
         """
-        return candidate.suffix.lower() == ".ng"
+        return Path(candidate).suffix.lower() == ".ng"
 
     @property
     def path(self) -> Path:
         """The path to the guide."""
         return self._path
 
-    def _read_header(self) -> None:
-        """Read the header of the Norton Guide database."""
+    def _read_header(self) -> Self:
+        """Read the header of the Norton Guide database.
 
-        # First two bytes are the magic.
+        Returns:
+            Self.
+        """
         self._magic = self._guide.read_str(2, False)
-
-        # Skip 4 bytes; to this day I'm not sure what they're for.
-        self._guide.skip(4)
-
-        # Read the count of menu options.
+        self._guide.skip(4)  # Unknown 4 bytes.
         self._menu_count = self._guide.read_word(False)
-
-        # Read the title of the guide.
         self._title = self._guide.read_str(self.TITLE_LENGTH, False)
-
-        # Read the credits for the guide.
         self._credits = tuple(
             self._guide.read_str(self.CREDIT_LENGTH, False) for _ in range(5)
         )
+        return self
 
     def _read_menus(self) -> Iterator[Menu]:
         """Read the menus from the guide.

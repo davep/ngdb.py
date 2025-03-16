@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- `NortonGuide.maybe` now accepts `str` as well as `Path`.
+  ([#16](https://github.com/davep/ngdb.py/pull/16))
+
 ## v0.9.0
 
 **Released: 2025-03-15**
