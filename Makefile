@@ -50,6 +50,10 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 test:				# Run the unit tests
 	$(test) -v
 
+.PHONY: comprehensive-test
+comprehensive-test:		# Read all the guides I have to test them
+	$(run) python .comprehensive_test/read_all_known_guides
+
 .PHONY: checkall
 checkall: codestyle lint stricttypecheck test # Check all the things
 

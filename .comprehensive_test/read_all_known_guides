@@ -1,0 +1,136 @@
+#!/bin/env python
+
+##############################################################################
+# Python imports.
+from argparse import ArgumentParser, Namespace
+from pathlib import Path
+from typing import Iterator, NamedTuple, TypeAlias
+
+##############################################################################
+# NGDB imports.
+from ngdb import NortonGuide
+from ngdb.entry import Long, Short, Link
+from ngdb.parser import PlainText
+
+##############################################################################
+def lines_of(entry: Short | Long) -> Iterator[str]:
+    """Get the lines from an entry.
+
+    Args:
+        entry: The entry to get the lines of.
+
+    Yields:
+        Each line of text from the entry.
+    """
+    for line in entry:
+        yield line.text if isinstance(line, Link) else line
+
+##############################################################################
+class GuideError(NamedTuple):
+    """Class that holds details of a guide-related error."""
+
+    guide: NortonGuide
+    """The guide that caused the error."""
+    error: Exception
+    """The error."""
+
+##############################################################################
+class EntryError(NamedTuple):
+    """Class that holds details of an entry-related error."""
+
+    guide: NortonGuide
+    """The guide that caused the error."""
+    entry: Long | Short
+    """The entry that caused the error."""
+    line: str
+    """The line of source that caused the error."""
+    error: Exception
+    """The error."""
+
+##############################################################################
+FoundError: TypeAlias = GuideError | EntryError
+"""Type for an error found while testing guides."""
+
+##############################################################################
+def read_all_of(guide: NortonGuide) -> Iterator[GuideError | EntryError]:
+    """Read and parse every entry in the given guide.
+
+    Args:
+        guide: The guide to test.
+    """
+    print(f"Reading {guide.path.name}")
+    try:
+        for entry in guide:
+            print(entry.__class__.__name__[0], end="", flush=True)
+            for line in lines_of(entry):
+                try:
+                    _ = PlainText(line)
+                except Exception as error:
+                    yield EntryError(guide, entry, line, error)
+    except Exception as error:
+        yield GuideError(guide, error)
+    print("\n")
+
+##############################################################################
+def entry_path(guide: NortonGuide, entry: Long | Short) -> Iterator[str]:
+    """Generate a path for finding the entry.
+
+    Args:
+        guide: The guide being tested.
+        entry: The entry to get the path to.
+
+    Yields:
+        The parts of the path.
+    """
+    if entry.parent.has_menu:
+        yield guide.menus[entry.parent.menu].title
+    if entry.parent.has_prompt:
+        yield guide.menus[entry.parent.menu].prompts[entry.parent.prompt]
+    if entry.parent.has_line:
+        yield str(entry.parent.line)
+
+##############################################################################
+def main(guides: Path) -> None:
+    """Main entry point."""
+    errors: list[FoundError] = []
+    for candidate in [guides] if guides.is_file() else guides.glob("*.[Nn][Gg]"):
+        with NortonGuide(candidate) as guide:
+            errors.extend(read_all_of(guide))
+    for error in errors:
+        if isinstance(error, GuideError):
+            print(f"Navigation error in {error.guide.path.name}:")
+            print(str(error.error))
+        else:
+            print(f"Entry reading error in {error.guide.path.name}:")
+            print(f"Entry: {', '.join(entry_path(error.guide, error.entry))}")
+            print(f"Line: {error.line}")
+            print(str(error.error))
+        print("-" * 80)
+        print()
+
+##############################################################################
+def get_args() -> Namespace:
+    """Get the command line arguments.
+
+    Returns:
+        The arguments.
+    """
+    parser = ArgumentParser(
+        prog="read_all_known_guides",
+        description="Tool to shake down the library using all the guides I have",
+    )
+    parser.add_argument(
+        "location",
+        nargs="?",
+        type=Path,
+        help="A guide to open or a directory to scan",
+    )
+
+    # Finally, parse the command line.
+    return parser.parse_args()
+
+##############################################################################
+if __name__ == "__main__":
+    main(get_args().location or Path("~/Documents/Norton Guides").expanduser())
+
+### read_all_known_guides ends here
