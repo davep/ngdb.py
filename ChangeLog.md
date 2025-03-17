@@ -7,9 +7,11 @@
 - `NortonGuide.maybe` now accepts `str` as well as `Path`.
   ([#16](https://github.com/davep/ngdb.py/pull/16))
 - Handle parsing entries that contain an invalid `^a` (generally what should
-  have been a `^^a`).
+  have been a `^^a`). ([#21](https://github.com/davep/ngdb.py/pull/21))
 - Handle parsing entries that contain an invalid `^c` (generally what should
-  have been a `^^c`).
+  have been a `^^c`). ([#21](https://github.com/davep/ngdb.py/pull/21))
+- Handle 0xFF characters at the very end of a string.
+  ([#22](https://github.com/davep/ngdb.py/pull/22))
 
 ## v0.9.0
 

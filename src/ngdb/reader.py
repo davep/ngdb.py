@@ -55,9 +55,19 @@ class GuideReader:
         split = rle_text.find(cls.RLE_MARKER)
 
         while split > -1:
-            expanded += rle_text[start:split] + " " * (
-                1 if rle_text[split + 1] == cls.RLE_MARKER else ord(rle_text[split + 1])
-            )
+            try:
+                expanded += rle_text[start:split] + " " * (
+                    1
+                    if rle_text[split + 1] == cls.RLE_MARKER
+                    else ord(rle_text[split + 1])
+                )
+            except IndexError:
+                # It looks like there's a marker at the end of the string,
+                # with nothing to follow it. Let's also assume that's
+                # supposed to be a space.
+                expanded += " "
+                start += 1
+                break
             start = split + 2
             split = rle_text.find(cls.RLE_MARKER, start)
 
