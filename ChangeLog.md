@@ -10,6 +10,7 @@
   have been a `^^a`).
 - Handle parsing entries that contain an invalid `^c` (generally what should
   have been a `^^c`).
+- Handle 0xFF characters at the very end of a string.
 
 ## v0.9.0
 
