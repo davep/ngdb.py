@@ -130,7 +130,14 @@ class BaseParser:
         """
 
         # Get the actual attribute.
-        attr = int(state.raw[state.ctrl + 2 : state.ctrl + 4], 16)
+        try:
+            attr = int(state.raw[state.ctrl + 2 : state.ctrl + 4], 16)
+        except ValueError:
+            # There wasn't a valid hex value after the ^a, so assume that
+            # someone typed ^^a wrong and pretend it's a ^a.
+            self.text(state.raw[state.ctrl : state.ctrl + 2])
+            state.ctrl += 2
+            return
 
         # If there's already a colour attribute in effect and the
         # new colour is the same as the previous colour...
@@ -173,7 +180,15 @@ class BaseParser:
         Args:
             state: The data that tracks parse state.
         """
-        self.char(int(state.raw[state.ctrl + 2 : state.ctrl + 4], 16))
+        try:
+            character = int(state.raw[state.ctrl + 2 : state.ctrl + 4], 16)
+        except ValueError:
+            # There wasn't a valid hex value after the ^c, so assume that
+            # someone typed ^^c wrong and pretend it's a ^c.
+            self.text(state.raw[state.ctrl : state.ctrl + 2])
+            state.ctrl += 2
+            return
+        self.char(character)
         state.ctrl += 4
 
     def _ctrl_n(self, state: ParseState) -> None:

@@ -197,6 +197,31 @@ class TestParseEvents:
 
 
 ##############################################################################
+class TestParseBadSource:
+    """Test various examples of bad guide source I've encountered."""
+
+    def test_unescaped_ctrl_a(self) -> None:
+        """A ^a that doesn't seem to be followed by numbers should be treated as a ^a."""
+        assert list(MockedParser("This is a ^a that ^aisn't escaped correctly")) == [
+            ("T", "This is a "),
+            ("T", "^a"),
+            ("T", " that "),
+            ("T", "^a"),
+            ("T", "isn't escaped correctly"),
+        ]
+
+    def test_unescaped_ctrl_c(self) -> None:
+        """A ^c that doesn't seem to be followed by numbers should be treated as a ^c."""
+        assert list(MockedParser("This is a ^c that ^cisn't escaped correctly")) == [
+            ("T", "This is a "),
+            ("T", "^c"),
+            ("T", " that "),
+            ("T", "^c"),
+            ("T", "isn't escaped correctly"),
+        ]
+
+
+##############################################################################
 class TestRichParser:
     """Test the Rich-friendly parser."""
 
