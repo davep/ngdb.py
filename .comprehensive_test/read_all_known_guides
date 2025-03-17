@@ -4,6 +4,7 @@
 # Python imports.
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
+from traceback import format_exception
 from typing import Iterator, NamedTuple, TypeAlias
 
 ##############################################################################
@@ -99,12 +100,12 @@ def main(guides: Path) -> None:
     for error in errors:
         if isinstance(error, GuideError):
             print(f"Navigation error in {error.guide.path.name}:")
-            print(str(error.error))
+            print("\n".join(format_exception(error.error)))
         else:
             print(f"Entry reading error in {error.guide.path.name}:")
             print(f"Entry: {', '.join(entry_path(error.guide, error.entry))}")
             print(f"Line: {error.line}")
-            print(str(error.error))
+            print("\n".join(format_exception(error.error)))
         print("-" * 80)
         print()
 
