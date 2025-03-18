@@ -11,13 +11,13 @@ class NGDBError(Exception):
 
 
 ##############################################################################
-class UnknownEntryType(NGDBError):
-    """Type of an exception when faced with an unknown entry type."""
+class NGEOF(NGDBError):
+    """Type of an exception thrown when doing things at or past EOF."""
 
 
 ##############################################################################
-class NGEOF(NGDBError):
-    """Type of an exception thrown when doing things at or past EOF."""
+class UnknownEntryType(NGEOF):
+    """Type of an exception when faced with an unknown entry type."""
 
 
 ##############################################################################
