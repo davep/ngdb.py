@@ -75,6 +75,8 @@ class NortonGuide:
         """The path to the guide."""
         self._guide = GuideReader(self._path)
         """The guide reading object."""
+        self._file_size = self._path.stat().st_size
+        """The size of the guide in bytes."""
         if self._read_header().is_a:
             self._menus = tuple(menu for menu in self._read_menus())
             """The menus for the guide."""
@@ -109,6 +111,11 @@ class NortonGuide:
     def path(self) -> Path:
         """The path to the guide."""
         return self._path
+
+    @property
+    def file_size(self) -> int:
+        """The size of the guide in bytes."""
+        return self._file_size
 
     def _read_header(self) -> Self:
         """Read the header of the Norton Guide database.
@@ -243,7 +250,7 @@ class NortonGuide:
     @property
     def eof(self) -> bool:
         """Are we at the end of the guide?"""
-        return self._guide.pos >= self._path.stat().st_size
+        return self._guide.pos >= self._file_size
 
     @not_eof
     def load(self) -> Short | Long:

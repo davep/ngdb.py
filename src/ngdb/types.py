@@ -11,13 +11,21 @@ class NGDBError(Exception):
 
 
 ##############################################################################
-class UnknownEntryType(NGDBError):
-    """Type of an exception when faced with an unknown entry type."""
+class NGEOF(NGDBError):
+    """Type of an exception thrown when doing things at or past EOF."""
 
 
 ##############################################################################
-class NGEOF(NGDBError):
-    """Type of an exception thrown when doing things at or past EOF."""
+class UnknownEntryType(NGEOF):
+    """Type of an exception when faced with an unknown entry type.
+
+    Note:
+        This class is a subclass of [`NGEOF`][ngdb.NGEOF] so if you are
+        writing code that walks a guide and you want to stop once an unknown
+        guide type is found (often indicating a corrupted guide), you can
+        safely catch [`NGEOF`][ngdb.NGEOF] and this exception will be
+        handled.
+    """
 
 
 ##############################################################################
