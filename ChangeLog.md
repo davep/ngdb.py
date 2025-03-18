@@ -13,6 +13,10 @@
 - Handle 0xFF characters at the very end of a string.
   ([#22](https://github.com/davep/ngdb.py/pull/22))
 - Added `NortonGuide.file_size`.
+  ([#23](https://github.com/davep/ngdb.py/pull/23))
+- Added more aggressive end-of-file checking (`NGEOF` more likely to be
+  raised when encountering a mangled/truncated guide).
+  ([#23](https://github.com/davep/ngdb.py/pull/23))
 
 ## v0.9.0
 
