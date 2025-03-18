@@ -250,7 +250,19 @@ class NortonGuide:
     @property
     def eof(self) -> bool:
         """Are we at the end of the guide?"""
-        return self._guide.pos >= self._file_size
+        # To start with, if we're at the end, we're at the end.
+        if self._guide.pos >= self._file_size:
+            return True
+        # With that cheap check out of the way, we then peek at what is at
+        # the current location. It should be the marker for a short or a
+        # long entry; anything else likely indicates a corrupt file.
+        try:
+            return EntryType(self._guide.peek_word()) not in (
+                EntryType.SHORT,
+                EntryType.LONG,
+            )
+        except ValueError:
+            return True
 
     @not_eof
     def load(self) -> Short | Long:
