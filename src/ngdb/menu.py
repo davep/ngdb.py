@@ -41,11 +41,12 @@ class Menu(PromptCollection):
         guide.skip((len(self) + 1) * 8)
 
         # We've now got to the title of the menu.
-        self._title = guide.read_strz(self.MAX_PROMPT_LENGTH)
+        self._title = guide.unrle(guide.read_strz(self.MAX_PROMPT_LENGTH))
 
         # After the title comes the prompts.
         self._prompts = tuple(
-            guide.read_strz(self.MAX_PROMPT_LENGTH) for _ in range(len(self))
+            guide.unrle(guide.read_strz(self.MAX_PROMPT_LENGTH))
+            for _ in range(len(self))
         )
 
         # Finally, skip an unknown byte. This should then place us on the
