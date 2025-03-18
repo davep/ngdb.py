@@ -17,6 +17,7 @@
 - Added more aggressive end-of-file checking (`NGEOF` more likely to be
   raised when encountering a mangled/truncated guide).
   ([#23](https://github.com/davep/ngdb.py/pull/23))
+- Menu titles are prompts now have any RLE compression expanded.
 
 ## v0.9.0
 
