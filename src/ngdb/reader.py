@@ -10,6 +10,10 @@ from typing import Final
 # Typing backward compatibility.
 from typing_extensions import Self
 
+##############################################################################
+# Local imports.
+from .types import NGEOF
+
 
 ##############################################################################
 class GuideReader:
@@ -149,8 +153,10 @@ class GuideReader:
         Returns:
             The byte value read.
         """
-        buff = self._h.read(1)[0]
-        return self._decrypt(buff) if decrypt else buff
+        if buff := self._h.read(1):
+            return self._decrypt(buff[0]) if decrypt else buff[0]
+        else:
+            raise NGEOF
 
     def read_word(self, decrypt: bool = True) -> int:
         """Read a two-byte word from the guide.
