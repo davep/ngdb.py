@@ -12,6 +12,7 @@
   have been a `^^c`). ([#21](https://github.com/davep/ngdb.py/pull/21))
 - Handle 0xFF characters at the very end of a string.
   ([#22](https://github.com/davep/ngdb.py/pull/22))
+- Added `NortonGuide.file_size`.
 
 ## v0.9.0
 
