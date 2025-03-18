@@ -1562,11 +1562,20 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title=" NGDBError (ngdb.types.NGDBError)" href="#ngdb.types.NGDBError">NGDBError</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title=" NGEOF (ngdb.types.NGEOF)" href="#ngdb.types.NGEOF">NGEOF</a></code></p>
 
 
         <p>Type of an exception when faced with an unknown entry type.</p>
 
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This class is a subclass of <a class="autorefs autorefs-internal" title=" NGEOF" href="#ngdb.types.NGEOF"><code>NGEOF</code></a> so if you are
+writing code that walks a guide and you want to stop once an unknown
+guide type is found (often indicating a corrupted guide), you can
+safely catch <a class="autorefs autorefs-internal" title=" NGEOF" href="#ngdb.types.NGEOF"><code>NGEOF</code></a> and this exception will be
+handled.</p>
+</details>
 
 
 
