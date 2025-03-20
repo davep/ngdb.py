@@ -9,22 +9,7 @@ from typing import Iterator, NamedTuple, TypeAlias
 
 ##############################################################################
 # NGDB imports.
-from ngdb import NortonGuide
-from ngdb.entry import Long, Short, Link
-from ngdb.parser import PlainText
-
-##############################################################################
-def lines_of(entry: Short | Long) -> Iterator[str]:
-    """Get the lines from an entry.
-
-    Args:
-        entry: The entry to get the lines of.
-
-    Yields:
-        Each line of text from the entry.
-    """
-    for line in entry:
-        yield line.text if isinstance(line, Link) else line
+from ngdb import NortonGuide, Long, Short, PlainText
 
 ##############################################################################
 class GuideError(NamedTuple):
@@ -63,11 +48,11 @@ def read_all_of(guide: NortonGuide) -> Iterator[GuideError | EntryError]:
     try:
         for entry in guide:
             print(entry.__class__.__name__[0], end="", flush=True)
-            for line in lines_of(entry):
+            for line in entry:
                 try:
                     _ = PlainText(line)
                 except Exception as error:
-                    yield EntryError(guide, entry, line, error)
+                    yield EntryError(guide, entry, str(line), error)
     except Exception as error:
         yield GuideError(guide, error)
     print("\n")

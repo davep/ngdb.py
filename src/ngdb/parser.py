@@ -13,6 +13,7 @@ from typing import Final
 ##############################################################################
 # Local imports.
 from .dosify import make_dos_like
+from .link import Link
 
 
 ##############################################################################
@@ -79,7 +80,7 @@ class ParseState:
 class BaseParser:
     """The base text parsing class."""
 
-    def __init__(self, line: str) -> None:
+    def __init__(self, line: str | Link) -> None:
         """Constructor.
 
         Args:
@@ -87,7 +88,7 @@ class BaseParser:
         """
 
         # State tracker.
-        state = ParseState(line)
+        state = ParseState(str(line))
 
         # While we've not run out of text to process...
         while state.work_left:
@@ -291,7 +292,7 @@ class BaseParser:
 class PlainText(BaseParser):
     """Read a line of Norton Guide text as plain text."""
 
-    def __init__(self, line: str) -> None:
+    def __init__(self, line: str | Link) -> None:
         # We're going to accumulate the text into a hidden instance variable.
         self._text = ""
         # Having set the above up, go parse.
@@ -320,7 +321,7 @@ class MarkupText(PlainText, ABC):
     implement start and end tags where necessary.
     """
 
-    def __init__(self, line: str) -> None:
+    def __init__(self, line: str | Link) -> None:
         # We're going to keep a stack of the markup.
         self._stack: list[str] = []
         # Having set the above up, go parse.
