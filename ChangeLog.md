@@ -6,6 +6,7 @@
 
 - The parser classes will now take a `Link` as a parameter to parse as well
   as a `str` (before they only took `str` as a parameter).
+  ([#27](https://github.com/davep/ngdb.py/pull/27))
 
 ## v0.10.0
 
