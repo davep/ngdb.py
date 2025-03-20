@@ -9,9 +9,7 @@ from typing import Iterator, NamedTuple, TypeAlias
 
 ##############################################################################
 # NGDB imports.
-from ngdb import NortonGuide
-from ngdb.entry import Long, Short
-from ngdb.parser import PlainText
+from ngdb import NortonGuide, Long, Short, PlainText
 
 ##############################################################################
 class GuideError(NamedTuple):
