@@ -14,7 +14,7 @@ from typing_extensions import TypeAlias
 
 ##############################################################################
 # Library imports.
-from ngdb import BaseParser, PlainText
+from ngdb import BaseParser, Link, PlainText
 from ngdb.parser import RichText
 
 
@@ -252,6 +252,16 @@ class TestRichParser:
     def test_underline(self) -> None:
         """An underline attribute should turn into the Rich version."""
         assert str(RichText("^UHello^u")) == "[underline]Hello[/]"
+
+
+##############################################################################
+def test_parse_string_or_link() -> None:
+    """Parsing a string or a link should make no difference."""
+    text = "^A10This ^Bis ^Na ^Rtest, ^Ureally it is."
+    link = Link(text, 4242)
+    assert (
+        str(PlainText(text)) == str(PlainText(link)) == "This is a test, really it is."
+    )
 
 
 ### test_parser.py ends here
