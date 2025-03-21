@@ -56,9 +56,7 @@ class GuideReader:
 
         expanded = ""
         start = 0
-        split = rle_text.find(cls.RLE_MARKER)
-
-        while split > -1:
+        while (split := rle_text.find(cls.RLE_MARKER, start)) > -1:
             try:
                 expanded += rle_text[start:split] + " " * (
                     1
@@ -69,11 +67,8 @@ class GuideReader:
                 # It looks like there's a marker at the end of the string,
                 # with nothing to follow it. Let's also assume that's
                 # supposed to be a space.
-                expanded += " "
-                start += 1
-                break
+                expanded += rle_text[start:split] + " "
             start = split + 2
-            split = rle_text.find(cls.RLE_MARKER, start)
 
         return expanded + rle_text[start:]
 

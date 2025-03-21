@@ -58,7 +58,7 @@ class EntryParent:
 
     @property
     def line(self) -> int:
-        """The line in the parent entry that point to this entry.
+        """The line in the parent entry that points to this entry.
 
         If there is no parent line this will be ``-1``. But also see
         [`has_line`][ngdb.entry.EntryParent.has_line] for a test for a
