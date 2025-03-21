@@ -17,7 +17,6 @@ class Menu(PromptCollection):
             guide: The reader object for the guide.
         """
 
-        # Call the parent first.
         super().__init__()
 
         # Skip the type marker for the menu. Our caller should have tested
