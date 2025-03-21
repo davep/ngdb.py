@@ -67,9 +67,7 @@ class GuideReader:
                 # It looks like there's a marker at the end of the string,
                 # with nothing to follow it. Let's also assume that's
                 # supposed to be a space.
-                expanded += " "
-                start += 1
-                break
+                expanded += rle_text[start:split] + " "
             start = split + 2
 
         return expanded + rle_text[start:]
