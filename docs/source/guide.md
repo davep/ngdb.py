@@ -13,6 +13,10 @@ designed to be the core of such tools.
     [`ng2web`](https://github.com/davep/ng2web) -- a template-driven tool that
     converts Norton Guide databases into HTML.
 
+    Another tool that uses this library is
+    [AgiNG](https://github.com/davep/aging), a fully-featured Norton Guide
+    reader for the terminal.
+
 The main class is [`NortonGuide`][ngdb.NortonGuide]. When called, with the
 path to a Norton Guide file, it will open up the guide, load up all the key
 information, and provide an interface for loading up the [short][ngdb.Short]
