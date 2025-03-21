@@ -56,9 +56,7 @@ class GuideReader:
 
         expanded = ""
         start = 0
-        split = rle_text.find(cls.RLE_MARKER)
-
-        while split > -1:
+        while (split := rle_text.find(cls.RLE_MARKER, start)) > -1:
             try:
                 expanded += rle_text[start:split] + " " * (
                     1
@@ -73,7 +71,6 @@ class GuideReader:
                 start += 1
                 break
             start = split + 2
-            split = rle_text.find(cls.RLE_MARKER, start)
 
         return expanded + rle_text[start:]
 
