@@ -155,7 +155,7 @@ class GuideReader:
         """
         if buff := self._h.read(1):
             return self._decrypt(buff[0]) if decrypt else buff[0]
-        raise NGEOF
+        raise NGEOF("Unexpected end of file")
 
     def read_word(self, decrypt: bool = True) -> int:
         """Read a two-byte word from the guide.

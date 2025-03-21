@@ -46,7 +46,7 @@ def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
     def _guard(self: NortonGuide, *args: Any, **kwargs: Any) -> EOFResult:
         """Guard the given method call."""
         if self.eof:
-            raise NGEOF
+            raise NGEOF(f"Unexpected end of file in {meth.__qualname__}")
         return meth(self, *args, **kwargs)
 
     return _guard
