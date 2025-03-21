@@ -39,19 +39,10 @@ class SeeAlso(PromptCollection):
             I could, of course, make the use of this class optional but that
             feels icky.
         """
-
-        # Call the parent first.
         super().__init__()
-
-        # Should we actually bother trying to load anything?
         if load:
-            # Get the count of see-also entries.
             self._count = min(guide.read_word(), self.MAX_SEE_ALSO)
-
-            # Get the offsets for each of the see-also entries.
             self._offsets = tuple(guide.read_offset() for _ in range(len(self)))
-
-            # Get the prompts for each of the see-also items.
             self._prompts = tuple(
                 guide.unrle(guide.read_strz(self.MAX_PROMPT_LENGTH))
                 for _ in range(len(self))
