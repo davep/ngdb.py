@@ -1,8 +1,8 @@
 # ChangeLog
 
-## Unreleased
+## v0.11.0
 
-**Released: WiP**
+**Released: 2025-03-22**
 
 - The parser classes will now take a `Link` as a parameter to parse as well
   as a `str` (before they only took `str` as a parameter).
