@@ -1,5 +1,11 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Added `NortonGuide.first_entry`.
+
 ## v0.11.0
 
 **Released: 2025-03-22**
