@@ -77,12 +77,12 @@ class NortonGuide:
         """The guide reading object."""
         self._file_size = self._path.stat().st_size
         """The size of the guide in bytes."""
-        if self._read_header().is_a:
-            self._menus = tuple(menu for menu in self._read_menus())
-            """The menus for the guide."""
-            assert len(self._menus) == self._menu_count
-            self._first_entry = self._guide.pos
-            """The location of the first entry within the guide."""
+        self._read_header()  # The next items need the header to be read.
+        self._menus = tuple(menu for menu in self._read_menus()) if self.is_a else ()
+        """The menus for the guide."""
+        assert len(self._menus) == self._menu_count
+        self._first_entry = self._guide.pos if self.is_a else -1
+        """The location of the first entry within the guide."""
 
     @staticmethod
     def maybe(candidate: str | Path) -> bool:
@@ -116,6 +116,15 @@ class NortonGuide:
     def file_size(self) -> int:
         """The size of the guide in bytes."""
         return self._file_size
+
+    @property
+    def first_entry(self) -> int:
+        """The offset of the first entry in the guide, or `-1` if it is unknown.
+
+        Note:
+            It should only be unknown if the file isn't a valid guide.
+        """
+        return self._first_entry
 
     def _read_header(self) -> Self:
         """Read the header of the Norton Guide database.
