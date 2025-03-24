@@ -1,8 +1,8 @@
 # ChangeLog
 
-## Unreleased
+## v0.12.0
 
-**Released: WiP**
+**Released: 2025-03-24**
 
 - Added `NortonGuide.first_entry`.
   ([#33](https://github.com/davep/ngdb.py/pull/33))
