@@ -29,7 +29,7 @@ $ pip install ngdb
 
 ## Using
 
-See [the main documentation](https://blog.davep.org/ngdb.py/) for details on
+See [the main documentation](https://ngdb.davep.dev/) for details on
 using the library.
 
 ## Hacking
