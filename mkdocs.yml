@@ -57,6 +57,8 @@ plugins:
 
 theme:
   name: material
+  icon:
+    logo: fontawesome/solid/file
   features:
     - navigation.tabs
     - navigation.indexes
