@@ -35,9 +35,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://blog.davep.org/ngdb.py/"
+Homepage = "https://ngdb.davep.dev/"
 Repository = "https://github.com/davep/ngdb.py"
-Documentation = "https://blog.davep.org/ngdb.py/"
+Documentation = "https://ngdb.davep.dev/"
 Source = "https://github.com/davep/ngdb.py"
 Issues = "https://github.com/davep/ngdb.py/issues"
 Discussions = "https://github.com/davep/ngdb.py/discussions"
