@@ -58,6 +58,7 @@ dev-dependencies = [
     "mkdocs-material>=9.6.5",
     "mkdocs-autorefs>=1.4.0",
     "ruff>=0.9.9",
+    "codespell>=2.4.1",
 ]
 
 [tool.hatch.metadata]

@@ -1,6 +1,7 @@
 lib    := ngdb
 src    := src/
 tests  := tests/
+docs   := docs/
 run    := rye run
 test   := rye test
 python := $(run) python
@@ -8,6 +9,7 @@ lint   := rye lint -- --select I
 fmt    := rye fmt
 mypy   := $(run) mypy
 mkdocs := $(run) mkdocs
+spell  := $(run) codespell
 
 ##############################################################################
 # Show help by default.
@@ -54,8 +56,12 @@ test:				# Run the unit tests
 comprehensive-test:		# Read all the guides I have to test them
 	$(run) python .comprehensive_test/read_all_known_guides
 
+.PHONY: spellcheck
+spellcheck:			# Spell check the code
+	$(spell) *.md $(src) $(tests) $(docs)
+
 .PHONY: checkall
-checkall: codestyle lint stricttypecheck test # Check all the things
+checkall: spellcheck codestyle lint stricttypecheck test # Check all the things
 
 ##############################################################################
 # Documentation.
