@@ -31,7 +31,7 @@ def not_eof(meth: Callable[..., EOFResult]) -> Callable[..., EOFResult]:
     """Decorator to ensure a guide isn't at EOF before executing a method.
 
     Args:
-        meth: The method fo protect.
+        meth: The method to protect.
 
     Returns:
         The guard.
