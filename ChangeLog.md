@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v1.0.0
+
+**Released: 2025-06-27**
+
+- Promoted the library to "stable".
+
 ## v0.12.0
 
 **Released: 2025-03-24**
