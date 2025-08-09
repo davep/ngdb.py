@@ -3,7 +3,7 @@
 ## Feedback and suggestions
 
 The best place for feedback and suggestions is [in
-discussions](https://github.com/davep/ngdb.oy/discussions). If it seems like
+discussions](https://github.com/davep/ngdb.py/discussions). If it seems like
 something that makes sense for the library I'll turn it into an issue from
 there.
 
