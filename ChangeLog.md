@@ -7,6 +7,7 @@
 - Migrated from `rye` to `uv` for development management.
   ([#40](https://github.com/davep/ngdb.py/pull/40))
 - Added Python 3.14 as a tested/supported Python version.
+  ([#42](https://github.com/davep/ngdb.py/pull/42))
 
 ## v1.0.0
 
