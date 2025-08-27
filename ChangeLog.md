@@ -5,6 +5,7 @@
 **Released: WiP**
 
 - Migrated from `rye` to `uv` for development management.
+  ([#40](https://github.com/davep/ngdb.py/pull/40))
 
 ## v1.0.0
 
