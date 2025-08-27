@@ -1,5 +1,11 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Migrated from `rye` to `uv` for development management.
+
 ## v1.0.0
 
 **Released: 2025-06-27**

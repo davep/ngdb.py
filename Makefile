@@ -1,15 +1,19 @@
-lib    := ngdb
-src    := src/
-tests  := tests/
-docs   := docs/
-run    := rye run
-test   := rye test
-python := $(run) python
-lint   := rye lint -- --select I
-fmt    := rye fmt
-mypy   := $(run) mypy
-mkdocs := $(run) mkdocs
-spell  := $(run) codespell
+lib     := ngdb
+src     := src/
+tests   := tests/
+docs    := docs/
+run     := uv run
+sync    := uv sync
+build   := uv build
+publish := uv publish --username=__token__ --keyring-provider=subprocess
+python  := $(run) python
+ruff    := $(run) ruff
+lint    := $(ruff) check --select I
+fmt     := $(ruff) format
+test    := $(run) pytest
+mypy    := $(run) mypy
+mkdocs  := $(run) mkdocs
+spell   := $(run) codespell
 
 ##############################################################################
 # Show help by default.
@@ -19,12 +23,12 @@ spell  := $(run) codespell
 # Setup/update packages the system requires.
 .PHONY: setup
 setup:				# Set up the repository for development
-	rye sync
+	$(sync)
 	$(run) pre-commit install
 
 .PHONY: update
 update:				# Update all dependencies
-	rye sync --update-all
+	$(sync) --upgrade
 
 .PHONY: resetup
 resetup: realclean		# Recreate the virtual environment from scratch
@@ -81,19 +85,19 @@ publishdocs:			# Set up the docs for publishing
 # Package/publish.
 .PHONY: package
 package:			# Package the library
-	rye build
+	$(build)
 
 .PHONY: spackage
 spackage:			# Create a source package for the library
-	rye build --sdist
+	$(build) --sdist
 
 .PHONY: testdist
 testdist: package			# Perform a test distribution
-	rye publish --yes --skip-existing --repository testpypi --repository-url https://test.pypi.org/legacy/
+	$(publish) --index testpypi
 
 .PHONY: dist
 dist: package			# Upload to pypi
-	rye publish --yes --skip-existing
+	$(publish)
 
 ##############################################################################
 # Utility.
