@@ -6,7 +6,7 @@ from pytest import fixture, raises
 
 ##############################################################################
 # Library imports.
-from ngdb import NGEOF, Long, NortonGuide, Short
+from ngdb import NGEOF, Long, NortonGuide, Short, UnknownEntryType
 
 ##############################################################################
 # Local imports.
@@ -99,6 +99,14 @@ def test_iter_small(good_guide: NortonGuide) -> None:
 def test_iter_big(big_guide: NortonGuide) -> None:
     """It should be possible to iterate through a guide with more than one entry."""
     assert len(list(big_guide)) == 28
+
+
+##############################################################################
+def test_load_menu_as_entry(big_guide: NortonGuide) -> None:
+    """Trying to load a menu should result in an unknown entry type."""
+    big_guide._guide.goto(378)
+    with raises(UnknownEntryType):
+        big_guide.load()
 
 
 ### test_navigation.py ends here
