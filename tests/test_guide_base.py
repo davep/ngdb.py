@@ -54,4 +54,10 @@ def test_str() -> None:
     assert str(NortonGuide(GOOD_GUIDE)) == str(GOOD_GUIDE)
 
 
+##############################################################################
+def test_size() -> None:
+    """The guide should report the correct file size."""
+    assert NortonGuide(GOOD_GUIDE).file_size == GOOD_GUIDE.stat().st_size
+
+
 ### test_guide_base.py ends here
