@@ -6,11 +6,11 @@ from pytest import raises
 
 ##############################################################################
 # Library imports.
-from ngdb import NortonGuide
+from ngdb import NGEOF, NortonGuide
 
 ##############################################################################
 # Local imports.
-from . import GOOD_GUIDE, MISSING_GUIDE
+from . import EMPTY_GUIDE, GOOD_GUIDE, MISSING_GUIDE
 
 
 ##############################################################################
@@ -25,6 +25,13 @@ def test_open_missing_guide() -> None:
     """Opening a missing guide show throw the correct exception."""
     with raises(FileNotFoundError):
         _ = NortonGuide(MISSING_GUIDE)
+
+
+##############################################################################
+def test_open_empty_guide() -> None:
+    """Opening an empty guide should throw the correct exception."""
+    with raises(NGEOF):
+        _ = NortonGuide(EMPTY_GUIDE)
 
 
 ##############################################################################
