@@ -60,4 +60,10 @@ def test_size() -> None:
     assert NortonGuide(GOOD_GUIDE).file_size == GOOD_GUIDE.stat().st_size
 
 
+##############################################################################
+def test_first_entry() -> None:
+    """The guide should report the correct location of the first entry."""
+    assert NortonGuide(GOOD_GUIDE).first_entry == 452
+
+
 ### test_guide_base.py ends here
