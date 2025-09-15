@@ -1,19 +1,21 @@
-lib     := ngdb
-src     := src/
-tests   := tests/
-docs    := docs/
-run     := uv run
-sync    := uv sync
-build   := uv build
-publish := uv publish --username=__token__ --keyring-provider=subprocess
-python  := $(run) python
-ruff    := $(run) ruff
-lint    := $(ruff) check --select I
-fmt     := $(ruff) format
-test    := $(run) pytest
-mypy    := $(run) mypy
-mkdocs  := $(run) mkdocs
-spell   := $(run) codespell
+lib      := ngdb
+src      := src/
+tests    := tests/
+docs     := docs/
+run      := uv run
+sync     := uv sync
+build    := uv build
+publish  := uv publish --username=__token__ --keyring-provider=subprocess
+python   := $(run) python
+ruff     := $(run) ruff
+lint     := $(ruff) check --select I
+fmt      := $(ruff) format
+reports  := .reports
+test     := $(run) pytest --verbose --cov=$(lib)
+coverage := $(test) --cov-report html:$(reports)
+mypy     := $(run) mypy
+mkdocs   := $(run) mkdocs
+spell    := $(run) codespell
 
 ##############################################################################
 # Show help by default.
@@ -54,7 +56,12 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 
 .PHONY: test
 test:				# Run the unit tests
-	$(test) -v
+	$(test)
+
+.PHONY: coverage
+coverage:			# Produce a test coverage report
+	$(coverage)
+	open $(reports)/index.html
 
 .PHONY: comprehensive-test
 comprehensive-test:		# Read all the guides I have to test them

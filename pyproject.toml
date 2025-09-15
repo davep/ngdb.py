@@ -58,6 +58,7 @@ dev-dependencies = [
     "mkdocs-autorefs>=1.4.0",
     "ruff>=0.9.9",
     "codespell>=2.4.1",
+    "pytest-cov>=7.0.0",
 ]
 
 [[tool.uv.index]]
