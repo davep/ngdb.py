@@ -43,6 +43,12 @@ def test_with_closes_guide() -> None:
 
 
 ##############################################################################
+def test_path() -> None:
+    """The path property should point to the correct path."""
+    assert NortonGuide(GOOD_GUIDE).path == GOOD_GUIDE
+
+
+##############################################################################
 def test_str() -> None:
     """The str() of the object should be the path to the file."""
     assert str(NortonGuide(GOOD_GUIDE)) == str(GOOD_GUIDE)
