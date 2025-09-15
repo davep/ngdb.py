@@ -66,3 +66,10 @@ name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
 explicit = true
+
+[tool.coverage.report]
+exclude_also = [
+    "@abstractmethod",
+    "def __repr__",
+    "def __rich__",
+]
