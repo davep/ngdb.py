@@ -196,7 +196,7 @@ def test_long_next(long: Long) -> None:
 ##############################################################################
 def test_long_str_entry(long: Long) -> None:
     """The str() of the test long entry should be the main text."""
-    assert len((str_entry := str(long)).split("\n")) == len(long)
+    assert len(str(long).split("\n")) == len(long)
 
 
 ##############################################################################
