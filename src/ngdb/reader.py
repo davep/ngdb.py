@@ -222,10 +222,10 @@ class GuideReader:
         Returns:
             The string value read.
         """
+        _decrypt = self._decrypt
         return self._nul_trim(
             "".join(
-                chr(self._decrypt(n) if decrypt else n)
-                for n in tuple(self._h.read(length))
+                chr(_decrypt(n) if decrypt else n) for n in tuple(self._h.read(length))
             )
         )
 

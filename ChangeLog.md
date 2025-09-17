@@ -8,6 +8,8 @@
   ([#40](https://github.com/davep/ngdb.py/pull/40))
 - Added Python 3.14 as a tested/supported Python version.
   ([#42](https://github.com/davep/ngdb.py/pull/42))
+- Made a small speedup tweak to `GuideReader.read_str`.
+  ([#46](https://github.com/davep/ngdb.py/pull/46))
 
 ## v1.0.0
 
