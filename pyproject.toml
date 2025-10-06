@@ -10,7 +10,7 @@ dependencies = [
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "GNU General Public License v3 or later (GPLv3+)" }
+license = "GPL-3.0-or-later"
 keywords = [
     "library",
     "dbase",
@@ -21,9 +21,10 @@ keywords = [
     "help",
 ]
 classifiers = [
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -49,7 +50,9 @@ build-backend = "uv_build"
 
 [tool.uv]
 managed = true
-dev-dependencies = [
+
+[dependency-groups]
+dev = [
     "pre-commit>=4.0.1",
     "mypy>=1.14.1",
     "pytest>=8.3.4",
@@ -73,3 +76,8 @@ exclude_also = [
     "def __repr__",
     "def __rich__",
 ]
+
+[tool.pyright]
+venvPath="."
+venv=".venv"
+exclude=[".venv"]
