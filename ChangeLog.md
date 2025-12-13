@@ -1,5 +1,13 @@
 # ChangeLog
 
+## v1.2.0
+
+**Released: 2025-12-13**
+
+- Changed the way that RLE markers are handled in menus and see-also
+  prompts. Now, rather than expanding them, the library simply swaps them
+  for a space.
+
 ## v1.1.0
 
 **Released: 2025-10-06**
