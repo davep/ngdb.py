@@ -72,6 +72,20 @@ class GuideReader:
 
         return expanded + rle_text[start:]
 
+    @classmethod
+    def clean_rle(cls, text: str) -> str:
+        """Utility function to clean up RLE markers where we wouldn't want them.
+
+        Args:
+            text: The text to clean.
+
+        Returns:
+            The cleaned up version of the text.
+        """
+        # It looks like some folk might have used 0xFF as a non-breaking
+        # space. So let's just swap it for a space.
+        return text.replace(cls.RLE_MARKER, " ")
+
     def __init__(self, guide: Path):
         """Constructor.
 
