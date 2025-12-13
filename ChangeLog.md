@@ -6,7 +6,7 @@
 
 - Changed the way that RLE markers are handled in menus and see-also
   prompts. Now, rather than expanding them, the library simply swaps them
-  for a space.
+  for a space. ([#50](https://github.com/davep/ngdb.py/pull/50))
 
 ## v1.1.0
 
