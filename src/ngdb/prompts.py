@@ -65,7 +65,9 @@ class PromptCollection:
         Yields:
             A link containing the prompt/offset, from the collection.
         """
-        return (Link(*prompt) for prompt in zip(self.prompts, self.offsets))
+        return (
+            Link(*prompt) for prompt in zip(self.prompts, self.offsets, strict=True)
+        )
 
     def __bool__(self) -> bool:
         """Test if there are any prompts in the collection.

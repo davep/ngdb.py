@@ -277,7 +277,7 @@ class Short(Entry):
         Returns:
             An iterator of link data.
         """
-        return (Link(*line) for line in zip(self.lines, self.offsets))
+        return (Link(*line) for line in zip(self.lines, self.offsets, strict=True))
 
 
 ##############################################################################
