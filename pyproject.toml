@@ -82,7 +82,6 @@ venvPath="."
 venv=".venv"
 exclude=[".venv"]
 
-
 [tool.ruff.lint]
 select = [
     # pycodestyle
