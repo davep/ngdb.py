@@ -6,9 +6,10 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
+from collections.abc import Callable, Iterator
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Final, Iterator, TypeVar
+from typing import Any, Final, TypeVar
 
 ##############################################################################
 # Typing backward compatibility.

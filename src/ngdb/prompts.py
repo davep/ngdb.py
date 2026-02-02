@@ -6,7 +6,8 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Final, Iterator
+from collections.abc import Iterator
+from typing import Final
 
 ##############################################################################
 # Local imports.

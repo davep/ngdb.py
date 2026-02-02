@@ -6,11 +6,8 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Iterator
-
-##############################################################################
-# Backward compatibility.
-from typing_extensions import TypeAlias
+from collections.abc import Iterator
+from typing import TypeAlias
 
 ##############################################################################
 # Library imports.
