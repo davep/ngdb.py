@@ -6,7 +6,8 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Final, Iterator
+from collections.abc import Iterator
+from typing import Final
 
 ##############################################################################
 # Local imports.
@@ -276,7 +277,7 @@ class Short(Entry):
         Returns:
             An iterator of link data.
         """
-        return (Link(*line) for line in zip(self.lines, self.offsets))
+        return (Link(*line) for line in zip(self.lines, self.offsets, strict=True))
 
 
 ##############################################################################
