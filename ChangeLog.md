@@ -1,5 +1,11 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Improved the speed of the space RLE expansion code.
+
 ## v1.2.0
 
 **Released: 2025-12-13**

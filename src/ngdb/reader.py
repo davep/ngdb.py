@@ -3,7 +3,9 @@
 ##############################################################################
 # Python imports.
 import io
+from functools import cache
 from pathlib import Path
+from re import DOTALL, Pattern, compile, sub
 from typing import Final
 
 ##############################################################################
@@ -13,6 +15,22 @@ from typing_extensions import Self
 ##############################################################################
 # Local imports.
 from .types import NGEOF
+
+
+##############################################################################
+@cache
+def _spaces(value_byte: str) -> str:
+    """Convert a byte into a number of spaces.
+
+    Args:
+        value_byte: The byte to convert.
+
+    Returns:
+        The appropriate number of spaces.
+    """
+    if not value_byte or value_byte == GuideReader.RLE_MARKER:
+        return " "
+    return " " * ord(value_byte)
 
 
 ##############################################################################
@@ -34,6 +52,9 @@ class GuideReader:
     RLE_MARKER: Final[str] = chr(0xFF)
     """The value that marks run-length-encoded spaces."""
 
+    _RLE_FINDER: Final[Pattern[str]] = compile(f"{RLE_MARKER}(.|$)", flags=DOTALL)
+    """Regular expression for finding RLE markers."""
+
     @classmethod
     def unrle(cls, rle_text: str) -> str:
         """Un-run-length-encode the given string.
@@ -53,24 +74,7 @@ class GuideReader:
             literal `0xFF` (I think), although I've found that using a
             literal space makes more sense.
         """
-
-        expanded = ""
-        start = 0
-        while (split := rle_text.find(cls.RLE_MARKER, start)) > -1:
-            try:
-                expanded += rle_text[start:split] + " " * (
-                    1
-                    if rle_text[split + 1] == cls.RLE_MARKER
-                    else ord(rle_text[split + 1])
-                )
-            except IndexError:
-                # It looks like there's a marker at the end of the string,
-                # with nothing to follow it. Let's also assume that's
-                # supposed to be a space.
-                expanded += rle_text[start:split] + " "
-            start = split + 2
-
-        return expanded + rle_text[start:]
+        return sub(cls._RLE_FINDER, lambda match: _spaces(match.group(1)), rle_text)
 
     @classmethod
     def clean_rle(cls, text: str) -> str:
