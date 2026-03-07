@@ -4,6 +4,7 @@
 # Python imports.
 import io
 from pathlib import Path
+from re import DOTALL, Match, Pattern, compile, sub
 from typing import Final
 
 ##############################################################################
@@ -34,6 +35,9 @@ class GuideReader:
     RLE_MARKER: Final[str] = chr(0xFF)
     """The value that marks run-length-encoded spaces."""
 
+    _RLE_FINDER: Final[Pattern[str]] = compile(f"{RLE_MARKER}(.|$)", flags=DOTALL)
+    """Regular expression for finding RLE markers."""
+
     @classmethod
     def unrle(cls, rle_text: str) -> str:
         """Un-run-length-encode the given string.
@@ -54,23 +58,22 @@ class GuideReader:
             literal space makes more sense.
         """
 
-        expanded = ""
-        start = 0
-        while (split := rle_text.find(cls.RLE_MARKER, start)) > -1:
-            try:
-                expanded += rle_text[start:split] + " " * (
-                    1
-                    if rle_text[split + 1] == cls.RLE_MARKER
-                    else ord(rle_text[split + 1])
-                )
-            except IndexError:
-                # It looks like there's a marker at the end of the string,
-                # with nothing to follow it. Let's also assume that's
-                # supposed to be a space.
-                expanded += rle_text[start:split] + " "
-            start = split + 2
+        def _expand(match: Match[str]) -> str:
+            """Expand an RLE marker.
 
-        return expanded + rle_text[start:]
+            Args:
+                match: The match object provided by the regex engine.
+
+            Returns:
+                The spaces to insert.
+            """
+            if (not (captured_character := match.group(1))) or (
+                captured_character == cls.RLE_MARKER
+            ):
+                return " "
+            return " " * ord(captured_character)
+
+        return sub(cls._RLE_FINDER, _expand, rle_text)
 
     @classmethod
     def clean_rle(cls, text: str) -> str:
