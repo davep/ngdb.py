@@ -3,8 +3,9 @@
 ##############################################################################
 # Python imports.
 import io
+from functools import cache
 from pathlib import Path
-from re import DOTALL, Match, Pattern, compile, sub
+from re import DOTALL, Pattern, compile, sub
 from typing import Final
 
 ##############################################################################
@@ -14,6 +15,22 @@ from typing_extensions import Self
 ##############################################################################
 # Local imports.
 from .types import NGEOF
+
+
+##############################################################################
+@cache
+def _spaces(value_byte: str) -> str:
+    """Convert a byte into a number of spaces.
+
+    Args:
+        value_byte: The byte to convert.
+
+    Returns:
+        The appropriate number of spaces.
+    """
+    if not value_byte or value_byte == GuideReader.RLE_MARKER:
+        return " "
+    return " " * ord(value_byte)
 
 
 ##############################################################################
@@ -57,23 +74,7 @@ class GuideReader:
             literal `0xFF` (I think), although I've found that using a
             literal space makes more sense.
         """
-
-        def _expand(match: Match[str]) -> str:
-            """Expand an RLE marker.
-
-            Args:
-                match: The match object provided by the regex engine.
-
-            Returns:
-                The spaces to insert.
-            """
-            if (not (captured_character := match.group(1))) or (
-                captured_character == cls.RLE_MARKER
-            ):
-                return " "
-            return " " * ord(captured_character)
-
-        return sub(cls._RLE_FINDER, _expand, rle_text)
+        return sub(cls._RLE_FINDER, lambda match: _spaces(match.group(1)), rle_text)
 
     @classmethod
     def clean_rle(cls, text: str) -> str:
