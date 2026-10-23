@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Dropped support for Python 3.10.
+  ([#56](https://github.com/davep/ngdb.py/pull/56))
+
 ## v1.2.0
 
 **Released: 2025-12-13**

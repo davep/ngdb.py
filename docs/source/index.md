@@ -28,12 +28,6 @@ installed with `pip` or similar Python package tools:
 $ pip install ngdb
 ```
 
-# Requirements
-
-The only requirement for this library, other than the standard Python
-library, is
-[`typing-extensions`](https://typing-extensions.readthedocs.io/en/latest/#).
-
 # Source
 
 The source for this library can always be found [in its GitHub

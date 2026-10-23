@@ -37,7 +37,6 @@ plugins:
       python:
         inventories:
           - https://docs.python.org/3/objects.inv
-          - https://typing-extensions.readthedocs.io/en/latest/objects.inv
         options:
           filters:
             - "!^_"
