@@ -4,11 +4,7 @@
 # Python imports.
 import io
 from pathlib import Path
-from typing import Final
-
-##############################################################################
-# Typing backward compatibility.
-from typing_extensions import Self
+from typing import Final, Self
 
 ##############################################################################
 # Local imports.

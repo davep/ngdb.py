@@ -9,11 +9,7 @@ from __future__ import annotations
 from collections.abc import Callable, Iterator
 from functools import wraps
 from pathlib import Path
-from typing import Any, Final, TypeVar
-
-##############################################################################
-# Typing backward compatibility.
-from typing_extensions import Self
+from typing import Any, Final, Self, TypeVar
 
 ##############################################################################
 # Local imports.
